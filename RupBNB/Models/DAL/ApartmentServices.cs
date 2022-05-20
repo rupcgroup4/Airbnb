@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RupBNB.Models.DAL;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace WebApplication1.Models.DAL
 
         public int InsertAppartment(Apartment apartment)
         {
-            SqlConnection con = Connect();
+            SqlConnection con = SqlConnect.Connect();
 
             // Create Command
             SqlCommand command = CreateInsertAppartment(con, apartment);
@@ -62,24 +63,6 @@ namespace WebApplication1.Models.DAL
 
             return command;
         }
-
-
-        //Connect to DB
-        private SqlConnection Connect()
-        {
-            // read the connection string from the web.config file
-            string connectionString = WebConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
-
-            // create the connection to the db
-            SqlConnection con = new SqlConnection(connectionString);
-
-            // open the database connection
-            con.Open();
-
-            return con;
-
-        }
-
 
     }
 }
