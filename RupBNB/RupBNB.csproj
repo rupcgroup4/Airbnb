@@ -162,8 +162,12 @@
     <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\DAL\ApartmentServices.cs" />
     <Compile Include="Models\DAL\HostServices.cs" />
+    <Compile Include="Models\DAL\ReviewServices.cs" />
+    <Compile Include="Models\DAL\SqlConnect.cs" />
     <Compile Include="Models\DAL\UploadDBServices.cs" />
     <Compile Include="Models\Host.cs" />
+    <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

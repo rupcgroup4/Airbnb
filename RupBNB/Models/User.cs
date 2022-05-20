@@ -12,17 +12,17 @@ namespace RupBNB.Models
         string password;
         string firstName;
         string lastName;
-        DateTime birthdate;
+        DateTime birthDate;
         //List<> likedApartments;
 
-        public User(int id, string email, string password, string firstName, string lastName, DateTime birthdate)
+        public User(int id, string email, string password, string firstName, string lastName, DateTime birthDate)
         {
             this.Id = id;
             this.Email = email;
             this.Password = password;
             this.FirstName = firstName;
             this.LastName = lastName;
-            this.Birthdate = birthdate;
+            this.BirthDate = birthDate;
         }
         public User() { }
 
@@ -31,7 +31,6 @@ namespace RupBNB.Models
         public string Password { get => password; set => password = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
-        public DateTime Birthdate { get => birthdate; set => birthdate = value; }
-     
+        public DateTime BirthDate { get => birthDate; set => birthDate = value; }
     }
 }

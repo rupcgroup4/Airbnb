@@ -5,7 +5,7 @@ using System.Web;
 
 namespace RupBNB.Models
 {
-    public class Reviews
+    public class Review
     {
         int id;
         int apartmentId;
@@ -14,7 +14,7 @@ namespace RupBNB.Models
         DateTime date;
         string comments;
 
-        public Reviews(int id, int apartmentId, int reviewerId, string reviewerName, DateTime date, string comments)
+        public Review(int id, int apartmentId, int reviewerId, string reviewerName, DateTime date, string comments)
         {
             this.id = id;
             this.apartmentId = apartmentId;
@@ -23,7 +23,7 @@ namespace RupBNB.Models
             this.date = date;
             this.comments = comments;
         }
-        public Reviews() { }
+        public Review() { }
 
         public int Id { get => id; set => id = value; }
         public int ApartmentId { get => apartmentId; set => apartmentId = value; }

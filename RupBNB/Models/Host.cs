@@ -26,7 +26,7 @@ namespace WebApplication1.Models
             LastName = lastName;
             Email = email;
             Password = password;
-            Birthdate = birthDate;
+            BirthDate = birthDate;
             //
             this.hostSince = hostSince;
             this.location = location;
