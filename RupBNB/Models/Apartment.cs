@@ -7,6 +7,9 @@ namespace WebApplication1.Models
 {
     public class Apartment
     {
+
+
+
         int id;
         string propertyType;
         int hostId;
@@ -17,6 +20,11 @@ namespace WebApplication1.Models
         string latitude;
         string longitude;
         string roomType;
+        //enum roomType
+        //{
+        //    Private_room,
+
+        //};
         string bathrooms;
         int bedrooms;
         int beds;

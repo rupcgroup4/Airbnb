@@ -8,7 +8,7 @@ using System.Web.Configuration;
 
 namespace WebApplication1.Models.DAL
 {
-    public class HostServices
+    public class HostServices : UserServices
     {
 
         public int InsertHost(Host host)
@@ -38,6 +38,8 @@ namespace WebApplication1.Models.DAL
             command.Parameters.AddWithValue("@Email", host.Email);
             command.Parameters.AddWithValue("@Password", host.Password);
             command.Parameters.AddWithValue("@BirthDate", host.BirthDate);
+
+
             command.Parameters.AddWithValue("@HostSince", host.HostSince);
             command.Parameters.AddWithValue("@Location", host.Location);
             command.Parameters.AddWithValue("@About", host.About);
