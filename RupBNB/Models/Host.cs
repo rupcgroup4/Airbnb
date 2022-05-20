@@ -1,18 +1,13 @@
-﻿using System;
+﻿using RupBNB.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace WebApplication1.Models
 {
-    public class Host
+    public class Host : User
     {
-        int id;
-        string firstName;
-        string lastName;
-        string email;
-        string password;
-        DateTime birthDate;
         DateTime hostSince;
         string location;
         string about;
@@ -25,12 +20,14 @@ namespace WebApplication1.Models
 
         public Host(int id, string firstName, string lastName, string email, string password, DateTime birthDate, DateTime hostSince, string location, string about, string responseTime, string responseRate, bool isSuperHost, string smallPicture, string bigPicture, bool isVerified)
         {
-            this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.password = password;
-            this.birthDate = birthDate;
+            //inheritance from constructor
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+            Birthdate = birthDate;
+            //
             this.hostSince = hostSince;
             this.location = location;
             this.about = about;
@@ -43,13 +40,6 @@ namespace WebApplication1.Models
         }
 
         public Host() { }
-
-        public int Id { get => id; set => id = value; }
-        public string FirstName { get => firstName; set => firstName = value; }
-        public string LastName { get => lastName; set => lastName = value; }
-        public string Email { get => email; set => email = value; }
-        public string Password { get => password; set => password = value; }
-        public DateTime BirthDate { get => birthDate; set => birthDate = value; }
         public DateTime HostSince { get => hostSince; set => hostSince = value; }
         public string Location { get => location; set => location = value; }
         public string About { get => about; set => about = value; }
