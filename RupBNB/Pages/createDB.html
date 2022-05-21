@@ -9,9 +9,9 @@
 
     <script>
 
-        let string = "host";
+        let string = "listing";
 
-        ajaxCall("POST", "../api/DB", JSON.stringify(string), scb, ecb);
+        ajaxCall("POST", "../api/DB", JSON.stringify("listing"), scb, ecb);
 
         function scb(succs) {
             console.log("enter: " + succs);

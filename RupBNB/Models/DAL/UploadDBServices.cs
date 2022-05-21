@@ -230,138 +230,138 @@ namespace WebApplication1.Models.DAL
 
 
 
-        //public int Listing()
-        //{
-        //    int count = 0;
-        //    string file = HttpContext.Current.Server.MapPath("~/Models/DAL/listingDB4.csv");
+        public int Listing()
+        {
+            int count = 0;
+            string file = HttpContext.Current.Server.MapPath("~/Models/DAL/listingDB.csv");
 
-        //    StreamReader reader = null;
-        //    if (File.Exists(file))
-        //    {
-               
-        //        int flag = 0;
-        //        reader = new StreamReader(File.OpenRead(file));
-        //        List<string> listA = new List<string>();
-        //        while (!reader.EndOfStream)
-        //        {
-        //            var line = reader.ReadLine();
+            StreamReader reader = null;
+            if (File.Exists(file))
+            {
 
-        //            if (flag != 0)
-        //            {
+                int flag = 0;
+                reader = new StreamReader(File.OpenRead(file));
+                List<string> listA = new List<string>();
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
 
-        //                var values = line.Split(',');
+                    if (flag != 0)
+                    {
 
-        //                if (values.Length == 22)
-        //                {
-        //                    if(HostExists(Convert.ToInt32(values[2])))
-        //                    {
-        //                        try
-        //                        {
+                        var values = line.Split(',');
 
-        //                            InsertAppartment(new Apartment(
-        //                                Convert.ToInt32(values[0]),
-        //                                values[1],
-        //                                Convert.ToInt32(values[2]),
-        //                                values[3],
-        //                                values[4],
-        //                                values[5],
-        //                                values[6],
-        //                                values[7],
-        //                                values[8],
-        //                                values[9],
-        //                                values[10],
-        //                                Convert.ToInt32(values[11]),
-        //                                Convert.ToInt32(values[12]),
-        //                                Convert.ToInt32(values[13]),
-        //                                values[14],
-        //                                Convert.ToInt32(values[15]),
-        //                                Convert.ToInt32(values[16]),
-        //                                Convert.ToInt32(values[17]),
-        //                                Convert.ToDouble(values[18]),
-        //                                Convert.ToDouble(values[19]),
-        //                                Convert.ToDouble(values[20]),
-        //                                Convert.ToDouble(values[21])
-        //                                ));
-        //                            count++;
-        //                        }
-        //                        catch (Exception ex)
-        //                        {
+                        if (values.Length == 22)
+                        {
+                            if (HostExists(values[2]))
+                            {
+                                try
+                                {
 
-        //                        }
+                                    InsertAppartment(new Apartment(
+                                        Convert.ToInt32(values[0]),
+                                        values[1],
+                                        values[2],
+                                        values[3],
+                                        values[4],
+                                        values[5],
+                                        values[6],
+                                        values[7],
+                                        values[8],
+                                        values[9],
+                                        values[10],
+                                        Convert.ToInt32(values[11]),
+                                        Convert.ToInt32(values[12]),
+                                        Convert.ToInt32(values[13]),
+                                        values[14],
+                                        Convert.ToInt32(values[15]),
+                                        Convert.ToInt32(values[16]),
+                                        Convert.ToInt32(values[17]),
+                                        Convert.ToSingle(values[18]),
+                                        Convert.ToSingle(values[19]),
+                                        Convert.ToSingle(values[20]),
+                                        Convert.ToSingle(values[21])
+                                        ));
+                                    count++;
+                                }
+                                catch (Exception ex)
+                                {
 
-
-        //                    }
-
-        //                }
-
-        //            }
-        //            else
-        //            {
-        //                flag = 1;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("File doesn't exist");
-        //    }
-
-        //    return count;
-        //}
+                                }
 
 
+                            }
 
-        //public int InsertAppartment(Apartment apartment)
-        //{
-        //    SqlConnection con = SqlConnect.Connect();
+                        }
 
-        //    // Create Command
-        //    SqlCommand command = CreateInsertAppartment(con, apartment);
+                    }
+                    else
+                    {
+                        flag = 1;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("File doesn't exist");
+            }
 
-        //    // Execute
-        //    int numAffected = command.ExecuteNonQuery();
-
-        //    // Close Connection
-        //    con.Close();
-
-        //    return numAffected;
-
-        //}
-
-        //private SqlCommand CreateInsertAppartment(SqlConnection con, Apartment apartment)
-        //{
-
-        //    SqlCommand command = new SqlCommand();
-
-        //    command.Parameters.AddWithValue("@PropertyType", apartment.PropertyType);
-        //    command.Parameters.AddWithValue("@HostId", apartment.HostId);
-        //    command.Parameters.AddWithValue("@Name", apartment.Name);
-        //    command.Parameters.AddWithValue("@Description", apartment.Description);
-        //    command.Parameters.AddWithValue("@Picture", apartment.Picture);
-        //    command.Parameters.AddWithValue("@Neighborhood", apartment.Neighborhood);
-        //    command.Parameters.AddWithValue("@Latitude", apartment.Latitude);
-        //    command.Parameters.AddWithValue("@Longtitude", apartment.Longitude);
-        //    command.Parameters.AddWithValue("@RoomType", apartment.RoomType);
-        //    command.Parameters.AddWithValue("@Bathrooms", apartment.Bathrooms);
-        //    command.Parameters.AddWithValue("@Bedrooms", apartment.Bedrooms);
-        //    command.Parameters.AddWithValue("@Beds", apartment.Beds);
-        //    command.Parameters.AddWithValue("@Accommodates", apartment.Accommodates);
-        //    command.Parameters.AddWithValue("@Amenities", apartment.Amenities);
-        //    command.Parameters.AddWithValue("@Price", apartment.Price);
-        //    command.Parameters.AddWithValue("@MinNights", apartment.MinNight);
-        //    command.Parameters.AddWithValue("@MaxNights", apartment.MaxNight);
-        //    command.Parameters.AddWithValue("@Rating", apartment.Rating);
-        //    command.Parameters.AddWithValue("@ReviewAccuracy", apartment.ReviewAccuracy);
-        //    command.Parameters.AddWithValue("@ReviewsClean", apartment.ReviewsClean);
-        //    command.Parameters.AddWithValue("@ReviewLocation", apartment.ReviewLocation);
+            return count;
+        }
 
 
-        //    command.CommandText = "SPInsertApartment";
-        //    command.Connection = con;
-        //    command.CommandType = System.Data.CommandType.StoredProcedure;
-        //    command.CommandTimeout = 10; // in seconds
 
-        //    return command;
-        //}
+        public int InsertAppartment(Apartment apartment)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateInsertAppartment(con, apartment);
+
+            // Execute
+            int numAffected = command.ExecuteNonQuery();
+
+            // Close Connection
+            con.Close();
+
+            return numAffected;
+
+        }
+
+        private SqlCommand CreateInsertAppartment(SqlConnection con, Apartment apartment)
+        {
+
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@propertyType", apartment.PropertyType);
+            command.Parameters.AddWithValue("@name", apartment.Name);
+            command.Parameters.AddWithValue("@hostEmail", apartment.HostEmail);
+            command.Parameters.AddWithValue("@description", apartment.Description);
+            command.Parameters.AddWithValue("@img", apartment.Img);
+            command.Parameters.AddWithValue("@neighborhood", apartment.Neighborhood);
+            command.Parameters.AddWithValue("@latitude", apartment.Latitude);
+            command.Parameters.AddWithValue("@longtitude", apartment.Longitude);
+            command.Parameters.AddWithValue("@roomType", apartment.RoomType);
+            command.Parameters.AddWithValue("@numBathrooms", apartment.NumBathrooms);
+            command.Parameters.AddWithValue("@numBedrooms", apartment.NumBedrooms);
+            command.Parameters.AddWithValue("@numBeds", apartment.NumBeds);
+            command.Parameters.AddWithValue("@accommodates", apartment.Accommodates);
+            command.Parameters.AddWithValue("@amenities", apartment.Amenities);
+            command.Parameters.AddWithValue("@price", apartment.Price);
+            command.Parameters.AddWithValue("@minNights", apartment.MinNight);
+            command.Parameters.AddWithValue("@maxNights", apartment.MaxNight);
+            command.Parameters.AddWithValue("@rating", apartment.Rating);
+            command.Parameters.AddWithValue("@reviewAccuracy", apartment.ReviewAccuracy);
+            command.Parameters.AddWithValue("@reviewsClean", apartment.ReviewsClean);
+            command.Parameters.AddWithValue("@reviewLocation", apartment.ReviewLocation);
+
+
+            command.CommandText = "SP_InsertApartment";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
     }
 }

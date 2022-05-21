@@ -12,22 +12,22 @@ namespace WebApplication1.Controllers
     {
 
         // POST api/<controller>
-        public bool Post([FromBody] string value)
+        public int Post([FromBody] string value)
         {
             if (value == "host")
             {
                 UploadDBServices db = new UploadDBServices();
                 db.Host();
 
-                return false;
+                return 1;
             }
             if (value == "listing")
             {
                 UploadDBServices db = new UploadDBServices();
-             ///   return db.HostExists();
+                return db.Listing();
             }
 
-            return false;
+            return 0;
         }
 
 
