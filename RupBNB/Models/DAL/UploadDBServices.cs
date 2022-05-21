@@ -1,4 +1,5 @@
-﻿using RupBNB.Models;
+﻿using Microsoft.VisualBasic.FileIO;
+using RupBNB.Models;
 using RupBNB.Models.DAL;
 using System;
 using System.Collections.Generic;
@@ -357,6 +358,196 @@ namespace WebApplication1.Models.DAL
 
 
             command.CommandText = "SP_InsertApartment";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+
+
+
+        public int Review()
+        {
+            int count = 0;
+            string file = HttpContext.Current.Server.MapPath("~/Models/DAL/reviewsDB.csv");
+
+            StreamReader reader = null;
+            if (File.Exists(file))
+            {
+                string email = "";
+                bool host = false;
+                int flag = 0;
+                reader = new StreamReader(File.OpenRead(file));
+                List<string> listA = new List<string>();
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+
+                    if (flag != 0)
+                    {
+
+                        var values = line.Split(',');
+
+                        if (values.Length == 6)
+                        {
+                            if (email != values[4])
+                            {
+                                host = HostExists(values[4]);
+                                email = values[4];
+                            }
+                            if (host)
+                            {
+                                try
+                                {
+
+                                    DateTime reviewDate = Convert.ToDateTime(values[2]);
+
+
+                                    InsertReview(new Review(
+                                        Convert.ToInt32(values[1]),
+                                        Convert.ToInt32(values[0]),
+                                        values[3],
+                                        reviewDate,
+                                        values[5]
+                                        ));
+
+
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+
+
+                            }
+
+                        } else
+                        {
+                            count++;
+
+                        }
+
+                    }
+                    else
+                    {
+                        flag = 1;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("File doesn't exist");
+            }
+
+            return count;
+        }
+
+        public int Review2()
+        {
+            int count = 0;
+
+            var path = HttpContext.Current.Server.MapPath("~/Models/DAL/reviewsDB.csv");
+            using (TextFieldParser csvParser = new TextFieldParser(path))
+            {
+                //csvParser.CommentTokens = new string[] { "#" };
+                csvParser.SetDelimiters(new string[] { "," });
+                csvParser.HasFieldsEnclosedInQuotes = true;
+
+                // Skip the row with the column names
+                csvParser.ReadLine();
+
+                string email = "";
+                bool host = false;
+
+                while (!csvParser.EndOfData)
+                {
+                    // Read current line fields, pointer moves to the next line.
+
+                    try
+                    {
+                        string[] values = csvParser.ReadFields();
+                        if (values.Length == 6)
+                        {
+                            if (email != values[4])
+                            {
+                                host = HostExists(values[4]);
+                                email = values[4];
+                            }
+                            if (host)
+                            {
+                                try
+                                {
+
+                                    DateTime reviewDate = Convert.ToDateTime(values[2]);
+
+
+                                    InsertReview(new Review(
+                                        Convert.ToInt32(values[1]),
+                                        Convert.ToInt32(values[0]),
+                                        values[3],
+                                        reviewDate,
+                                        values[5]
+                                        ));
+
+
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+
+
+                            }
+
+                        }
+                        else
+                        {
+                            count++;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+
+
+                }
+            }
+
+            return count;
+        }
+
+        public int InsertReview(Review review)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateInsertReview(con, review);
+
+            // Execute
+            int numAffected = command.ExecuteNonQuery();
+
+            // Close Connection
+            con.Close();
+
+            return numAffected;
+
+        }
+
+        private SqlCommand CreateInsertReview(SqlConnection con, Review review)
+        {
+
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@apartmentId", review.ApartmentId);
+            command.Parameters.AddWithValue("@userName", review.UserName);
+            command.Parameters.AddWithValue("@reviewDate", review.ReviewDate);
+            command.Parameters.AddWithValue("@comments", review.Comments);
+
+            command.CommandText = "SP_InsertReview";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds

@@ -26,6 +26,11 @@ namespace WebApplication1.Controllers
                 UploadDBServices db = new UploadDBServices();
                 return db.Listing();
             }
+            if (value == "review")
+            {
+                UploadDBServices db = new UploadDBServices();
+                return db.Review2();
+            }
 
             return 0;
         }

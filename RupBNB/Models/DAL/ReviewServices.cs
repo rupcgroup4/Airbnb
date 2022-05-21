@@ -30,13 +30,12 @@ namespace RupBNB.Models.DAL
 
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@id", review.Id);
             command.Parameters.AddWithValue("@apartmentId", review.ApartmentId);
             command.Parameters.AddWithValue("@userName", review.UserName);
             command.Parameters.AddWithValue("@reviewDate", review.ReviewDate);
             command.Parameters.AddWithValue("@comments", review.Comments);
 
-            command.CommandText = "SP_InsertReservation";
+            command.CommandText = "SP_InsertReview";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds
