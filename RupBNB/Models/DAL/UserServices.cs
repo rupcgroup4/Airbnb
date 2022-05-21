@@ -30,9 +30,9 @@ namespace RupBNB.Models.DAL
             SqlCommand command = new SqlCommand();
 
             command.Parameters.AddWithValue("@email", user.Email);
+            command.Parameters.AddWithValue("@password", user.Password);
             command.Parameters.AddWithValue("@firstName", user.FirstName);
             command.Parameters.AddWithValue("@lastName", user.LastName);
-            command.Parameters.AddWithValue("@password", user.Password);
             command.Parameters.AddWithValue("@birthDate", user.BirthDate);
 
             command.CommandText = "SP_InsertUser";

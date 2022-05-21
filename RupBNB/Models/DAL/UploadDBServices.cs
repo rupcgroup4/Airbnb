@@ -45,11 +45,11 @@ namespace WebApplication1.Models.DAL
                                     DateTime hostSince = Convert.ToDateTime(values[5]);
 
                                     bool isSuperHost = values[10] == "t" ? true : false;
-                                    bool isVerified = values[13] == "t" ? true : false;
+                                    bool isVerified = values[12] == "t" ? true : false;
 
-                                    InsertUser(new User(values[0], values[1], values[2], values[3], birthDate));
+                                    InsertUser(new User(values[0], values[3], values[1], values[2], birthDate));
 
-                                    InsertHost(new Host(values[0], values[1], values[2], values[3], birthDate, hostSince,
+                                    InsertHost(new Host(values[0], values[3], values[1], values[2], birthDate, hostSince,
                                         values[6],
                                         values[7],
                                         values[8],
