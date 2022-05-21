@@ -18,22 +18,17 @@ GO
 -- Create date: 19.5.2022
 -- Description:	Insert Host to DataBase
 -- =============================================
-CREATE PROCEDURE SPInsertHost
+CREATE PROCEDURE SP_InsertHost
 	-- Add the parameters for the stored procedure here
-	@FirstName varchar(30),
-	@LastName varchar(30),
-	@Email varchar(30),
-	@Password varchar(30),
-	@BirthDate date,
-	@HostSince date,
-	@Location varchar(50),
-	@About varchar(256),
-	@ResponseTime varchar(20),
-	@ResponseRate varchar(20),
-	@IsSuperHost varchar(1),
-	@SmallPicture varchar(256),
-	@BigPicture varchar(256),
-	@IsVerified varchar(1)
+	@email nvarchar(64),
+	@hostSince date,
+	@location nvarchar(50),
+	@about nvarchar(MAX),
+	@responseTime varchar(20),
+	@responseRate varchar(20),
+	@isSuperHost bit,
+	@img nvarchar(256),
+	@isVerified bit
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -41,12 +36,9 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	INSERT INTO host (FirstName, LastName, Email, Password, BirthDate, HostSince, 
-						Location, About, ResponseTime, ResponseRate, IsSuperHost, SmallPicture, BigPicture, IsVerified)
+	INSERT INTO Hosts (email, hostSince,[location], about, responseTime, responseRate,isSuperHost, img, isVerified)
 
-	VALUES(@FirstName, @LastName, @Email, @Password, @BirthDate, @HostSince,
-			@Location, @About, @ResponseTime, @ResponseRate, @IsSuperHost, @SmallPicture, @BigPicture, @IsVerified)
-			
-			
+	VALUES(@email, @hostSince,@location, @about, @responseTime, @responseRate, @isSuperHost, @img, @isVerified)
+
 END
 GO

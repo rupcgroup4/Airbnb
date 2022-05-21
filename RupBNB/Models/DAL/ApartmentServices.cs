@@ -33,30 +33,29 @@ namespace WebApplication1.Models.DAL
 
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@PropertyType", apartment.PropertyType);
-            command.Parameters.AddWithValue("@HostId", apartment.HostId);
-            command.Parameters.AddWithValue("@Name", apartment.Name);
-            command.Parameters.AddWithValue("@Description", apartment.Description);
-            command.Parameters.AddWithValue("@Picture", apartment.Picture);
-            command.Parameters.AddWithValue("@Neighborhood", apartment.Neighborhood);
-            command.Parameters.AddWithValue("@Latitude", apartment.Latitude);
-            command.Parameters.AddWithValue("@Longtitude", apartment.Longitude);
-            command.Parameters.AddWithValue("@RoomType", apartment.RoomType);
-            command.Parameters.AddWithValue("@Bathrooms", apartment.Bathrooms);
-            command.Parameters.AddWithValue("@Bedrooms", apartment.Bedrooms);
-            command.Parameters.AddWithValue("@Beds", apartment.Beds);
-            command.Parameters.AddWithValue("@Accommodates", apartment.Accommodates);
-            command.Parameters.AddWithValue("@Amenities", apartment.Amenities);
-            command.Parameters.AddWithValue("@Price", apartment.Price);
-            command.Parameters.AddWithValue("@MinNights", apartment.MinNight);
-            command.Parameters.AddWithValue("@MaxNights", apartment.MaxNight);
-            command.Parameters.AddWithValue("@Rating", apartment.Rating);
-            command.Parameters.AddWithValue("@ReviewAccuracy", apartment.ReviewAccuracy);
-            command.Parameters.AddWithValue("@ReviewsClean", apartment.ReviewsClean);
-            command.Parameters.AddWithValue("@ReviewLocation", apartment.ReviewLocation);
+            command.Parameters.AddWithValue("@propertyType", apartment.PropertyType);
+            command.Parameters.AddWithValue("@name", apartment.Name);
+            command.Parameters.AddWithValue("@description", apartment.Description);
+            command.Parameters.AddWithValue("@img", apartment.Img);
+            command.Parameters.AddWithValue("@neighborhood", apartment.Neighborhood);
+            command.Parameters.AddWithValue("@latitude", apartment.Latitude);
+            command.Parameters.AddWithValue("@longtitude", apartment.Longitude);
+            command.Parameters.AddWithValue("@roomType", apartment.RoomType);
+            command.Parameters.AddWithValue("@numBathrooms", apartment.NumBathrooms);
+            command.Parameters.AddWithValue("@numBedrooms", apartment.NumBedrooms);
+            command.Parameters.AddWithValue("@numBeds", apartment.NumBeds);
+            command.Parameters.AddWithValue("@accommodates", apartment.Accommodates);
+            command.Parameters.AddWithValue("@amenities", apartment.Amenities);
+            command.Parameters.AddWithValue("@price", apartment.Price);
+            command.Parameters.AddWithValue("@minNights", apartment.MinNight);
+            command.Parameters.AddWithValue("@maxNights", apartment.MaxNight);
+            command.Parameters.AddWithValue("@rating", apartment.Rating);
+            command.Parameters.AddWithValue("@reviewAccuracy", apartment.ReviewAccuracy);
+            command.Parameters.AddWithValue("@reviewsClean", apartment.ReviewsClean);
+            command.Parameters.AddWithValue("@reviewLocation", apartment.ReviewLocation);
 
 
-            command.CommandText = "SPInsertApartment";
+            command.CommandText = "SP_InsertApartment";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds

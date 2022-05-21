@@ -7,52 +7,46 @@ namespace WebApplication1.Models
 {
     public class Apartment
     {
-
-
-
         int id;
         string propertyType;
-        int hostId;
+        string hostEmail;
         string name;
         string description;
-        string picture;
+        string img;
         string neighborhood;
         string latitude;
         string longitude;
         string roomType;
-        //enum roomType
-        //{
-        //    Private_room,
-
-        //};
-        string bathrooms;
-        int bedrooms;
-        int beds;
+        string numBathrooms;
+        int numBedrooms;
+        int numBeds;
         int accommodates;
         string amenities;
         int price;
         int minNight;
         int maxNight;
-        double rating;
-        double reviewAccuracy;
-        double reviewsClean;
-        double reviewLocation;
+        float rating;
+        float reviewAccuracy;
+        float reviewsClean;
+        float reviewLocation;
 
-        public Apartment(int id, string propertyType, int hostId, string name, string description, string picture, string neighborhood, string latitude, string longitude, string roomType, string bathrooms, int bedrooms, int beds, int accommodates, string amenities, int price, int minNight, int maxNight, double rating, double reviewAccuracy, double reviewsClean, double reviewLocation)
+        public Apartment() { }
+
+            public Apartment(int id, string propertyType, string hostEmail, string name, string description, string img, string neighborhood, string latitude, string longitude, string roomType, string numBathrooms, int numBedrooms, int numBeds, int accommodates, string amenities, int price, int minNight, int maxNight, float rating, float reviewAccuracy, float reviewsClean, float reviewLocation)
         {
             this.Id = id;
             this.PropertyType = propertyType;
-            this.HostId = hostId;
+            this.HostEmail = hostEmail;
             this.Name = name;
             this.Description = description;
-            this.Picture = picture;
+            this.Img = img;
             this.Neighborhood = neighborhood;
             this.Latitude = latitude;
             this.Longitude = longitude;
             this.RoomType = roomType;
-            this.Bathrooms = bathrooms;
-            this.Bedrooms = bedrooms;
-            this.Beds = beds;
+            this.NumBathrooms = numBathrooms;
+            this.NumBedrooms = numBedrooms;
+            this.NumBeds = numBeds;
             this.Accommodates = accommodates;
             this.Amenities = amenities;
             this.Price = price;
@@ -64,29 +58,27 @@ namespace WebApplication1.Models
             this.ReviewLocation = reviewLocation;
         }
 
-        public Apartment() { }
-
         public int Id { get => id; set => id = value; }
         public string PropertyType { get => propertyType; set => propertyType = value; }
-        public int HostId { get => hostId; set => hostId = value; }
+        public string HostEmail { get => hostEmail; set => hostEmail = value; }
         public string Name { get => name; set => name = value; }
         public string Description { get => description; set => description = value; }
-        public string Picture { get => picture; set => picture = value; }
+        public string Img { get => img; set => img = value; }
         public string Neighborhood { get => neighborhood; set => neighborhood = value; }
         public string Latitude { get => latitude; set => latitude = value; }
         public string Longitude { get => longitude; set => longitude = value; }
         public string RoomType { get => roomType; set => roomType = value; }
-        public string Bathrooms { get => bathrooms; set => bathrooms = value; }
-        public int Bedrooms { get => bedrooms; set => bedrooms = value; }
-        public int Beds { get => beds; set => beds = value; }
+        public string NumBathrooms { get => numBathrooms; set => numBathrooms = value; }
+        public int NumBedrooms { get => numBedrooms; set => numBedrooms = value; }
+        public int NumBeds { get => numBeds; set => numBeds = value; }
         public int Accommodates { get => accommodates; set => accommodates = value; }
         public string Amenities { get => amenities; set => amenities = value; }
         public int Price { get => price; set => price = value; }
         public int MinNight { get => minNight; set => minNight = value; }
         public int MaxNight { get => maxNight; set => maxNight = value; }
-        public double Rating { get => rating; set => rating = value; }
-        public double ReviewAccuracy { get => reviewAccuracy; set => reviewAccuracy = value; }
-        public double ReviewsClean { get => reviewsClean; set => reviewsClean = value; }
-        public double ReviewLocation { get => reviewLocation; set => reviewLocation = value; }
+        public float Rating { get => rating; set => rating = value; }
+        public float ReviewAccuracy { get => reviewAccuracy; set => reviewAccuracy = value; }
+        public float ReviewsClean { get => reviewsClean; set => reviewsClean = value; }
+        public float ReviewLocation { get => reviewLocation; set => reviewLocation = value; }
     }
 }

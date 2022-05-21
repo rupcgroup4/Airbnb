@@ -8,20 +8,16 @@ namespace RupBNB.Models
 {
     public class User
     {
-        int id;
         string email;
         string password;
         string firstName;
         string lastName;
         DateTime birthDate;
-     //   List<Apartment> likedApartments;
-
 
         public User() { }
 
-        public User(int id, string email, string password, string firstName, string lastName, DateTime birthDate)
+        public User(string email, string password, string firstName, string lastName, DateTime birthDate)
         {
-            this.id = id;
             this.email = email;
             this.password = password;
             this.firstName = firstName;
@@ -29,7 +25,6 @@ namespace RupBNB.Models
             this.birthDate = birthDate;
         }
 
-        public int Id { get => id; set => id = value; }
         public string Email { get => email; set => email = value; }
         public string Password { get => password; set => password = value; }
         public string FirstName { get => firstName; set => firstName = value; }

@@ -33,24 +33,17 @@ namespace WebApplication1.Models.DAL
 
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@FirstName", host.FirstName);
-            command.Parameters.AddWithValue("@LastName", host.LastName);
-            command.Parameters.AddWithValue("@Email", host.Email);
-            command.Parameters.AddWithValue("@Password", host.Password);
-            command.Parameters.AddWithValue("@BirthDate", host.BirthDate);
+            command.Parameters.AddWithValue("@email", host.Email);
+            command.Parameters.AddWithValue("@hostSince", host.HostSince);
+            command.Parameters.AddWithValue("@location", host.Location);
+            command.Parameters.AddWithValue("@about", host.About);
+            command.Parameters.AddWithValue("@responseTime", host.ResponseTime);
+            command.Parameters.AddWithValue("@responseRate", host.ResponseRate);
+            command.Parameters.AddWithValue("@isSuperHost", host.IsSuperHost);
+            command.Parameters.AddWithValue("@img", host.Img);
+            command.Parameters.AddWithValue("@isVerified", host.IsVerified);
 
-
-            command.Parameters.AddWithValue("@HostSince", host.HostSince);
-            command.Parameters.AddWithValue("@Location", host.Location);
-            command.Parameters.AddWithValue("@About", host.About);
-            command.Parameters.AddWithValue("@ResponseTime", host.ResponseTime);
-            command.Parameters.AddWithValue("@ResponseRate", host.ResponseRate);
-            command.Parameters.AddWithValue("@IsSuperHost", host.IsSuperHost);
-            command.Parameters.AddWithValue("@SmallPicture", host.SmallPicture);
-            command.Parameters.AddWithValue("@BigPicture", host.BigPicture);
-            command.Parameters.AddWithValue("@IsVerified", host.IsVerified);
-
-            command.CommandText = "SPInsertHost";
+            command.CommandText = "SP_InsertHost";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds
@@ -59,12 +52,12 @@ namespace WebApplication1.Models.DAL
         }
 
 
-        public bool HostExists(int id)
+        public bool HostExists(string email)
         {
             SqlConnection con = SqlConnect.Connect();
 
             // Create Command
-            SqlCommand command = CreateHostExists(con, id);
+            SqlCommand command = CreateHostExists(con, email);
 
             SqlDataReader dr = command.ExecuteReader();
 
@@ -76,13 +69,13 @@ namespace WebApplication1.Models.DAL
 
         }
 
-        private SqlCommand CreateHostExists(SqlConnection con, int id)
+        private SqlCommand CreateHostExists(SqlConnection con, string email)
         {
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@email", email);
 
-            command.CommandText = "SPGetHostByID";
+            command.CommandText = "SP_GetHostByEmail";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds

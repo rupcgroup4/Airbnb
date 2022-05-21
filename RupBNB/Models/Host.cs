@@ -14,28 +14,21 @@ namespace WebApplication1.Models
         string responseTime;
         string responseRate;
         bool isSuperHost;
-        string smallPicture;
-        string bigPicture;
+        string img;
         bool isVerified;
 
-        public Host(int id, string firstName, string lastName, string email, string password, DateTime birthDate, DateTime hostSince, string location, string about, string responseTime, string responseRate, bool isSuperHost, string smallPicture, string bigPicture, bool isVerified)
+        public Host(string email, string firstName, string lastName, string password,
+            DateTime birthDate, DateTime hostSince, string location, string about,
+            string responseTime, string responseRate, bool isSuperHost, string img,
+            bool isVerified) : base(email, firstName, lastName, password, birthDate)
         {
-            //inheritance from constructor
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Password = password;
-            BirthDate = birthDate;
-            //
             this.hostSince = hostSince;
             this.location = location;
             this.about = about;
             this.responseTime = responseTime;
             this.responseRate = responseRate;
             this.isSuperHost = isSuperHost;
-            this.smallPicture = smallPicture;
-            this.bigPicture = bigPicture;
+            this.img = img;
             this.isVerified = isVerified;
         }
 
@@ -46,8 +39,7 @@ namespace WebApplication1.Models
         public string ResponseTime { get => responseTime; set => responseTime = value; }
         public string ResponseRate { get => responseRate; set => responseRate = value; }
         public bool IsSuperHost { get => isSuperHost; set => isSuperHost = value; }
-        public string SmallPicture { get => smallPicture; set => smallPicture = value; }
-        public string BigPicture { get => bigPicture; set => bigPicture = value; }
+        public string Img { get => img; set => img = value; }
         public bool IsVerified { get => isVerified; set => isVerified = value; }
     }
 }
