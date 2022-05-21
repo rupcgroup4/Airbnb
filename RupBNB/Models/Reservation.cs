@@ -11,26 +11,23 @@ namespace RupBNB.Models
         DateTime startDate;
         DateTime endDate;
         int apartmentId;
-        int hostId;
-        int userId;
+        string userEmail;
 
         public Reservation() { }
 
-        public Reservation(int id, DateTime startDate, DateTime endDate, int apartmentId, int hostId, int userId)
+        public Reservation(int id, DateTime startDate, DateTime endDate, int apartmentId, string userEmail)
         {
             this.Id = id;
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.ApartmentId = apartmentId;
-            this.HostId = hostId;
-            this.UserId = userId;
+            this.UserEmail = userEmail;
         }
 
         public int Id { get => id; set => id = value; }
         public DateTime StartDate { get => startDate; set => startDate = value; }
         public DateTime EndDate { get => endDate; set => endDate = value; }
         public int ApartmentId { get => apartmentId; set => apartmentId = value; }
-        public int HostId { get => hostId; set => hostId = value; }
-        public int UserId { get => userId; set => userId = value; }
+        public string UserEmail { get => userEmail; set => userEmail = value; }
     }
 }
