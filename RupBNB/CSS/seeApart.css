@@ -1,0 +1,67 @@
+#apartmentDetails {
+    padding-bottom: 20px;
+}
+
+#map {
+    height: 300px;
+    width: 100%;
+}
+
+h4 {
+    margin-top: 0.25em;
+}
+
+.fi-padding {
+    vertical-align: top;
+}
+
+#more {
+    display: none;
+}
+
+#readBTN {
+    width: 100%;
+    background-color: transparent;
+    color: black;
+}
+
+#reserve {
+    background-color: white;
+    height: 60px;
+    width: 20%;
+    margin: 0 auto;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+#price {
+    margin-left: 1rem;
+    margin-top: 0.3rem;
+}
+
+#bookBTN {
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    height: 70%;
+}
+
+.card {
+    background-color: transparent;
+    border: none;
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* For Mobile */
+@media only screen and (max-width: 960px) {
+    #reserve {
+        width: 100%;
+    }
+    .card {
+        width: 100%;
+    }
+}
+
+

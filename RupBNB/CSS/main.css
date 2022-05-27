@@ -1,0 +1,28 @@
+body {
+    background-color: white;
+    height: 100vh;
+}
+
+
+/* Scroll Bar */
+
+/* Works on Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: transparent;
+  }
+  
+  /* Works on Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 20px;
+    border: 3px solid transparent;
+  }

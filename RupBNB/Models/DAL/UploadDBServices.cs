@@ -17,74 +17,63 @@ namespace WebApplication1.Models.DAL
 
 
         
-        public void Host()
-        {
-            string file = HttpContext.Current.Server.MapPath("~/Models/DAL/hostDB.csv");
+        public void Host() { 
 
-            StreamReader reader = null;
-            if (File.Exists(file))
+
+            var path = HttpContext.Current.Server.MapPath("~/Models/DAL/hostDB.csv");
+            using (TextFieldParser csvParser = new TextFieldParser(path))
             {
-                int flag = 0;
-                reader = new StreamReader(File.OpenRead(file));
-                List<string> listA = new List<string>();
-                while (!reader.EndOfStream)
+                //csvParser.CommentTokens = new string[] { "#" };
+                csvParser.SetDelimiters(new string[] { "," });
+                csvParser.HasFieldsEnclosedInQuotes = true;
+
+                // Skip the row with the column names
+                csvParser.ReadLine();
+
+
+                while (!csvParser.EndOfData)
                 {
-                    var line = reader.ReadLine();
 
-                    if (flag != 0)
+                    string[] values = csvParser.ReadFields();
+
+                    if (values.Length == 9)
                     {
-
-                        var values = line.Split(',');
-
-                        if(values.Length == 13)
+                        try
                         {
-                            try
+
+                            if (IsValid(values[0]))
                             {
+                                DateTime hostSince = Convert.ToDateTime(values[1]);
 
-                                if (IsValid(values[0])) {
-                                    DateTime birthDate = Convert.ToDateTime(values[4]);
-                                    DateTime hostSince = Convert.ToDateTime(values[5]);
+                                bool isSuperHost = values[6] == "t" ? true : false;
+                                bool isVerified = values[8] == "t" ? true : false;
 
-                                    bool isSuperHost = values[10] == "t" ? true : false;
-                                    bool isVerified = values[12] == "t" ? true : false;
 
-                                    InsertUser(new User(values[0], values[3], values[1], values[2], birthDate));
-
-                                    InsertHost(new Host(values[0], values[3], values[1], values[2], birthDate, hostSince,
-                                        values[6],
-                                        values[7],
-                                        values[8],
-                                        values[9],
-                                        isSuperHost,
-                                        values[11],
-                                        isVerified));
-                                }
+                                InsertHost(new Host(values[0],"","","",new DateTime(),
+                                    hostSince,
+                                    values[2],
+                                    values[3],
+                                    values[4],
+                                    values[5],
+                                    isSuperHost,
+                                    values[7],
+                                    isVerified));
                             }
-                                
-                            catch (Exception ex)
-                            {
-
-                            }
-
-                            
                         }
 
+                        catch (Exception ex)
+                        {
 
-                    }
-                    else
-                    {
-                        flag = 1;
+                        }
+
                     }
 
                 }
             }
-            else
-            {
-                Console.WriteLine("File doesn't exist");
-            }
-
-
+            
         }
+
+
         private static bool IsValid(string email)
         {
             string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
@@ -234,78 +223,70 @@ namespace WebApplication1.Models.DAL
         public int Listing()
         {
             int count = 0;
-            string file = HttpContext.Current.Server.MapPath("~/Models/DAL/listingDB.csv");
-
-            StreamReader reader = null;
-            if (File.Exists(file))
+            var path = HttpContext.Current.Server.MapPath("~/Models/DAL/listingDB.csv");
+            using (TextFieldParser csvParser = new TextFieldParser(path))
             {
+                //csvParser.CommentTokens = new string[] { "#" };
+                csvParser.SetDelimiters(new string[] { "," });
+                csvParser.HasFieldsEnclosedInQuotes = true;
 
-                int flag = 0;
-                reader = new StreamReader(File.OpenRead(file));
-                List<string> listA = new List<string>();
-                while (!reader.EndOfStream)
+                // Skip the row with the column names
+                csvParser.ReadLine();
+
+
+                while (!csvParser.EndOfData)
                 {
-                    var line = reader.ReadLine();
 
-                    if (flag != 0)
+                    string[] values = csvParser.ReadFields();
+
+                    if (values.Length == 22)
                     {
-
-                        var values = line.Split(',');
-
-                        if (values.Length == 22)
+                        if (HostExists(values[2]))
                         {
-                            if (HostExists(values[2]))
+                            try
                             {
-                                try
-                                {
 
-                                    InsertAppartment(new Apartment(
-                                        Convert.ToInt32(values[0]),
-                                        values[1],
-                                        values[2],
-                                        values[3],
-                                        values[4],
-                                        values[5],
-                                        values[6],
-                                        values[7],
-                                        values[8],
-                                        values[9],
-                                        values[10],
-                                        Convert.ToInt32(values[11]),
-                                        Convert.ToInt32(values[12]),
-                                        Convert.ToInt32(values[13]),
-                                        values[14],
-                                        Convert.ToInt32(values[15]),
-                                        Convert.ToInt32(values[16]),
-                                        Convert.ToInt32(values[17]),
-                                        Convert.ToSingle(values[18]),
-                                        Convert.ToSingle(values[19]),
-                                        Convert.ToSingle(values[20]),
-                                        Convert.ToSingle(values[21])
-                                        ));
-                                    count++;
-                                }
-                                catch (Exception ex)
-                                {
-
-                                }
-
+                                InsertAppartment(new Apartment(
+                                    Convert.ToInt32(values[0]),
+                                    values[1],
+                                    values[2],
+                                    values[3],
+                                    values[4],
+                                    values[5],
+                                    values[6],
+                                    values[7],
+                                    values[8],
+                                    values[9],
+                                    values[10],
+                                    Convert.ToInt32(values[11]),
+                                    Convert.ToInt32(values[12]),
+                                    Convert.ToInt32(values[13]),
+                                    values[14],
+                                    Convert.ToInt32(values[15]),
+                                    Convert.ToInt32(values[16]),
+                                    Convert.ToInt32(values[17]),
+                                    Convert.ToSingle(values[18]),
+                                    Convert.ToSingle(values[19]),
+                                    Convert.ToSingle(values[20]),
+                                    Convert.ToSingle(values[21])
+                                    ));
+                                count++;
+                            }
+                            catch (Exception ex)
+                            {
 
                             }
+
 
                         }
 
                     }
-                    else
-                    {
-                        flag = 1;
-                    }
+
+
+
                 }
             }
-            else
-            {
-                Console.WriteLine("File doesn't exist");
-            }
+           
 
             return count;
         }
@@ -467,44 +448,32 @@ namespace WebApplication1.Models.DAL
                     try
                     {
                         string[] values = csvParser.ReadFields();
-                        if (values.Length == 6)
+                        if (values.Length == 5)
                         {
-                            if (email != values[4])
+
+                            try
                             {
-                                host = HostExists(values[4]);
-                                email = values[4];
-                            }
-                            if (host)
-                            {
-                                try
-                                {
 
-                                    DateTime reviewDate = Convert.ToDateTime(values[2]);
+                                DateTime reviewDate = Convert.ToDateTime(values[2]);
 
 
-                                    InsertReview(new Review(
-                                        Convert.ToInt32(values[1]),
-                                        Convert.ToInt32(values[0]),
-                                        values[3],
-                                        reviewDate,
-                                        values[5]
-                                        ));
+                                InsertReview(new Review(
+                                    Convert.ToInt32(values[1]),
+                                    Convert.ToInt32(values[0]),
+                                    values[3],
+                                    reviewDate,
+                                    values[4]
+                                    ));
 
-
-                                }
-                                catch (Exception ex)
-                                {
-
-                                }
-
+                                count++;
 
                             }
+                            catch (Exception ex)
+                            {
 
+                            }
                         }
-                        else
-                        {
-                            count++;
-                        }
+                       
 
                     }
                     catch (Exception ex)

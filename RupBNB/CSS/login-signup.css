@@ -1,0 +1,25 @@
+#formContainer {
+    width: 40%;
+    background-color: #DDDDDD;
+    border-radius: 10px;
+    box-shadow: 0 10px 34px -15px rgb(0 0 0 / 24%);
+    margin: 10% auto 0;
+    padding-top: 10px;
+    padding-bottom: 50px;
+}
+
+#loginForm {
+    width: 90%;
+    margin: 10% auto 0;
+}
+
+@media only screen and (max-width: 600px) {
+    #formContainer {
+        width: 100%;
+    }
+}
+
+
+#headline {
+    text-align: center;
+}
