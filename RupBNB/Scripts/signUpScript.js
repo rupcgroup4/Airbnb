@@ -16,6 +16,7 @@ $(document).ready(function() {
 function submitSignUpForm() {
 
 	let email = $("#email").val();
+	let userName = $("#userName").val();
 	let password = $("#password").val();
 	let firstName = $("#firstName").val();
 	let lastName = $("#lastName").val();
@@ -23,6 +24,7 @@ function submitSignUpForm() {
 
 	let newUser = {
 		Email: email,
+		UserName: userName,
 		Password: password,
 		FirstName: firstName,
 		LastName: lastName,
@@ -34,11 +36,22 @@ function submitSignUpForm() {
 	return false;
 }
 
-function submitSignUpFormSuccess(result)
+function submitSignUpFormSuccess(user)
 {
-	consol.log(result);
+	localStorage.setItem("CGroup4_user", JSON.stringify(user));
+	//window.location.replace("insert.html");
+
+	Swal.fire({
+		icon: 'success',
+		title: 'Sign Up successful',
+		text: 'Welcome ' + user.UserName
+	})
 }
 
 function submitSignUpFormError(err) {
-	alert(err);
+	Swal.fire({
+		icon: 'error',
+		title: 'Oops...',
+		text: 'Email already in our system'
+	})
 }
