@@ -89,6 +89,11 @@ namespace WebApplication1.Models
             ApartmentServices ds = new ApartmentServices();
             return ds.get12ApartmentSortedByRating(rowStart, rowEnd);
         }
+        public Apartment getApartmentById(int id)
+        {
+            ApartmentServices ds = new ApartmentServices();
+            return ds.getApartmentById(id);
+        }
 
     }
 }

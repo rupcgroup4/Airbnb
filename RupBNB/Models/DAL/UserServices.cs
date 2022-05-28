@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 
 namespace RupBNB.Models.DAL
 {
     public class UserServices
     {
-        public int InsertUser(User user)
+        public User InsertUser(User user)
         {
-            SqlConnection con = SqlConnect.Connect();
+            SqlConnection con = Connect();
+
+            //check if the movie already exist in movie DB
+            if (userExists(user))
+            {
+                return null;
+            }
 
             // Create Command
-            SqlCommand command = CreateInsertUser(con, user);
+            SqlCommand command = CreateInsertUserCommand(con, user);
 
             // Execute
             int numAffected = command.ExecuteNonQuery();
@@ -21,19 +28,53 @@ namespace RupBNB.Models.DAL
             // Close Connection
             con.Close();
 
-            return numAffected;
+            return user;
 
         }
-        private SqlCommand CreateInsertUser(SqlConnection con, User user)
+
+        public bool userExists(User user)
+        {
+            SqlConnection con = Connect();
+
+            // Create Command
+            SqlCommand command = CreateGetUserByEmail(con, user.Email);
+
+            SqlDataReader dr = command.ExecuteReader();
+
+            bool flag = dr.HasRows;
+            con.Close();
+
+            return flag;
+
+        }
+
+        private SqlCommand CreateGetUserByEmail(SqlConnection con, string email)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@email", email);
+
+            command.CommandText = "SP_getUserByEmail";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+
+        private SqlCommand CreateInsertUserCommand(SqlConnection con, User user)
         {
 
             SqlCommand command = new SqlCommand();
 
             command.Parameters.AddWithValue("@email", user.Email);
+            command.Parameters.AddWithValue("@userName", user.UserName);
             command.Parameters.AddWithValue("@password", user.Password);
             command.Parameters.AddWithValue("@firstName", user.FirstName);
             command.Parameters.AddWithValue("@lastName", user.LastName);
             command.Parameters.AddWithValue("@birthDate", user.BirthDate);
+           // command.Parameters.AddWithValue("@userRegisteredSince", user.UserRegisteredSince);
+
 
             command.CommandText = "SP_InsertUser";
             command.Connection = con;
@@ -43,34 +84,19 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
-        public bool UserExists(string email)
+        private SqlConnection Connect()
         {
-            SqlConnection con = SqlConnect.Connect();
+            // read the connection string from the web.config file
+            string connectionString = WebConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
 
-            // Create Command
-            SqlCommand command = CreateUserExists(con, email);
+            // create the connection to the db
+            SqlConnection con = new SqlConnection(connectionString);
 
-            SqlDataReader dr = command.ExecuteReader();
+            // open the database connection
+            con.Open();
 
-            bool flag = dr.HasRows;
-            con.Close();
+            return con;
 
-            return flag;
-
-
-        }
-        private SqlCommand CreateUserExists(SqlConnection con, string email)
-        {
-            SqlCommand command = new SqlCommand();
-
-            command.Parameters.AddWithValue("@email", email);
-
-            command.CommandText = "SP_GetUserByEmail";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
         }
     }
 }

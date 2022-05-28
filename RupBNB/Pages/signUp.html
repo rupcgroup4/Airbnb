@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/header.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
     <script src="../Scripts/header.js"></script>
     <script src="../Scripts/signUpScript.js"></script>
@@ -34,37 +35,46 @@
                     <h1 id="headline">SignUp</h1>
                 </div>
                 <div class="mb-3">
-                  <label for="forEmail" class="form-label">Email address</label>
-                  <input type="email" id="email"
-                         class="form-control"  
-                         aria-describedby="emailHelp"
-                         placeholder="Email" required>
-                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <label for="forEmail" class="form-label">Email address</label>
+                    <input type="email" id="email"
+                           class="form-control"
+                           aria-describedby="emailHelp"
+                           placeholder="Email" required>
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <div class="mb-3">
-                  <label for="forPassword" class="form-label">Password</label>
-                  <input type="password" id="password"
-                         pattern="^.{8,30}$"
-						 oninvalid="this.setCustomValidity('Password must be 8-30 characters')"
-						 oninput="this.setCustomValidity('')"
-                         class="form-control"
-                         placeholder="Password" required>
+                    <label for="forUserName" class="form-label"> UserName</label>
+                    <input type="text" id="userName"
+                           pattern="[A-Za-z]{3,30}"
+                           oninvalid="this.setCustomValidity('User Name must be Minimun 3 characters - only letters')"
+                           oninput="this.setCustomValidity('')"
+                           class="form-control"
+                           placeholder="First Name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="forPassword" class="form-label">Password</label>
+                    <input type="password" id="password"
+                           pattern="^.{3,30}$"
+                           oninvalid="this.setCustomValidity('Password must be 8-30 characters')"
+                           oninput="this.setCustomValidity('')"
+                           class="form-control"
+                           placeholder="Password" required>
                 </div>
                 <div class="mb-3">
                     <label for="forFirstName" class="form-label">First Name</label>
-                    <input type="text" id="firstName" 
-                           pattern="[A-Za-z]{3,20}"
-						   oninvalid="this.setCustomValidity('First Name must be Minimun 3 characters - only letters')"
-						   oninput="this.setCustomValidity('')"
+                    <input type="text" id="firstName"
+                           pattern="[A-Za-z]{3,30}"
+                           oninvalid="this.setCustomValidity('First Name must be Minimun 3 characters - only letters')"
+                           oninput="this.setCustomValidity('')"
                            class="form-control"
-                           placeholder="First Name" required >
+                           placeholder="First Name" required>
                 </div>
                 <div class="mb-3">
                     <label for="forLastName" class="form-label">Last Name</label>
                     <input type="text" id="lastName"
-                           pattern="[A-Za-z]{3,20}"
-						   oninvalid="this.setCustomValidity('Last Name must be Minimun 3 characters - only letters')"
-						   oninput="this.setCustomValidity('')"
+                           pattern="[A-Za-z]{3,30}"
+                           oninvalid="this.setCustomValidity('Last Name must be Minimun 3 characters - only letters')"
+                           oninput="this.setCustomValidity('')"
                            class="form-control"
                            placeholder="Last Name" required>
                 </div>

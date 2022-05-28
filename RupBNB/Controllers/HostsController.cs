@@ -9,10 +9,14 @@ namespace RupBNB.Controllers
 {
     public class HostsController : ApiController
     {
+        [HttpGet]
+        [Route("api/User/ReadUsers")]
         // GET api/<controller>
-        public IEnumerable<string> Get()
+        public List<string> Get()
         {
-            return new string[] { "value1", "value2" };
+
+
+            return null;
         }
 
         // GET api/<controller>/5

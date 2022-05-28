@@ -15,17 +15,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
 -- Author:		CGroup4
--- Create date: 21.5.2022
--- Description:	Insert User to DataBase
+-- Create date: 28.5.2022
+-- Description:	SP Get apartment by id
 -- =============================================
-CREATE PROCEDURE SP_InsertUser
-	-- Add the parameters for the stored procedure here
-	@email nvarchar(64),
-	@username nvarchar(30),
-    @password nvarchar(30),
-	@firstName nvarchar(30),
-	@lastName nvarchar(30),
-	@birthDate date
+CREATE PROCEDURE SP_GetApartmentById
+@id int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -33,8 +27,6 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	INSERT INTO UsersDB ([email],[username],[password], [firstName],[lastName], [birthDate],[userRegisteredSince])
-
-	VALUES(@email,@username, @password, @firstName, @lastName, @birthDate,getDate())
+	SELECT * from Apartments where @id = [id]
 END
 GO
