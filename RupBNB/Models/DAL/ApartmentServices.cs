@@ -11,6 +11,7 @@ namespace WebApplication1.Models.DAL
     public class ApartmentServices
     {
 
+        //Get Apartment Object and insert it as a new row to SQL in Apartments Table
         public int InsertAppartment(Apartment apartment)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -63,7 +64,11 @@ namespace WebApplication1.Models.DAL
             return command;
         }
 
-        public int get12ApartmentSortedByRating(int rowStart, int rowEnd)
+
+        //this function get start row and end row
+        //use helper function CreateGet12ApartmentSortedByRating() which activated store procedure to get the data from DB
+        //return apartemtns object order by rating (from high to low) from start row to end row
+        public List<Apartment> get12ApartmentSortedByRating(int rowStart, int rowEnd)
         {
             SqlConnection con = SqlConnect.Connect();
 
@@ -78,37 +83,37 @@ namespace WebApplication1.Models.DAL
             {
                 int id = Convert.ToInt32(dr["id"]);
                 string propertyType = Convert.ToString(dr["propertyType"]);
+                string hostEmail = Convert.ToString(dr["hostEmail"]);
                 string name = Convert.ToString(dr["name"]);
+                string description = Convert.ToString(dr["description"]);
                 string img = Convert.ToString(dr["img"]);
                 string neighborhood = Convert.ToString(dr["neighborhood"]);
+                string latitude = Convert.ToString(dr["latitude"]);
+                string longtitude = Convert.ToString(dr["longtitude"]);
+                string roomType = Convert.ToString(dr["roomType"]);
+                string numBathrooms = Convert.ToString(dr["numBathrooms"]);
+                int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);
+                int numBeds = Convert.ToInt32(dr["numBeds"]);
+                int accommodates = Convert.ToInt32(dr["accommodates"]);
+                string amenities = Convert.ToString(dr["amenities"]);
+                int price = Convert.ToInt32(dr["price"]);
+                int minNight = Convert.ToInt32(dr["minNights"]);
+                int maxNight = Convert.ToInt32(dr["maxNights"]);
+                float rating = Convert.ToSingle(dr["rating"]);
+                float reviewAccuracy = Convert.ToSingle(dr["reviewAccuracy"]); ;
+                float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); ;
+                float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
 
+                apartments.Add(new Apartment(id, propertyType, hostEmail, name, description,
+                    img, neighborhood, latitude, longtitude, roomType, numBathrooms, numBedrooms,
+                    numBeds, accommodates, amenities, price, minNight, maxNight, rating, reviewAccuracy,
+                    reviewsClean, reviewLocation));
 
-
-                "@propertyType", apartment.PropertyType);
-                command.Parameters.AddWithValue("@name", apartment.Name);
-                command.Parameters.AddWithValue("@description", apartment.Description);
-                command.Parameters.AddWithValue("@img", apartment.Img);
-                command.Parameters.AddWithValue("@neighborhood", apartment.Neighborhood);
-                command.Parameters.AddWithValue("@latitude", apartment.Latitude);
-                command.Parameters.AddWithValue("@longtitude", apartment.Longitude);
-                command.Parameters.AddWithValue("@roomType", apartment.RoomType);
-                command.Parameters.AddWithValue("@numBathrooms", apartment.NumBathrooms);
-                command.Parameters.AddWithValue("@numBedrooms", apartment.NumBedrooms);
-                command.Parameters.AddWithValue("@numBeds", apartment.NumBeds);
-                command.Parameters.AddWithValue("@accommodates", apartment.Accommodates);
-                command.Parameters.AddWithValue("@amenities", apartment.Amenities);
-                command.Parameters.AddWithValue("@price", apartment.Price);
-                command.Parameters.AddWithValue("@minNights", apartment.MinNight);
-                command.Parameters.AddWithValue("@maxNights", apartment.MaxNight);
-                command.Parameters.AddWithValue("@rating", apartment.Rating);
-                command.Parameters.AddWithValue("@reviewAccuracy", apartment.ReviewAccuracy);
-                command.Parameters.AddWithValue("@reviewsClean", apartment.ReviewsClean);
-                command.Parameters.AddWithValue("@reviewLocation", apartment.ReviewLocation);
             }
             // Close Connection
             con.Close();
 
-            return 0;
+            return apartments;
 
         }
 

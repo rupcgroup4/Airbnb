@@ -191,11 +191,13 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Pages\adminView.html" />
     <Content Include="Pages\apartments.html" />
     <Content Include="Pages\login.html" />
     <Content Include="Pages\profilePage.html" />
     <Content Include="Pages\seeApart.html" />
     <Content Include="Pages\signUp.html" />
+    <Content Include="Scripts\adminView.js" />
     <Content Include="Scripts\ajaxCalls.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
