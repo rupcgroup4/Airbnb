@@ -133,5 +133,69 @@ namespace WebApplication1.Models.DAL
             return command;
         }
 
+        public Apartment getApartmentById(int apartmentId)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateGetApartmentById(con, apartmentId);
+
+            // Execute
+            SqlDataReader dr = command.ExecuteReader();
+
+            Apartment apartment = null;
+            while (dr.Read())
+            {
+                int id = Convert.ToInt32(dr["id"]);
+                string propertyType = Convert.ToString(dr["propertyType"]);
+                string hostEmail = Convert.ToString(dr["hostEmail"]);
+                string name = Convert.ToString(dr["name"]);
+                string description = Convert.ToString(dr["description"]);
+                string img = Convert.ToString(dr["img"]);
+                string neighborhood = Convert.ToString(dr["neighborhood"]);
+                string latitude = Convert.ToString(dr["latitude"]);
+                string longtitude = Convert.ToString(dr["longtitude"]);
+                string roomType = Convert.ToString(dr["roomType"]);
+                string numBathrooms = Convert.ToString(dr["numBathrooms"]);
+                int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);
+                int numBeds = Convert.ToInt32(dr["numBeds"]);
+                int accommodates = Convert.ToInt32(dr["accommodates"]);
+                string amenities = Convert.ToString(dr["amenities"]);
+                int price = Convert.ToInt32(dr["price"]);
+                int minNight = Convert.ToInt32(dr["minNights"]);
+                int maxNight = Convert.ToInt32(dr["maxNights"]);
+                float rating = Convert.ToSingle(dr["rating"]);
+                float reviewAccuracy = Convert.ToSingle(dr["reviewAccuracy"]); ;
+                float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); ;
+                float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
+
+                apartment = new Apartment(id, propertyType, hostEmail, name, description,
+                    img, neighborhood, latitude, longtitude, roomType, numBathrooms, numBedrooms,
+                    numBeds, accommodates, amenities, price, minNight, maxNight, rating, reviewAccuracy,
+                    reviewsClean, reviewLocation);
+
+            }
+            // Close Connection
+            con.Close();
+
+            return apartment;
+
+        }
+
+        private SqlCommand CreateGetApartmentById(SqlConnection con, int apartmentId)
+        {
+
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@id", apartmentId);
+
+            command.CommandText = "SP_getApartmentById";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+
     }
 }

@@ -25,59 +25,69 @@ data = [
     }
 ]
 
-$(document).ready(function() {
+$(document).ready(function () {
+    let apartmentId = sessionStorage.getItem("apartmentId");
+    let qs = "apartmentId=" + apartmentId;
+    
+    ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
 
-    $("#image").attr("src", data[0].Img);
-    $("#name").append(data[0].Name);
-    $("#description").prepend(data[0].Description.substring(0,200));
-    $("#more").append(data[0].Description.substring(201))
-    $("#price").prepend("$" + data[0].Price);
+});
+function SCBGetApartment(apartment) {
+
+    initMap(Number(apartment.Latitude), Number(apartment.Longtitude));
+    
+
+    $("#image").attr("src", apartment.Img);
+    $("#name").append(apartment.Name);
+    $("#description").prepend(apartment.Description.substring(0, 200));
+    $("#more").append(apartment.Description.substring(201))
+    $("#price").prepend("$" + apartment.Price);
 
     $("#details").append(
-         `
+        `
             <div class="col text-center">
                 <i class="fas fa-bed fa-2x"></i>
-                <h4>${data[0].NumBeds}</h4>
+                <h4>${apartment.NumBeds}</h4>
             </div>
 
             <div class="col text-center">
                 <i class="fa-solid fa-person fa-2x"></i>
-                <h4>${data[0].NumBeds}</h4>
+                <h4>${apartment.NumBeds}</h4>
             </div>
 
             <div class="col text-center">
                 <i class="fa-solid fa-star fa-2x"></i>
-                <h4>${data[0].Rating}</h4>
+                <h4>${apartment.Rating}</h4>
             </div>
 
             <div class="col text-center">
                 <i class="fa-solid fa-broom fa-2x"></i>
-                <h4>${data[0].ReviewClean}</h4>
+                <h4>${apartment.ReviewClean}</h4>
             </div>
         `
     )
+    let am = JSON.parse(apartment.Amenities);
 
-    let am = data[0].Amenities.split(';');
-    for(let i = 0; i < am.length; i++) {
+    for (let i = 0; i < am.length; i++) {
         $("#ameneties")
-        .append(
-            `
+            .append(
+                `
                 <div class="col">
                     <h6>
                         <span class="badge bg-secondary">${am[i]}</span>
                     </h6>
                 </div>
             `
-        );
+            );
     }
-
-});
-
-
+}
+function ECBGetApartment(error) {
+    console.log(error);
+}
 // Initialize and add the map
-function initMap() {
+function initMap(Latitude, Longtitude) {
     // The location of Uluru
-    const location = { lat: data[0].Latitude, lng: data[0].Longtitude };
+    const location = { lat: Latitude, lng: Longtitude };
     // The map, centered at Uluru
     const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 11,
