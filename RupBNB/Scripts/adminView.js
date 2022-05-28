@@ -40,10 +40,10 @@ function SCBReadUsers(users) {
     }
 }
 // Read hosts success call back
-function SCBReadHosts() {
+function SCBReadHosts(hosts) {
     try {
         tbl = $('#HostTable').DataTable({
-            data: users,
+            data: hosts,
             pageLength: 5,
             columns: [
                 { data: "Register date" },
@@ -58,10 +58,10 @@ function SCBReadHosts() {
     }
 }
 // Read apartments success call back
-function SCBReadApartments() {
+function SCBReadApartments(apartments) {
     try {
         tbl = $('#ApartmentTable').DataTable({
-            data: users,
+            data: apartments,
             pageLength: 5,
             columns: [
                 { data: "Days rented" },
