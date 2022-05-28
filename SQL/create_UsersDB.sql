@@ -7,3 +7,4 @@ create table UsersDB (
 	birthDate date check(birthDate < getDate()),
 	userRegisteredSince date check(userRegisteredSince <= getDate())
 )
+

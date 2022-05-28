@@ -10,6 +10,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/8f38e270eb.js" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/header.css">
     <script src="../Scripts/header.js"></script>
@@ -29,6 +32,9 @@
             background-size: 100%;
         }
     </style>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -51,6 +57,7 @@
                 <table id="UserTable" class="display nowrap" style="width:100%">
                     <thead>
                         <tr>
+                            <th>User email</th>
                             <th>Register date</th>
                             <th>Total rentals</th>
                             <th>Total income</th>
@@ -65,6 +72,7 @@
                 <table id="HostTable" class="display nowrap" style="width:100%">
                     <thead>
                         <tr>
+                            <th>Host email</th>
                             <th>Register date</th>
                             <th>Number of apartments</th>
                             <th>Total income</th>
@@ -79,18 +87,21 @@
                 <table id="ApartmentTable" class="display nowrap" style="width:100%">
                     <thead>
                         <tr>
+                            <th>Apartment id</th>
+                            <th>Apartment name</th>
                             <th>Days rented</th>
                             <th>Total cancels</th>
+                            <th>Link to apartment</th>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
-        <div id="spinner" class="text-center">
+        <!--<div id="spinner" class="text-center">
             <div class="spinner spinner-border">
                 <span class="visually-hidden">Loading...</span>
             </div>
-        </div>
+        </div>-->
     </div>
 
 </body>

@@ -26,10 +26,14 @@
 
 .card-body {
     padding-top: 1px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .img-apartment {
     border-radius: 10%;
+    max-height: 150px;
 }
 
 .detailBTN {
@@ -61,6 +65,10 @@
     max-height: 600px;
 }
 
+
+.apartName {
+    flex-grow: 1;
+}
 
 /* Slider range for price */
 
