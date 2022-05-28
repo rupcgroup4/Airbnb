@@ -22,9 +22,9 @@ CREATE PROCEDURE SP_InsertUser
 	-- Add the parameters for the stored procedure here
 	@email nvarchar(64),
 	@username nvarchar(30),
-    @password nvarchar(30),
 	@firstName nvarchar(30),
 	@lastName nvarchar(30),
+    @password nvarchar(30),
 	@birthDate date,
 	@userRegisteredSince date
 AS
@@ -34,8 +34,8 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	INSERT INTO UsersDB ([email],[username],[password], [firstName],[lastName], [birthDate],[userRegisteredSince])
+	INSERT INTO UsersDB ([email],[username], [firstName],[lastName],[password], [birthDate],[userRegisteredSince])
 
-	VALUES(@email,@username, @password, @firstName, @lastName, @birthDate,@userRegisteredSince)
+	VALUES(@email,@username, @firstName, @lastName,@password, @birthDate,@userRegisteredSince)
 END
 GO
