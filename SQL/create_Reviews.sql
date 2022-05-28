@@ -5,3 +5,4 @@ create table Reviews (
 	reviewDate date check(reviewDate <= getdate()),
 	comments nvarchar(MAX)
 )
+
