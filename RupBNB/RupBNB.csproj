@@ -193,6 +193,7 @@
     <Content Include="Global.asax" />
     <Content Include="Pages\adminView.html" />
     <Content Include="Pages\apartments.html" />
+    <Content Include="Pages\createDB.html" />
     <Content Include="Pages\login.html" />
     <Content Include="Pages\profilePage.html" />
     <Content Include="Pages\seeApart.html" />

@@ -20,10 +20,10 @@ namespace WebApplication1.Models.DAL
         public void Host() { 
 
 
-            var path = HttpContext.Current.Server.MapPath("~/Models/DAL/hostDB.csv");
+            var path = HttpContext.Current.Server.MapPath("~/Models/DAL/userHost.csv");
             using (TextFieldParser csvParser = new TextFieldParser(path))
             {
-                //csvParser.CommentTokens = new string[] { "#" };
+                csvParser.CommentTokens = new string[] { "#" };
                 csvParser.SetDelimiters(new string[] { "," });
                 csvParser.HasFieldsEnclosedInQuotes = true;
 
@@ -36,27 +36,31 @@ namespace WebApplication1.Models.DAL
 
                     string[] values = csvParser.ReadFields();
 
-                    if (values.Length == 9)
+                    if (values.Length == 15)
                     {
                         try
                         {
 
                             if (IsValid(values[0]))
                             {
-                                DateTime hostSince = Convert.ToDateTime(values[1]);
+                                DateTime hostSince = Convert.ToDateTime(values[7]);
 
-                                bool isSuperHost = values[6] == "t" ? true : false;
-                                bool isVerified = values[8] == "t" ? true : false;
+                                bool isSuperHost = values[12] == "t" ? true : false;
+                                bool isVerified = values[14] == "t" ? true : false;
 
+                                InsertUser(new User(values[0], values[1], values[2], values[3], values[4], 
+                                    Convert.ToDateTime(values[5]), Convert.ToDateTime(values[6])));
 
-                                InsertHost(new Host(values[0],"","","",new DateTime(),
+                                InsertHost(new Host(values[0], values[1], values[2], values[3], values[4],
+                                    Convert.ToDateTime(values[5]), Convert.ToDateTime(values[6]),
+
                                     hostSince,
-                                    values[2],
-                                    values[3],
-                                    values[4],
-                                    values[5],
+                                    values[8],
+                                    values[9],
+                                    values[10],
+                                    values[11],
                                     isSuperHost,
-                                    values[7],
+                                    values[13],
                                     isVerified));
                             }
                         }
@@ -174,10 +178,12 @@ namespace WebApplication1.Models.DAL
             SqlCommand command = new SqlCommand();
 
             command.Parameters.AddWithValue("@email", user.Email);
+            command.Parameters.AddWithValue("@userName", user.UserName);
             command.Parameters.AddWithValue("@firstName", user.FirstName);
             command.Parameters.AddWithValue("@lastName", user.LastName);
             command.Parameters.AddWithValue("@password", user.Password);
             command.Parameters.AddWithValue("@birthDate", user.BirthDate);
+            command.Parameters.AddWithValue("@userRegisteredSince", user.UserRegisteredSince);
 
             command.CommandText = "SP_InsertUser";
             command.Connection = con;

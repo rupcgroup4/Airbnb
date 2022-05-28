@@ -17,10 +17,10 @@ namespace WebApplication1.Models
         string img;
         bool isVerified;
 
-        public Host(string email, string firstName, string lastName, string password,
-            DateTime birthDate, DateTime hostSince, string location, string about,
+        public Host(string email, string userName, string firstName, string lastName, string password,
+            DateTime birthDate, DateTime userRegisteredSince, DateTime hostSince, string location, string about,
             string responseTime, string responseRate, bool isSuperHost, string img,
-            bool isVerified) : base(email, firstName, lastName, password, birthDate)
+            bool isVerified) : base(email, userName, firstName, lastName, password, birthDate, userRegisteredSince)
         {
             this.hostSince = hostSince;
             this.location = location;

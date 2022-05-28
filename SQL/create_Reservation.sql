@@ -4,5 +4,6 @@ create table Reservations (
 	endDate date not null check(getDate() <= endDate),
 	apartmentId int foreign key References Apartments(id) not null,
 	userEmail nvarchar(64) foreign key References UsersDB(email) not null,
-	check(startDate <= endDate)
+	isCanceled bit not null, 
+	check(startDate <= endDate),
 )
