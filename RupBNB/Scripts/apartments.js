@@ -27,10 +27,10 @@ data = [
 ]
 
 $(document).ready(function() {
-    addRoom();
+    addApartments();
 })
 
-function addRoom() {
+function addApartments() {
 
     for(let i = 0; i < 6; i++) {
 
@@ -59,10 +59,35 @@ function addRoom() {
 }
 
 
+//search apartment
+function search() {
+    $("#cardContainer").removeClass("row-cols-md-4");
+    $("#cardContainer").addClass("row-cols-md-2");
+
+    $("#mapContainer").css("display", "block");
+    initMap();
+}
+
+
+// Initialize and add the map
+function initMap() {
+    // The location of Uluru
+    const location = { lat: data[0].Latitude, lng: data[0].Longtitude };
+    // The map, centered at Uluru
+    const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 11,
+    center: location,
+    });
+    // The marker, positioned at Uluru
+    const marker = new google.maps.Marker({
+    position: location,
+    map: map,
+    });
+}
 
 
 
-// // Code for price range slider
+// Code for price range slider
 
 var minSlider = document.getElementById('min');
 var maxSlider = document.getElementById('max');

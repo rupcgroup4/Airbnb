@@ -44,8 +44,22 @@
     max-width: 90%;
 }
 
+#mapContainer{
+    max-height: 400px;
+}
+#map {
+    height: 100%;
+    max-height: 400px;
+    width: 100%;
+}
 
+#cardMapContainer {
+    max-height: 400px;
+}
 
+#cards {
+    max-height: 600px;
+}
 
 
 /* Slider range for price */

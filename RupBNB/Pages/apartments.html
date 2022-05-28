@@ -69,18 +69,26 @@
                     <input type="date" class="form-control" name="checkOut">
                 </div>
                 <div class="col d-flex align-items-end">
-                    <input type="button" class="btn btn-primary bottom" value="Search"/>
+                    <input type="button" onclick="search()" class="btn btn-primary bottom" value="Search"/>
                 </div>
             </div>
         </div>
 
-        <!-- Cards -->
-        <div class="container row row-cols-1 row-cols-md-4 g-4" id="cardContainer">
-          
+        <div id="cardMapContainer" class="row">
+            <div id="cards" class="col overflow-auto">
+                <!-- Cards -->
+                <div class="container row row-cols-1 row-cols-md-4 g-4" id="cardContainer"></div>
+            </div>
+            <div id="mapContainer" class="col" style="display: none;">
+                <div id="map"></div>
+            </div>
         </div>
-
     </div>
 
     <script src="../Scripts/apartments.js"></script>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFo09_zZh1zxvdJJrnwYzJBTIBCqgmsk&callback=initMap&v=weekly"
+    defer
+  ></script>
 </body>
 </html>
