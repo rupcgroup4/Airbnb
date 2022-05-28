@@ -1,14 +1,17 @@
 ﻿$(document).ready(function () {
+    
     renderUsersTables();
 });
 var flag_apartmentView = true;
 var flag_hostView = true;
 
 function renderUsersTables() {
+    $('#spinner').css('display', 'none');
     ajaxCall("GET", "../api/Products/ReadUsers", "", SCBReadUsers, ECBReadUsers);
 }
 function renderHostsTables() {
     if (flag_hostView) {
+        $('#spinner').css('display', 'none');
         ajaxCall("GET", "../api/Products/ReadHosts", "", SCBReadHosts, ECBReadHosts);
         flag_hostView = false;
         $("#nav-host-tab").prop('onclick', null);
@@ -16,6 +19,7 @@ function renderHostsTables() {
 }
 function renderApartmentsTables() {
     if (flag_apartmentView) {
+        $('#spinner').css('display', 'none');
         ajaxCall("GET", "../api/Products/ReadApartments", "", SCBReadApartments, ECBReadApartments);
         flag_apartmentView = false;
         $("#nav-apartment-tab").prop('onclick', null);
@@ -34,6 +38,8 @@ function SCBReadUsers(users) {
                 { data: "Total cancels" }
             ],
         });
+
+        $('#spinner').css('display', 'block');
     }
     catch (err) {
         alert(err);
@@ -52,6 +58,7 @@ function SCBReadHosts(hosts) {
                 { data: "Total cancels" }
             ],
         });
+        $('#spinner').css('display', 'block');
     }
     catch (err) {
         alert(err);
@@ -68,6 +75,7 @@ function SCBReadApartments(apartments) {
                 { data: "Total cancels" }
             ],
         });
+        $('#spinner').css('display', 'block');
     }
     catch (err) {
         alert(err);
