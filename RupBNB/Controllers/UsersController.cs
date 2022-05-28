@@ -1,4 +1,5 @@
-﻿using RupBNB.Models;
+﻿using Newtonsoft.Json.Linq;
+using RupBNB.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -47,6 +48,32 @@ namespace RupBNB.Controllers
         {
         }
 
+        [HttpPost]
+        [Route("api/Users/userlogin")]
+        public HttpResponseMessage userlogin([FromBody] JObject emailAndPassword)
+        {
+            string email = emailAndPassword.First.First.ToString();
+            string password = emailAndPassword.Last.First.ToString();
+
+            User user = new User();
+            user= user.getUserByEmailAndPassword(email,password);
+
+            if (user != null)   //user matching the inputed email found
+            {
+                if (user.Password == password)//password is correct
+                { 
+                    return Request.CreateResponse(HttpStatusCode.OK, user);
+                }
+                else //password isn't correct
+                {
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+            }
+            else //user matching the inputed email not found
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+        }
 
     }
 }

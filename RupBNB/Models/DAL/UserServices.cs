@@ -13,8 +13,8 @@ namespace RupBNB.Models.DAL
         {
             SqlConnection con = Connect();
 
-            //check if the movie already exist in movie DB
-            if (userExists(user))
+            //check if the user already exist in UsersDB
+            if (userExists(user.Email)!=null)
             {
                 return null;
             }
@@ -32,19 +32,32 @@ namespace RupBNB.Models.DAL
 
         }
 
-        public bool userExists(User user)
+        public User userExists(String email)
         {
             SqlConnection con = Connect();
 
             // Create Command
-            SqlCommand command = CreateGetUserByEmail(con, user.Email);
+            SqlCommand command = CreateGetUserByEmail(con, email);
 
             SqlDataReader dr = command.ExecuteReader();
 
-            bool flag = dr.HasRows;
+            User u= null;
+            while (dr.Read())
+            {
+                string userEmail = dr["email"].ToString();
+                string userName = dr["userName"].ToString();
+                string password = dr["Password"].ToString();
+                string firstName = dr["firstName"].ToString();
+                string lastName = dr["lastName"].ToString();
+                DateTime birthDate = Convert.ToDateTime(dr["birthDate"]);
+                DateTime userRegisteredSince = Convert.ToDateTime(dr["userRegisteredSince"]);
+
+                u = new User(userEmail, userName, password, firstName, lastName, birthDate, userRegisteredSince);
+            }
+
             con.Close();
 
-            return flag;
+            return u;
 
         }
 

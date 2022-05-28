@@ -41,7 +41,13 @@ namespace RupBNB.Models
         public User Insert()
         {
             UserServices ds = new UserServices();
-            return ds.InsertUser(this); ;
+            return ds.InsertUser(this); 
+        }
+
+        public User getUserByEmailAndPassword(String email, String password)
+        {
+            UserServices ds = new UserServices();
+            return ds.userExists(email);
         }
 
 
