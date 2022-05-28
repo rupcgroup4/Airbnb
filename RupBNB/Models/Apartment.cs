@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApplication1.Models.DAL;
 
 namespace WebApplication1.Models
 {
@@ -80,5 +81,14 @@ namespace WebApplication1.Models
         public float ReviewAccuracy { get => reviewAccuracy; set => reviewAccuracy = value; }
         public float ReviewsClean { get => reviewsClean; set => reviewsClean = value; }
         public float ReviewLocation { get => reviewLocation; set => reviewLocation = value; }
+
+
+        //return apartemtns object order by rating (from high to low) from start row to end row
+        public List<Apartment> get12ApartmentSortedByRating(int rowStart, int rowEnd)
+        {
+            ApartmentServices ds = new ApartmentServices();
+            return ds.get12ApartmentSortedByRating(rowStart, rowEnd);
+        }
+
     }
 }

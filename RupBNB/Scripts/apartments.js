@@ -26,26 +26,33 @@ data = [
 
 ]
 
-$(document).ready(function() {
-    addApartments();
-})
+$(document).ready(function () {
 
-function addApartments() {
+    ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([1, 12]), scb, ecb);
+//    addApartments();
+});
 
-    for(let i = 0; i < 6; i++) {
+
+function ecb(err) {
+    console.log(err);
+}
+
+function scb(apartments) {
+
+    for (let i = 0; i < apartments.length; i++) {
 
         $("#cardContainer")
         .append(
             `
                 <div class="col">
                     <div class="card h-100">
-                        <img src="${data[0].Img}" class="card-img-top img-apartment">
+                        <img src="${apartments[i].Img}" class="card-img-top img-apartment">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-                                <span><b><i class="fa-solid fa-star"></i> </b> ${data[0].Rating} </span>
-                                <span><b>$</b>${data[0].Price}<span style="font-weight: 300;"> night</span></span>
+                                <span><b><i class="fa-solid fa-star"></i> </b> ${apartments[i].Rating} </span>
+                                <span><b>$</b>${apartments[i].Price}<span style="font-weight: 300;"> night</span></span>
                             </div>
-                            <h6 class="card-title">${data[0].Name}</h6>
+                            <h6 class="card-title">${apartments[i].Name}</h6>
                             <div class="mt-3">
                                 <a href="seeApart.html" class="btn detailBTN">See Details</a>
                             </div>
