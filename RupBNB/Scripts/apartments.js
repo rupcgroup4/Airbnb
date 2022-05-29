@@ -31,8 +31,8 @@ apartments = [
         Description: "Quiet Garden View Room & Super Fast WiFi<br /><br /><b>The space</b><br />I'm renting a bedroom (room overlooking the garden) in my apartment in Amsterdam <br /><br />The room is located to the east of the city centre in a quiet typical Amsterdam neighbourhood the Indische Buurt. Amsterdamâ€™s historic centre is less than 15 minutes away by bike or tram.<br /><br /><br />The features of the room are:<br /><br />- Twin beds (80 x 200 cm down quilts and pillows) <br />- 2 pure cotton towels for each guest <br />- reading lamps<br />- bedside table<br />- wardrobe<br />- table with chairs<br />- tea and coffee making facilities<br />- mini bar<br />- alarm clock<br />- Hi-Fi system with cd player connection for mp3 player / phone<br />- map of Amsterdam and public transport<br />- Wi-Fi Internet connection <br /><br />Extra services:<br /><br />- Bike rental<br /><br /><b>License number</b><br />0363 5F3A 5684 6750 D14D", 
         Img: "https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg", 
         Neighborhood: "Indische Buurt (Indies Neighborhood) is a neighbourhood in the eastern portion of the city of Amsterdam in the Dutch province of Noord-Holland. The name dates from the early 20th century and is derived from the fact that the neighbourhood's streets ar",
-        Latitude: 52.36575,
-        Longtitude: 4.94142,
+        Latitude: 52.58,
+        Longtitude: 5.1,
         RoomType: "Private room",
         NumBathrooms: "1.5 shared baths",
         NumBedrooms: 1,
@@ -52,10 +52,11 @@ apartments = [
 
 let startRow = 1;
 let endRow = 8;
+let locations = []
 
 $(document).ready(function () {
-    getApartmentsSCB();
-    //ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
+    // getApartmentsSCB();
+    ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
     startRow += 8;
     endRow += 4
 });
@@ -65,7 +66,9 @@ function getApartmentsECB(err) {
     console.log("no more");
 }
 
-function getApartmentsSCB() {
+function getApartmentsSCB(apartments) {
+
+    
 
     for (let i = 0; i < apartments.length; i++) {
 
@@ -93,7 +96,11 @@ function getApartmentsSCB() {
                 </div>
             `
         )
+
+        locations.push({lat: apartments[i].Latitude , lon: apartments[i].Longitude});
     }
+
+    myMap(locations);
   
 }
 
@@ -112,7 +119,7 @@ function search() {
 $("#cards").scroll(function () {
     if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
 
-        //ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), scb, ecb);
+        ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
         startRow += 4;
         endRow += 4
        
@@ -122,22 +129,27 @@ $("#cards").scroll(function () {
 
 
 // Initialize and add the map
-function initMap() {
+function myMap(locations) {
     // The location of Uluru
     const location = { lat: apartments[0].Latitude, lng: apartments[0].Longtitude };
     // The map, centered at Uluru
     const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 11,
+    zoom: 10,
     center: location,
     });
     // The marker, positioned at Uluru
-    const marker = new google.maps.Marker({
-    position: location,
-    map: map,
-    });
+    for( let i = 0; i < locations.length; i++) {
+        const marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i].lat, locations[i].lon),
+            map: map,
+        });
+    }
+    
 }
 
-
+function initMap(res) { 
+    console.log(res); 
+}
 
 // Code for price range slider
 

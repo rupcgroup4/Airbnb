@@ -32,7 +32,7 @@
 
         <!-- Search Filter -->
         <div id="searchFilterContainer">
-            <div id="serachFilter" class="row row-cols-3 row-cols-md-6">
+            <div id="serachFilter" class="row row-cols-2 row-cols-md-4">
                 
                 <div id="range" class="col">
                     <div class="priceSlider">
@@ -54,22 +54,32 @@
                     </div> 
                 </div>
                 <div class="col">
+                    <label for="rating" class="form-label">Min Rating</label>
                     <select class="form-select" aria-label="Default select example">
-                        <option selected>Min Star</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
-                        <option value="4">3</option>
-                        <option value="5">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
                 <div class="col">
-                    <label for="where" class="form-label">Where?</label>
-                    <input type="text" class="form-control" name="where">
+                    <label for="rooms" class="form-label">Min Rooms</label>
+                    <select class="form-select" aria-label="Default select example">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="distance" class="form-label">Distance</label>
+                    <input type="range" class="form-range" id="distance">
                 </div>
                 <div class="col">
                     <label for="where" class="form-label">Where?</label>
-                    <input type="text" class="form-control" name="where">
+                    <input type="text" class="form-control" name="where" placeholder="Where?">
                 </div>
                 <div class="col">
                     <label for="checkIn" class="form-label">Check In</label>
