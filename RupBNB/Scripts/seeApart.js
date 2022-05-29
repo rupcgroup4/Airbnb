@@ -34,7 +34,7 @@ $(document).ready(function () {
 });
 function SCBGetApartment(apartment) {
 
-    initMap(Number(apartment.Latitude), Number(apartment.Longtitude));
+    myMap(Number(apartment.Latitude), Number(apartment.Longitude));
     
 
     $("#image").attr("src", apartment.Img);
@@ -62,7 +62,11 @@ function SCBGetApartment(apartment) {
 
             <div class="col text-center">
                 <i class="fa-solid fa-broom fa-2x"></i>
-                <h4>${apartment.ReviewClean}</h4>
+                <h4>${apartment.ReviewClean ? apartment.ReviewClean : 0}</h4>
+            </div>
+            <div class="col text-center">
+                <i class="fa-solid fa-location-pin fa-2x"></i>
+                <h4>${apartment.ReviewLocation}</h4>
             </div>
         `
     )
@@ -85,9 +89,9 @@ function ECBGetApartment(error) {
     console.log(error);
 }
 // Initialize and add the map
-function initMap(Latitude, Longtitude) {
+function myMap(lat, lon) {
     // The location of Uluru
-    const location = { lat: Latitude, lng: Longtitude };
+    const location = { lat: lat, lng: lon};
     // The map, centered at Uluru
     const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 11,
@@ -100,7 +104,9 @@ function initMap(Latitude, Longtitude) {
     });
 }
 
-
+function initMap(){
+    console.log("connect to google map");
+}
 
 //Expand Appartment Description
 function expandText() {

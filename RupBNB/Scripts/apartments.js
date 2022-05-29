@@ -31,8 +31,8 @@ apartments = [
         Description: "Quiet Garden View Room & Super Fast WiFi<br /><br /><b>The space</b><br />I'm renting a bedroom (room overlooking the garden) in my apartment in Amsterdam <br /><br />The room is located to the east of the city centre in a quiet typical Amsterdam neighbourhood the Indische Buurt. Amsterdamâ€™s historic centre is less than 15 minutes away by bike or tram.<br /><br /><br />The features of the room are:<br /><br />- Twin beds (80 x 200 cm down quilts and pillows) <br />- 2 pure cotton towels for each guest <br />- reading lamps<br />- bedside table<br />- wardrobe<br />- table with chairs<br />- tea and coffee making facilities<br />- mini bar<br />- alarm clock<br />- Hi-Fi system with cd player connection for mp3 player / phone<br />- map of Amsterdam and public transport<br />- Wi-Fi Internet connection <br /><br />Extra services:<br /><br />- Bike rental<br /><br /><b>License number</b><br />0363 5F3A 5684 6750 D14D", 
         Img: "https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg", 
         Neighborhood: "Indische Buurt (Indies Neighborhood) is a neighbourhood in the eastern portion of the city of Amsterdam in the Dutch province of Noord-Holland. The name dates from the early 20th century and is derived from the fact that the neighbourhood's streets ar",
-        Latitude: 52.58,
-        Longtitude: 5.1,
+        Latitude: 52.4,
+        Longtitude: 4.9,
         RoomType: "Private room",
         NumBathrooms: "1.5 shared baths",
         NumBedrooms: 1,
@@ -55,7 +55,7 @@ let endRow = 8;
 let locations = []
 
 $(document).ready(function () {
-    // getApartmentsSCB();
+    //getApartmentsSCB();
     ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
     startRow += 8;
     endRow += 4
@@ -89,7 +89,7 @@ function getApartmentsSCB(apartments) {
                                 <h6 class="card-title">${apartments[i].Name}</h6>
                             </div>
                             <div class="mt-3">
-                                <a href="seeApart.html" class="btn detailBTN">See Details</a>
+                                <button onclick="seeApart(${apartments[i].Id})" class="btn detailBTN">See Details</button>
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,7 @@ function getApartmentsSCB(apartments) {
             `
         )
 
-        locations.push({lat: apartments[i].Latitude , lon: apartments[i].Longitude});
+        locations.push({lat: apartments[i].Latitude , lon: apartments[i].Longtitude});
     }
 
     myMap(locations);
@@ -111,7 +111,7 @@ function search() {
     $("#cardContainer").addClass("row-cols-md-2");
 
     $("#mapContainer").css("display", "block");
-    initMap();
+    // myMap(locations);
 }
 
 
@@ -128,13 +128,23 @@ $("#cards").scroll(function () {
 
 
 
+
+//This function called when press "See Details" on Apartment
+function seeApart(apartmentId) {
+    sessionStorage.setItem("apartmentId", apartmentId);
+    window.location.replace("seeApart.html");
+}
+
+
+
+
 // Initialize and add the map
 function myMap(locations) {
     // The location of Uluru
     const location = { lat: apartments[0].Latitude, lng: apartments[0].Longtitude };
     // The map, centered at Uluru
     const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 10,
+    zoom: 9,
     center: location,
     });
     // The marker, positioned at Uluru
@@ -147,8 +157,8 @@ function myMap(locations) {
     
 }
 
-function initMap(res) { 
-    console.log(res); 
+function initMap() { 
+    console.log("connect to google map"); 
 }
 
 // Code for price range slider

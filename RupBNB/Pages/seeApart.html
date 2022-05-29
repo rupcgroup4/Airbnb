@@ -25,46 +25,44 @@
 <body>
     <div class="container">
         <!-- NavBar -->
-      <div id="MainHeader"></div>
+        <div id="MainHeader"></div>
 
-      <div id="apartmentDetails" class="row m-auto mt-5">
-          <div class="col-12 col-md-8">
-            <div class="card mb-3">
-                <img id="image" src="" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 id="name" class="card-title"></h5>
-                  <p id="description" class="card-text">
-                    <span id="dots">...</span>
-                    <span id="more"></span>
-                  </p>
-                  <button onclick="expandText()" id="readBTN" class="btn btn-primary">Read more</button> 
+        <div id="apartmentDetails" class="row m-auto mt-5">
+            <div class="col-12 col-md-7">
+                <div class="card mb-3">
+                    <img id="image" src="" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="name" class="card-title"></h5>
+                        <p id="description" class="card-text">
+                            <span id="dots">...</span>
+                            <span id="more"></span>
+                        </p>
+                        <button onclick="expandText()" id="readBTN" class="btn btn-primary">Read more</button>
+                    </div>
                 </div>
             </div>
-          </div>
-          <div class=" col-12 col-md-4">
-              <h3>Details:</h3>
-              <div id="details" class="row row-cols-4"></div>
-              <h3>Ameneties:</h3>
-              <div id="ameneties" class="row row-cols-2"></div>
-              <h3>Location:</h3>
-              <div id="map"></div>
-          </div>
-      </div>
-
-      <div id="reserve" class="fixed-bottom d-flex justify-content-between">
-        <div>
-          <p id="price" style="font-size: 1.1rem;"><span style="font-weight: 300;"> night</span></p>
-          <p></p>
+            <div class=" col-12 col-md-5">
+                <h3>Details:</h3>
+                <div id="details" class="row row-cols-5"></div>
+                <h3>Ameneties:</h3>
+                <div id="ameneties" class="row row-cols-2"></div>
+                <h3>Location:</h3>
+                <div id="map"></div>
+            </div>
         </div>
-        <button id="bookBTN" class="btn btn-danger">Reserve</button>
-      </div>
+
+        <div id="reserve" class="fixed-bottom d-flex justify-content-between">
+            <div>
+                <p id="price" style="font-size: 1.1rem;"><span style="font-weight: 300;"> night</span></p>
+                <p></p>
+            </div>
+            <button id="bookBTN" class="btn btn-danger">Reserve</button>
+        </div>
 
     </div>
 
-    <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFo09_zZh1zxvdJJrnwYzJBTIBCqgmsk&callback=initMap&v=weekly"
-    defer
-  ></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFo09_zZh1zxvdJJrnwYzJBTIBCqgmsk&callback=initMap&v=weekly"
+        defer></script>
 </body>
 </html>
 
