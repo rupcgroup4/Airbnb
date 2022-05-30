@@ -88,8 +88,8 @@ namespace WebApplication1.Models.DAL
                 string description = Convert.ToString(dr["description"]);
                 string img = Convert.ToString(dr["img"]);
                 string neighborhood = Convert.ToString(dr["neighborhood"]);
-                string latitude = Convert.ToString(dr["latitude"]);
-                string longtitude = Convert.ToString(dr["longtitude"]);
+                float latitude = Convert.ToSingle(dr["latitude"]);
+                float longtitude = Convert.ToSingle(dr["longtitude"]);
                 string roomType = Convert.ToString(dr["roomType"]);
                 string numBathrooms = Convert.ToString(dr["numBathrooms"]);
                 int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);
@@ -153,8 +153,8 @@ namespace WebApplication1.Models.DAL
                 string description = Convert.ToString(dr["description"]);
                 string img = Convert.ToString(dr["img"]);
                 string neighborhood = Convert.ToString(dr["neighborhood"]);
-                string latitude = Convert.ToString(dr["latitude"]);
-                string longtitude = Convert.ToString(dr["longtitude"]);
+                float latitude = Convert.ToSingle(dr["latitude"]);
+                float longtitude = Convert.ToSingle(dr["longtitude"]);
                 string roomType = Convert.ToString(dr["roomType"]);
                 string numBathrooms = Convert.ToString(dr["numBathrooms"]);
                 int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);

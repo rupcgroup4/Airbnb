@@ -34,24 +34,9 @@
         <div id="searchFilterContainer">
             <div id="serachFilter" class="row row-cols-2 row-cols-md-4">
                 
-                <div id="range" class="col">
-                    <div class="priceSlider">
-                        <div class="min-max">
-                         <div class="min">
-                            <span id="min-value"></span>
-                         </div>
-
-                         <div class="max">
-                            <span id="max-value"></span>
-                         </div>     
-                        </div> 
-                        <div class="min-max-range">
-                        <input type="range" min="0" max="1000" value="0" class="range" id="min">
-                        <input type="range" min="1001" max="2000" value="2000" class="range" id="max">      
-                        </div>    
-                            
-                        <div style="clear: both;"></div>    
-                    </div> 
+                <div class="col">
+                    <label for="maxUSD" class="form-label">Max USD</label>
+                    <input type="range" class="form-range" id="maxUSD">
                 </div>
                 <div class="col">
                     <label for="rating" class="form-label">Min Rating</label>
@@ -78,12 +63,12 @@
                     <input type="range" class="form-range" id="distance">
                 </div>
                 <div class="col">
-                    <label for="where" class="form-label">Where?</label>
-                    <input type="text" class="form-control" name="where" placeholder="Where?">
+                    <label for="rooms" class="form-label">Accommodates</label>
+                    <input type="number" min="1" value="1">
                 </div>
                 <div class="col">
                     <label for="checkIn" class="form-label">Check In</label>
-                    <input type="date" class="form-control" name="checkIn">
+                    <input type="date" class="form-control" name="checkIn" id="checkIn">
                 </div>
                 <div class="col">
                     <label for="checkOut" class="form-label">Check Out</label>
