@@ -54,6 +54,14 @@ h4 {
     margin: 0 auto;
 }
 
+#modalImage {
+    width: 90%;
+    border-radius: 1.5rem;
+    height: 200px;
+    margin-top: 0.6rem;
+
+}
+
 /* For Mobile */
 @media only screen and (max-width: 960px) {
     #reserve {

@@ -1,3 +1,10 @@
+months = {0: "Jan", 1: "Feb", 2: "Mar", 3: "Apr", 4: "May", 5: "Jun",
+            6: "July", 7: "Aug", 8: "Sep", 9: "Oct", 10: "Nov", 11: "Dec"};
+
+days = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursaday", 5: "Friday", 6: "Saturday"};
+
+let apartment;
+
 data = [
     {
         Id: 1, 
@@ -25,19 +32,63 @@ data = [
     }
 ]
 
+
 $(document).ready(function () {
     let apartmentId = sessionStorage.getItem("apartmentId");
-    let qs = "apartmentId=" + apartmentId;
     
     ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
 
+    //event to change date in modal when checkIn datePicker change
+    $("#checkInDatePicker").change(function() {
+        let checkInDate = new Date($(this).val());
+        writeDateInModal("checkIn", checkInDate);
+    });
+
+    //event to change date in modal when checkOut datePicker change
+    $("#checkOutDatePicker").change(function() {
+        let checkOutDate = new Date($(this).val());
+        let checkInDate = new Date($("#checkInDatePicker").val());
+
+        //check if check out is bigger than check out date
+        if (checkOutDate <= checkInDate) {
+            alert("err");
+            //set check out date to be 1 day after check in
+            checkOutDate = new Date(checkInDate);
+            checkOutDate.setDate(checkOutDate.getDate() + 1);
+            //conver check out date to string format for date input
+            checkOutDateString = checkOutDate.toISOString().split('T')[0];
+            $(this).val(checkOutDateString)
+        } 
+
+        writeDateInModal("checkOut", checkOutDate);
+        
+    });
+
+
+    // Temporary, will get the date from search filter later
+    const today = new Date();
+    const todayString = today.toISOString().split('T')[0];
+    $("#checkInDatePicker").val(todayString);
+    writeDateInModal("checkIn", today);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowString = tomorrow.toISOString().split('T')[0];
+    $("#checkOutDatePicker").val(tomorrowString);
+    writeDateInModal("checkOut", tomorrow);
+    
+
 });
-function SCBGetApartment(apartment) {
+
+function SCBGetApartment(returnApartment) {
+
+    apartment = returnApartment;
 
     myMap(Number(apartment.Latitude), Number(apartment.Longitude));
     
 
     $("#image").attr("src", apartment.Img);
+    $("#modalImage").attr("src", apartment.Img);
     $("#name").append(apartment.Name);
     $("#description").prepend(apartment.Description.substring(0, 200));
     $("#more").append(apartment.Description.substring(201))
@@ -84,10 +135,15 @@ function SCBGetApartment(apartment) {
             `
             );
     }
+
+    //calculate total price of current dates with apartment price
+    calculatePrice();
 }
+
 function ECBGetApartment(error) {
     console.log(error);
 }
+
 // Initialize and add the map
 function myMap(lat, lon) {
     // The location of Uluru
@@ -123,4 +179,43 @@ function expandText() {
       btnText.innerHTML = "Read less";
       moreText.style.display = "inline";
     }
-  }
+}
+
+
+//This function get inOrOut = ["checkIn" or "checkOut"] and a date
+//then set the date in the modal accordingly to inOrOut
+function writeDateInModal(inOrOut, date) {
+
+    const year = date.getFullYear();
+    const month = months[date.getMonth()];
+    const day = days[date.getDay()];
+
+    $(`#${inOrOut}Date`).html(date.getDate())
+    $(`#${inOrOut}MonthAndYear`).html(month + " " + year);
+    $(`#${inOrOut}Day`).html(day);
+
+
+    calculatePrice();
+}
+
+
+//This function calculate the total price based on the check in and check out dates
+// and the price per night of the apartment
+function calculatePrice() {
+
+    if(apartment === undefined) {
+        return;
+    }
+    const price = apartment.Price;
+
+    
+    const checkIn = new Date($("#checkInDatePicker").val());
+    const checkOut = new Date($("#checkOutDatePicker").val());
+
+    const diffTime = Math.abs(checkOut - checkIn);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+    $("#priceXnight").html(`$${price} x ${diffDays} nights`);
+    $("#totalprice").html(`$${price * diffDays}`);
+
+}

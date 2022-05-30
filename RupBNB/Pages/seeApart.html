@@ -26,7 +26,9 @@
     <div class="container">
         <!-- NavBar -->
         <div id="MainHeader"></div>
-
+        <!-- Button trigger modal -->
+          
+        <!-- Apartment Details -->
         <div id="apartmentDetails" class="row m-auto mt-5">
             <div class="col-12 col-md-7">
                 <div class="card mb-3">
@@ -51,12 +53,100 @@
             </div>
         </div>
 
+        <!-- Reserve Footer -->
         <div id="reserve" class="fixed-bottom d-flex justify-content-between">
             <div>
                 <p id="price" style="font-size: 1.1rem;"><span style="font-weight: 300;"> night</span></p>
                 <p></p>
             </div>
-            <button id="bookBTN" class="btn btn-danger">Reserve</button>
+            <button id="bookBTN" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Reserve</button>
+        </div>
+
+        <!-- Reserve Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <div id="bookingDate" class="row row-cols-2">
+                    
+                            <div class="col">
+                                <label for="checkIn" class="form-label">Check In</label>
+                                <input type="date" class="form-control" id="checkInDatePicker">
+                            </div>
+                            <div class="col">
+                                <label for="checkOut" class="form-label">Check Out</label>
+                                <input type="date" class="form-control" id="checkOutDatePicker">
+                            </div>
+                        </div>
+
+                        <div class="mt-3 text-center">
+                            <img src="#" id="modalImage">
+                        </div>
+                    
+                        <div class="bg-white p-2 px-3 mt-3 border-bottom">
+
+                            <div class="row">
+
+                                <div class="col">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="check-in">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <h1 id="checkInDate">24</h1>
+                                                <div class="d-flex flex-column ml-2 date">
+                                                    <span id="checkInMonthAndYear">July 20</span>
+                                                    <span id="checkInDay">Friday</span>                                            
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column ml-2 date">
+                                                <span>Check in</span>
+                                                <span>Anytime after 3PM</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="check-out">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <h1 id="checkOutDate">25</h1>
+                                                <div class="d-flex flex-column ml-2 date">
+                                                    <span id="checkOutMonthAndYear">July 20</span>
+                                                    <span id="checkOutDay">Friday</span>                                            
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column ml-2 date">
+                                                <span>Check out</span>
+                                                <span>11AM</span>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-2 px-3 border-bottom">
+
+                        <div class="row">
+
+                            <div class="col">
+                                <h2>Price details</h2>
+                                <div class="d-flex justify-content-between">
+                                    <span id="priceXnight" class="text-reset"></span>
+                                    <span id="totalprice"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+ 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger">Reserve</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

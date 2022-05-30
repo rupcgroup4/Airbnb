@@ -18,6 +18,22 @@ where id = 2
 select * from Reviews
 
 
+
+
+
+Declare @OrderByColumn int
+SET @OrderByColumn = 2
+
+SELECT *
+FROM
+    Apartments
+ORDER BY Desc
+    CASE @OrderByColumn
+    WHEN 1 THEN rating
+    WHEN 2 THEN numBedrooms
+    END;
+
+
 select * 
 from Hosts join Apartments on Hosts.email = Apartments.hostEmail
 
@@ -45,7 +61,7 @@ INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled
 VALUES ('2022-6-1', '2022-6-3', 1, 'Abhishek72@gmail.com', 0)
 
 INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
-VALUES ('2022-6-5', '2022-6-6', 1, 'Abhishek72@gmail.com', 0)
+VALUES ('2022-6-3', '2022-6-10', 1, 'Abhishek72@gmail.com', 1)
 
 
 select *
@@ -53,7 +69,7 @@ from reservations
 
 
 DECLARE @start date, @end date
-SET @start = '2022-6-3'
+SET @start = '2022-6-2'
 SET @end = '2022-6-5'
 
 
@@ -64,8 +80,15 @@ where id not in (select A.id
 				 where (R.endDate > @start and R.endDate < @end ) 
 					or (R.startDate > @start and R.startDate < @end)
 					and R.isCanceled = 0
-				)
+				) 
 
+
+(select A.id 
+from Apartments as A join Reservations as R on A.id = R.apartmentId
+where (R.endDate > @start and R.endDate < @end ) 
+		or (R.startDate > @start and R.startDate < @end)
+					and R.isCanceled = 0
+				) 
 
 
 

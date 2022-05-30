@@ -115,7 +115,7 @@ function search() {
 }
 
 
-
+//load more data on scroll for web
 $("#cards").scroll(function () {
     if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
 
@@ -127,6 +127,14 @@ $("#cards").scroll(function () {
 });
 
 
+//load more data on scroll for mobile
+$(window).scroll(function () {
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
+        startRow += 4;
+        endRow += 4
+    }
+});
 
 
 //This function called when press "See Details" on Apartment
@@ -157,27 +165,12 @@ function myMap(locations) {
     
 }
 
+//return function from google
+//print to console when connect success
 function initMap() { 
     console.log("connect to google map"); 
 }
 
-// Code for price range slider
 
-var minSlider = document.getElementById('min');
-var maxSlider = document.getElementById('max');
-
-var outputMin = document.getElementById('min-value');
-var outputMax = document.getElementById('max-value');
-
-outputMin.innerHTML = "$" +  minSlider.value;
-outputMax.innerHTML = "$" + maxSlider.value;
-
-minSlider.oninput = function(){
- outputMin.innerHTML= "$" +this.value;    
-}
-
-maxSlider.oninput = function(){
- outputMax.innerHTML= "$" +this.value;    
-}
 
 
