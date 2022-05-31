@@ -11,7 +11,7 @@ namespace RupBNB.Models.DAL
     {
         public User InsertUser(User user)
         {
-            SqlConnection con = Connect();
+            SqlConnection con = SqlConnect.Connect();
 
             //check if the user already exist in UsersDB
             if (userExists(user.Email)!=null)
@@ -34,7 +34,7 @@ namespace RupBNB.Models.DAL
 
         public User userExists(String email)
         {
-            SqlConnection con = Connect();
+            SqlConnection con = SqlConnect.Connect();
 
             // Create Command
             SqlCommand command = CreateGetUserByEmail(con, email);
@@ -96,20 +96,66 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
-
-        private SqlConnection Connect()
+        private struct userData
         {
-            // read the connection string from the web.config file
-            string connectionString = WebConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
+            public userData(string user_Email, DateTime register_date,int total_rentals,
+                int total_income, int total_cancels)
+            {
+                User_Email = user_Email;
+                Register_date = register_date;
+                Total_rentals = total_rentals;
+                Total_income = total_income;
+                Total_cancels = total_cancels;
+            }
+            public string User_Email { get; private set; }
+            public DateTime Register_date { get; private set; }
+            public int Total_rentals { get; private set; }
+            public int Total_income { get; private set; }
+            public int Total_cancels { get; private set; }
+        }
 
-            // create the connection to the db
-            SqlConnection con = new SqlConnection(connectionString);
 
-            // open the database connection
-            con.Open();
+        public void UsersInfo(String email)
+        {
+            SqlConnection con = SqlConnect.Connect();
 
-            return con;
+            // Create Command
+            SqlCommand command = CreateGetUsersInfo(con, email);
 
+            SqlDataReader dr = command.ExecuteReader();
+
+            List<userData> usersData = new List<userData>();
+
+            while (dr.Read())
+            {
+                string userEmail = dr["email"].ToString();
+                DateTime userRegisteredSince = Convert.ToDateTime(dr["userRegisteredSince"]);
+                int totalRents = Convert.ToInt32(dr["TotalRents"]);
+                int totalCanceled = Convert.ToInt32(dr["TotalCanceled"]);
+                int totalPrice = Convert.ToInt32(dr["TotalPrice"]);
+
+                usersData.Add(new userData(userEmail, userRegisteredSince, totalRents, totalCanceled, totalPrice));
+
+            }
+
+            con.Close();
+
+           // return usersData;
+
+        }
+
+        private SqlCommand CreateGetUsersInfo(SqlConnection con, string email)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@userEmail", email);
+
+            command.CommandText = "SP_AdminViewUsersInfo";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
         }
     }
 }
