@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -96,6 +97,7 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
+        //Admin view users information
         private struct userData
         {
             public userData(string user_Email, DateTime register_date,int total_rentals,
@@ -115,7 +117,7 @@ namespace RupBNB.Models.DAL
         }
 
 
-        public void UsersInfo(String email)
+        public string UsersInfo(String email)
         {
             SqlConnection con = SqlConnect.Connect();
 
@@ -140,7 +142,7 @@ namespace RupBNB.Models.DAL
 
             con.Close();
 
-           // return usersData;
+            return JsonConvert.SerializeObject(usersData);
 
         }
 

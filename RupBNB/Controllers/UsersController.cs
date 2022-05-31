@@ -20,9 +20,12 @@ namespace RupBNB.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        public string Get(string userEmail)
         {
-            return "value";
+            User usersData = new User();
+
+            return usersData.AdminViewUsersInfo(userEmail);
+     
         }
 
         // POST api/<controller>
