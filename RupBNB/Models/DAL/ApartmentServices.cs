@@ -1,4 +1,5 @@
-﻿using RupBNB.Models.DAL;
+﻿using Newtonsoft.Json;
+using RupBNB.Models.DAL;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -190,6 +191,62 @@ namespace WebApplication1.Models.DAL
             command.Parameters.AddWithValue("@id", apartmentId);
 
             command.CommandText = "SP_getApartmentById";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+
+        //Admin view apartments information
+        private struct apartmentData
+        {
+            public apartmentData(int apartment_id, string apartment_name, int total_rentals, int total_cancels)
+            {
+                Apartment_id = apartment_id;
+                Apartment_name = apartment_name;
+                Total_rentals = total_rentals;
+                Total_cancels = total_cancels;
+
+            }
+            public int Apartment_id { get; private set; }
+            public string Apartment_name { get; private set; }
+            public int Total_rentals { get; private set; }
+            public int Total_cancels { get; private set; }
+        }
+
+        public string GetApartmentsInfo()
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateGetApartmentsInfo(con);
+
+            SqlDataReader dr = command.ExecuteReader();
+
+            List<apartmentData> apartmentData = new List<apartmentData>();
+
+            while (dr.Read())
+            {
+                int id = Convert.ToInt32(dr["id"]); 
+                string name = dr["name"].ToString();
+                int TotalRentDays = Convert.ToInt32(dr["TotalRentDays"]);
+                int TotalCancelations = Convert.ToInt32(dr["TotalCancelations"]);
+
+                apartmentData.Add(new apartmentData(id, name, TotalRentDays, TotalCancelations));
+
+            }
+            con.Close();
+
+            return JsonConvert.SerializeObject(apartmentData);
+
+        }
+
+        private SqlCommand CreateGetApartmentsInfo(SqlConnection con)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.CommandText = "SP_AdminViewApartmentsInfo";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds

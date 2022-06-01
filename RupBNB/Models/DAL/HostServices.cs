@@ -84,7 +84,7 @@ namespace WebApplication1.Models.DAL
             return command;
         }
 
-        //Admin view users information
+        //Admin view hosts information
         private struct hostData
         {
             public hostData(string hostEmail, DateTime hostSince, int total_rentals,

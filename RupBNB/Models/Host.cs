@@ -43,7 +43,8 @@ namespace WebApplication1.Models
         public bool IsSuperHost { get => isSuperHost; set => isSuperHost = value; }
         public string Img { get => img; set => img = value; }
         public bool IsVerified { get => isVerified; set => isVerified = value; }
-
+        
+        //Admin view hosts information
         public string AdminViewHostsInfo()
         {
             HostServices ds = new HostServices();

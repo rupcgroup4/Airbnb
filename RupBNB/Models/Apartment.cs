@@ -101,5 +101,11 @@ namespace WebApplication1.Models
             return ds.getApartmentById(id);
         }
 
+        //Admin view apartments information
+        public string AdminViewApartmentsInfo()
+        {
+            ApartmentServices ds = new ApartmentServices();
+            return ds.GetApartmentsInfo();
+        }
     }
 }

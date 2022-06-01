@@ -10,10 +10,19 @@ namespace RupBNB.Controllers
 {
     public class HostsController : ApiController
     {
-        public string Get()
+        public HttpResponseMessage Get()
         {
-            Host hostsData = new Host();
-            return hostsData.AdminViewHostsInfo();
+            Host h = new Host();
+            string hostsData = h.AdminViewHostsInfo();
+
+            if (hostsData != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, hostsData);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
         }
 
         // GET api/<controller>/5

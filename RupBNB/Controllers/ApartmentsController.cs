@@ -10,12 +10,22 @@ namespace RupBNB.Controllers
 {
     public class ApartmentsController : ApiController
     {
-        //// GET api/<controller>
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-       [HttpGet]
+        // GET api/<controller>
+        public HttpResponseMessage Get()
+        {
+            Apartment a = new Apartment();
+
+            string ApartmentsData = a.AdminViewApartmentsInfo();
+            if (ApartmentsData != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, ApartmentsData);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+        }
+        [HttpGet]
        [Route("api/Apartments/{id}")]
         public Apartment Get(int id)
         {

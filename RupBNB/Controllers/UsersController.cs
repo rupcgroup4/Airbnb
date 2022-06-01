@@ -14,11 +14,19 @@ namespace RupBNB.Controllers
     public class UsersController : ApiController
     {
         // GET api/<controller>
-        public string Get()
+        public HttpResponseMessage Get()
         {
-            User usersData = new User();
+            User u = new User();
 
-            return usersData.AdminViewUsersInfo();
+            string usersData = u.AdminViewUsersInfo();
+            if (usersData != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, usersData);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
         }
 
         // GET api/<controller>/5

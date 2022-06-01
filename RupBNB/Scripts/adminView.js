@@ -6,27 +6,6 @@
 var flag_apartmentView = true;
 var flag_hostView = true;
 
-
-USERdata = [{
-    User_Email: "moshe@gmail.com",
-    Register_date: "12/12/2002",
-    Total_rentals: 10,
-    Total_income: 3000,
-    Total_cancels: 6
-}]
-HOSTdata = [{
-    Host_Email: "moshe@gmail.com",
-    Register_date: "12/12/2002",
-    Number_of_apartments: 12,
-    Total_income: 2000,
-    Total_cancels: 6
-}]
-APARTMENTdata = [{
-    Apartment_id: 2,
-    Apartment_name: "Eilat",
-    Days_rented:5,
-    Total_cancels: 6,
-}]
 function renderUsersTables() {
     ajaxCall("GET", "../api/Users", "", SCBReadUsers, ECBReadUsers);
 }
@@ -41,14 +20,9 @@ function renderHostsTables() {
 function renderApartmentsTables() {
     if (flag_apartmentView) {
         $('#spinner').css('display', 'block');
-
-        SCBReadApartments(APARTMENTdata);
-   //     ajaxCall("GET", "../api/Apartment/ReadApartments", "", SCBReadApartments, ECBReadApartments);
-
-
+        ajaxCall("GET", "../api/Apartments", "", SCBReadApartments, ECBReadApartments);
         flag_apartmentView = false;
         $("#nav-apartment-tab").prop('onclick', null);
-
         $(document).on("click", ".apartmentIdView", function () {
             let dataApartmentId = this.getAttribute('data-ApartmentId');
             sessionStorage.setItem("apartmentId", `${dataApartmentId}`);
@@ -123,17 +97,17 @@ function SCBReadHosts(hostsData) {
     }
 }
 // Read apartments success call back
-function SCBReadApartments(apartments) {
-    let apartmentId;
+function SCBReadApartments(apartmentsData) {
+    let apartments = JSON.parse(apartmentsData);
     try {
         tbl = $('#ApartmentTable').DataTable({
             data: apartments,
-            pageLength: 5,
+            pageLength: 10,
             columns: [
 
                 { data: "Apartment_id"},
                 { data: "Apartment_name" },
-                { data: "Days_rented" },
+                { data: "Total_rentals" },
                 { data: "Total_cancels" },
                 {
                     data: "Link_to_apartment",
