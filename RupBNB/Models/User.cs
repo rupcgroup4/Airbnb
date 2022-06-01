@@ -50,10 +50,10 @@ namespace RupBNB.Models
             return ds.userExists(email);
         }
         //Admin view users information
-        public string AdminViewUsersInfo(string userEmail)
+        public List<string> AdminViewUsersInfo()
         {
             UserServices ds = new UserServices();
-            return ds.UsersInfo(userEmail);
+            return ds.AdminViewUsers();
         }
 
 

@@ -16,16 +16,15 @@ namespace RupBNB.Controllers
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            User usersData = new User();
+
+            return usersData.AdminViewUsersInfo();
         }
 
         // GET api/<controller>/5
-        public string Get(string userEmail)
+        public string Get(int id)
         {
-            User usersData = new User();
-
-            return usersData.AdminViewUsersInfo(userEmail);
-     
+            return "value";
         }
 
         // POST api/<controller>

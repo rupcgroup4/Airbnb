@@ -26,17 +26,14 @@ APARTMENTdata = [{
     Apartment_name: "Eilat",
     Days_rented:5,
     Total_cancels: 6,
-  //  Link_to_apartment: "seeApart.html"
 }]
 function renderUsersTables() {
-    $('#spinner').css('display', 'none');
-
-    SCBReadUsers(USERdata);
-   // ajaxCall("GET", "../api/User/ReadUsers", "", SCBReadUsers, ECBReadUsers);
+   // SCBReadUsers(USERdata);
+    ajaxCall("GET", "../api/Users", "", SCBReadUsers, ECBReadUsers);
 }
 function renderHostsTables() {
     if (flag_hostView) {
-        $('#spinner').css('display', 'none');
+        $('#spinner').css('display', 'block');
 
         SCBReadHosts(HOSTdata);
      //   ajaxCall("GET", "../api/Host/ReadHosts", "", SCBReadHosts, ECBReadHosts);
@@ -47,7 +44,7 @@ function renderHostsTables() {
 }
 function renderApartmentsTables() {
     if (flag_apartmentView) {
-        $('#spinner').css('display', 'none');
+        $('#spinner').css('display', 'block');
 
         SCBReadApartments(APARTMENTdata);
    //     ajaxCall("GET", "../api/Apartment/ReadApartments", "", SCBReadApartments, ECBReadApartments);
@@ -69,9 +66,17 @@ function viewApartment() {
 }
 // Read users success call back
 function SCBReadUsers(users) {
+    var usersArry = [];
+    for (u1 in users) {
+        let userData = JSON.parse(users[u1]);
+        for (u2 in userData) {
+            usersArry.push(userData[u2]);
+        }
+
+    }
     try {
         tbl = $('#UserTable').DataTable({
-            data: users,
+            data: usersArry,
             pageLength: 5,
             columns: [
                 { data: "User_Email" },
@@ -82,7 +87,7 @@ function SCBReadUsers(users) {
             ],
         });
 
-        $('#spinner').css('display', 'block');
+        $('#spinner').css('display', 'none');
     }
     catch (err) {
         alert(err);
@@ -102,7 +107,7 @@ function SCBReadHosts(hosts) {
                 { data: "Total_cancels" }
             ],
         });
-        $('#spinner').css('display', 'block');
+        $('#spinner').css('display', 'none');
     }
     catch (err) {
         alert(err);
@@ -130,7 +135,7 @@ function SCBReadApartments(apartments) {
                 },
             ],
         });
-        $('#spinner').css('display', 'block');
+        $('#spinner').css('display', 'none');
     }
     catch (err) {
         alert(err);
