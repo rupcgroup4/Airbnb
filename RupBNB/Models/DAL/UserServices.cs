@@ -115,94 +115,29 @@ namespace RupBNB.Models.DAL
             public int Total_income { get; private set; }
             public int Total_cancels { get; private set; }
         }
-        public List<string> AdminViewUsers()
-        {
-            List<string> users = GetAllUsers();
-            List<string> usersData = null;
-            if (users != null)
-            {
-                usersData = new List<string>();
-                foreach (string userEmail in users)
-                {
-                    usersData.Add(UsersInfo(userEmail));
-                }
-            }
-            return usersData;
-        }
 
-        public List<string> GetAllUsers()
-        {
-            
-
-            SqlConnection con = SqlConnect.Connect();
-
-            // Create Command
-            SqlCommand command = CreateGetAllUsers(con);
-
-            SqlDataReader dr = command.ExecuteReader();
-
-            List<string> users = new List<string>();
-
-
-            while (dr.Read())
-            {
-                string userEmail = dr["email"].ToString();
-                users.Add(userEmail);
-
-            }
-
-            con.Close();
-
-            return users;
-        }
-        private SqlCommand CreateGetAllUsers(SqlConnection con)
-        {
-            SqlCommand command = new SqlCommand();
-
-            command.CommandText = "SP_GetAllUsers";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
-
-        public string UsersInfo(String email)
+        public string GetUsersInfo()
         {
             SqlConnection con = SqlConnect.Connect();
 
             // Create Command
-            SqlCommand command = CreateGetUsersInfo(con, email);
+            SqlCommand command = CreateGetUsersInfo(con);
 
             SqlDataReader dr = command.ExecuteReader();
 
             List<userData> usersData = new List<userData>();
 
-            if (!dr.HasRows)
+            while (dr.Read())
             {
-                string userEmail = email;
-                DateTime userRegisteredSince = Convert.ToDateTime("2015-08-21"); //temp
-                int totalRents = 0;
-                int totalCanceled = 0;
-                int totalPrice = 0;
+                string userEmail = dr["email"].ToString();
+                DateTime userRegisteredSince = Convert.ToDateTime(dr["userRegisteredSince"]);
+                int totalRents = Convert.ToInt32(dr["TotalRents"]);
+                int totalCanceled = Convert.ToInt32(dr["TotalCanceled"]);
+                int totalPrice = Convert.ToInt32(dr["TotalPrice"]);
+
                 usersData.Add(new userData(userEmail, userRegisteredSince, totalRents, totalCanceled, totalPrice));
+
             }
-            else
-            {
-                while (dr.Read())
-                {
-                    string userEmail = dr["email"].ToString();
-                    DateTime userRegisteredSince = Convert.ToDateTime(dr["userRegisteredSince"]);
-                    int totalRents = Convert.ToInt32(dr["TotalRents"]);
-                    int totalCanceled = Convert.ToInt32(dr["TotalCanceled"]);
-                    int totalPrice = Convert.ToInt32(dr["TotalPrice"]);
-
-                    usersData.Add(new userData(userEmail, userRegisteredSince, totalRents, totalCanceled, totalPrice));
-
-                }
-            }
-
-
 
             con.Close();
 
@@ -210,11 +145,9 @@ namespace RupBNB.Models.DAL
 
         }
 
-        private SqlCommand CreateGetUsersInfo(SqlConnection con, string email)
+        private SqlCommand CreateGetUsersInfo(SqlConnection con)
         {
             SqlCommand command = new SqlCommand();
-
-            command.Parameters.AddWithValue("@userEmail", email);
 
             command.CommandText = "SP_AdminViewUsersInfo";
             command.Connection = con;

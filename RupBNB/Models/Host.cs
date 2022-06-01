@@ -1,8 +1,10 @@
 ﻿using RupBNB.Models;
+using RupBNB.Models.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApplication1.Models.DAL;
 
 namespace WebApplication1.Models
 {
@@ -41,5 +43,11 @@ namespace WebApplication1.Models
         public bool IsSuperHost { get => isSuperHost; set => isSuperHost = value; }
         public string Img { get => img; set => img = value; }
         public bool IsVerified { get => isVerified; set => isVerified = value; }
+
+        public string AdminViewHostsInfo()
+        {
+            HostServices ds = new HostServices();
+            return ds.GetHostsInfo();
+        }
     }
 }

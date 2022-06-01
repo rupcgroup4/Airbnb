@@ -4,19 +4,16 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApplication1.Models;
 
 namespace RupBNB.Controllers
 {
     public class HostsController : ApiController
     {
-        [HttpGet]
-        [Route("api/User/ReadUsers")]
-        // GET api/<controller>
-        public List<string> Get()
+        public string Get()
         {
-
-
-            return null;
+            Host hostsData = new Host();
+            return hostsData.AdminViewHostsInfo();
         }
 
         // GET api/<controller>/5

@@ -15,10 +15,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
 -- Author:		CGroup4
--- Create date: 31.5.22
--- Description:	SP Admin view users information
+-- Create date: 1.6.22
+-- Description:	SP admin view hosts information
 -- =============================================
-CREATE PROCEDURE SP_AdminViewUsersInfo
+CREATE PROCEDURE SP_AdminViewHostsInfo
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -27,25 +27,23 @@ BEGIN
 
 WITH MyTable AS 
 (
-select T1.email, T1.userRegisteredSince,T1.TotalRents, T1.TotalCanceled, T2.TotalPrice
+select T1.email, T1.hostSince,T1.NumOfApartments, T1.TotalCanceled, T2.TotalPrice
 from 
-	(select U.email, U.userRegisteredSince, 
-	(count(*)-sum(CAST(R.isCanceled AS INT))) as TotalRents, 
-	sum(CAST(R.isCanceled AS INT)) as TotalCanceled
-	from UsersDB as U inner join Reservations as R on U.email=R.userEmail
+	(select H.email, H.hostSince, count(distinct A.id) as NumOfApartments,(count(*)-sum(CAST(R.isCanceled AS INT))) as TotalRents, sum(CAST(R.isCanceled AS INT)) as TotalCanceled
+	from Hosts as H inner join Reservations as R on H.email=R.userEmail
 		inner join Apartments as A on A.id=R.apartmentId
-	GROUP BY U.email, U.userRegisteredSince) T1 
+	GROUP BY H.email, H.hostSince) T1 
 	inner join 
 	(select R.userEmail, sum((DATEDIFF(day, R.startDate, R.endDate)*A.price)) TotalPrice
 	from Reservations as R inner join Apartments as A on R.apartmentId=A.id
-	where R.isCanceled=0
+	where  R.isCanceled=0
 	group by R.userEmail) T2 on T1.email=T2.userEmail
 )
-select UD.email,UD.userRegisteredSince, 
-ISNULL(MT.TotalRents,0) as TotalRents, 
+select H.email,H.hostSince, 
+ISNULL(MT.NumOfApartments,0) as TotalRents, 
 ISNULL(MT.TotalCanceled,0) AS TotalCanceled,
 ISNULL(MT.TotalPrice,0) as TotalPrice
-from MyTable AS MT right join UsersDB AS UD on MT.email = UD.email 
+from MyTable AS MT right join Hosts AS H on MT.email = H.email 
 
 END
 GO

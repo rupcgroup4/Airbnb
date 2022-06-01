@@ -28,16 +28,12 @@ APARTMENTdata = [{
     Total_cancels: 6,
 }]
 function renderUsersTables() {
-   // SCBReadUsers(USERdata);
     ajaxCall("GET", "../api/Users", "", SCBReadUsers, ECBReadUsers);
 }
 function renderHostsTables() {
     if (flag_hostView) {
         $('#spinner').css('display', 'block');
-
-        SCBReadHosts(HOSTdata);
-     //   ajaxCall("GET", "../api/Host/ReadHosts", "", SCBReadHosts, ECBReadHosts);
-
+        ajaxCall("GET", "../api/Hosts", "", SCBReadHosts, ECBReadHosts);
         flag_hostView = false;
         $("#nav-host-tab").prop('onclick', null);
     }
@@ -65,26 +61,28 @@ function viewApartment() {
 
 }
 // Read users success call back
-function SCBReadUsers(users) {
-    var usersArry = [];
-    for (u1 in users) {
-        let userData = JSON.parse(users[u1]);
-        for (u2 in userData) {
-            usersArry.push(userData[u2]);
-        }
-
-    }
+function SCBReadUsers(usersData) {
+    let users = JSON.parse(usersData);
     try {
         tbl = $('#UserTable').DataTable({
-            data: usersArry,
-            pageLength: 5,
+            data: users,
+            pageLength: 10,
             columns: [
                 { data: "User_Email" },
-                { data: "Register_date" },
+                {
+                    data: "Register_date",
+                    render: function (data, type, row, meta) {
+                        let dateStr = new Date(data);
+
+                        return dateStr.toLocaleDateString();
+
+                    }
+
+                },
                 { data: "Total_rentals" },
                 { data: "Total_income" },
                 { data: "Total_cancels" }
-            ],
+            ]
         });
 
         $('#spinner').css('display', 'none');
@@ -94,18 +92,29 @@ function SCBReadUsers(users) {
     }
 }
 // Read hosts success call back
-function SCBReadHosts(hosts) {
+function SCBReadHosts(hostsData) {
+    
+    let hosts = JSON.parse(hostsData);
     try {
         tbl = $('#HostTable').DataTable({
             data: hosts,
-            pageLength: 5,
+            pageLength: 10,
             columns: [
-                { data: "Host_Email" },
-                { data: "Register_date" },
-                { data: "Number_of_apartments" },
+                { data: "HostEmail" },
+                {
+                    data: "HostSince",
+                    render: function (data, type, row, meta) {
+                        let dateStr = new Date(data);
+
+                        return dateStr.toLocaleDateString();
+
+                    }
+
+                },
+                { data: "Total_rentals" },
                 { data: "Total_income" },
                 { data: "Total_cancels" }
-            ],
+            ]
         });
         $('#spinner').css('display', 'none');
     }

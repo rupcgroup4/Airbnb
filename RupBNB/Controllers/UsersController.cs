@@ -14,7 +14,7 @@ namespace RupBNB.Controllers
     public class UsersController : ApiController
     {
         // GET api/<controller>
-        public IEnumerable<string> Get()
+        public string Get()
         {
             User usersData = new User();
 
