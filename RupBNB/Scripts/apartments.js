@@ -59,6 +59,44 @@ $(document).ready(function () {
     ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
     startRow += 8;
     endRow += 4
+
+
+
+
+    //load more data on scroll for web
+    $("#cards").scroll( () => {
+        if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
+
+            ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
+            startRow += 4;
+            endRow += 4
+        
+        }
+    });
+
+
+    //load more data on scroll for mobile
+    $(window).scroll( () => {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
+            startRow += 4;
+            endRow += 4
+        }
+    });
+
+    
+    $(document).on('input', "#priceRange", () => {
+        if($("#priceRange").val() == 0) {
+
+            $("#maxUSD").html("No Max");
+
+        } else {
+            
+            $("#maxUSD").html("$" + $("#priceRange").val());
+        }
+        
+    });
+
 });
 
 
@@ -68,7 +106,9 @@ function getApartmentsECB(err) {
 
 function getApartmentsSCB(apartments) {
 
-    
+    // <div class="mt-3">
+    // <button onclick="seeApart(${apartments[i].Id})" class="btn detailBTN">See Details</button>
+    // </div>
 
     for (let i = 0; i < apartments.length; i++) {
 
@@ -76,7 +116,7 @@ function getApartmentsSCB(apartments) {
         .append(
             `
                 <div class="col">
-                    <div class="card h-100">
+                    <div onclick="seeApart(${apartments[i].Id})" class="card h-100">
                         <div>
                             <img src="${apartments[i].Img}" class="card-img-top img-apartment">
                         </div>
@@ -88,16 +128,14 @@ function getApartmentsSCB(apartments) {
                             <div class="apartName">
                                 <h6 class="card-title">${apartments[i].Name}</h6>
                             </div>
-                            <div class="mt-3">
-                                <button onclick="seeApart(${apartments[i].Id})" class="btn detailBTN">See Details</button>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
             `
         )
 
-        locations.push({lat: apartments[i].Latitude , lon: apartments[i].Longtitude});
+        locations.push({lat: apartments[i].Latitude , lon: apartments[i].Longitude});
     }
 
     myMap(locations);
@@ -111,36 +149,17 @@ function search() {
     $("#cardContainer").addClass("row-cols-md-2");
 
     $("#mapContainer").css("display", "block");
-    // myMap(locations);
+    //myMap(locations);
 }
 
 
-//load more data on scroll for web
-$("#cards").scroll(function () {
-    if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
 
-        ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
-        startRow += 4;
-        endRow += 4
-       
-    }
-});
-
-
-//load more data on scroll for mobile
-$(window).scroll(function () {
-    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-        ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
-        startRow += 4;
-        endRow += 4
-    }
-});
 
 
 //This function called when press "See Details" on Apartment
 function seeApart(apartmentId) {
     sessionStorage.setItem("apartmentId", apartmentId);
-    window.location.replace("seeApart.html");
+    window.location.href = "seeApart.html";
 }
 
 
@@ -152,7 +171,7 @@ function myMap(locations) {
     const location = { lat: apartments[0].Latitude, lng: apartments[0].Longtitude };
     // The map, centered at Uluru
     const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 9,
+    zoom: 10,
     center: location,
     });
     // The marker, positioned at Uluru

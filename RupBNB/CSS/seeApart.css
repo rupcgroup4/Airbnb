@@ -54,12 +54,17 @@ h4 {
     margin: 0 auto;
 }
 
+#image{
+    border-radius: 10px;
+}
+
+
+
 #modalImage {
     width: 90%;
-    border-radius: 1.5rem;
     height: 200px;
     margin-top: 0.6rem;
-
+    border-radius: 10px;
 }
 
 /* For Mobile */
@@ -69,6 +74,9 @@ h4 {
     }
     .card {
         width: 100%;
+    }
+    #image{
+        max-height: 300px;
     }
 }
 
