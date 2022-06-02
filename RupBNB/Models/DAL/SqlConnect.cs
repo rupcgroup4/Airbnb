@@ -16,9 +16,16 @@ namespace RupBNB.Models.DAL
 
             // create the connection to the db
             SqlConnection con = new SqlConnection(connectionString);
+            try
+            {
+                con.Open();
 
+            } catch (Exception ex)
+            {
+                return null; //Need to fix
+            }
             // open the database connection
-            con.Open();
+            
 
             return con;
 

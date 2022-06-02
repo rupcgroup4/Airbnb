@@ -31,20 +31,33 @@ function renderApartmentsTables() {
         });
     }
 }
-function viewApartment() {
-
-}
 // Read users success call back
 function SCBReadUsers(usersData) {
     let users = JSON.parse(usersData);
+    const fileName = 'Users data export';
     try {
         tbl = $('#UserTable').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
             data: users,
             pageLength: 10,
+            responsive: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                {
+                    extend: 'csvHtml5',
+                    title: fileName
+                },
+                {
+                    extend: 'excelHtml5',
+                    title: fileName
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: fileName
+                },
+                'print'
+            ],
+  
             columns: [
                 { data: "User_Email" },
                 {
@@ -73,14 +86,29 @@ function SCBReadUsers(usersData) {
 function SCBReadHosts(hostsData) {
     
     let hosts = JSON.parse(hostsData);
+    const fileName = 'Hosts data export';
     try {
         tbl = $('#HostTable').DataTable({
+            data: apartments,
+            pageLength: 10,
+            responsive: true,
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'copyHtml5',
+                {
+                    extend: 'csvHtml5',
+                    title: fileName
+                },
+                {
+                    extend: 'excelHtml5',
+                    title: fileName
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: fileName
+                },
+                'print'
             ],
-            data: hosts,
-            pageLength: 10,
             columns: [
                 { data: "HostEmail" },
                 {
@@ -107,43 +135,51 @@ function SCBReadHosts(hostsData) {
 // Read apartments success call back
 function SCBReadApartments(apartmentsData) {
     let apartments = JSON.parse(apartmentsData);
+    const fileName = 'Apartments data export';
     try {
         tbl = $('#ApartmentTable').DataTable({
+            data: apartments,
+            pageLength: 10,
+            responsive: true,
             dom: 'Bfrtip',
             buttons: [
                 {
                     extend: 'copy',
+                    title: fileName,
                     exportOptions: {
                         columns: 'th:not(:last-child)'
                     }
                 },
                 {
                     extend: 'csv',
+                    title: fileName,
                     exportOptions: {
                         columns: 'th:not(:last-child)'
                     }
                 },
                 {
                     extend: 'excel',
+                    title: fileName,
                     exportOptions: {
                         columns: 'th:not(:last-child)'
                     }
                 },
                 {
                     extend: 'pdf',
+                    title: fileName,
                     exportOptions: {
                         columns: 'th:not(:last-child)'
                     }
                 },
                 {
                     extend: 'print',
+                    title: fileName,
                     exportOptions: {
                         columns: 'th:not(:last-child)'
                     }
                 }
             ],
-            data: apartments,
-            pageLength: 10,
+
             columns: [
 
                 { data: "Apartment_id"},
@@ -151,10 +187,11 @@ function SCBReadApartments(apartmentsData) {
                 { data: "Total_rentals" },
                 { data: "Total_cancels" },
                 {
-                    data: "Link_to_apartment",
+                    data: "s",
                     render: function (data, type, row, meta) {
                         let dataApartmentId = "data-apartmentId='" + row.Apartment_id + "'";
                         return `<input type="button" ${dataApartmentId} class="apartmentIdView btn btn-info" value="Watch">`;
+
                     }
                 },
             ],
