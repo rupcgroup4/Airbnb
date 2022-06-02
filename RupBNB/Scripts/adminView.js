@@ -39,6 +39,10 @@ function SCBReadUsers(usersData) {
     let users = JSON.parse(usersData);
     try {
         tbl = $('#UserTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             data: users,
             pageLength: 10,
             columns: [
@@ -71,6 +75,10 @@ function SCBReadHosts(hostsData) {
     let hosts = JSON.parse(hostsData);
     try {
         tbl = $('#HostTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             data: hosts,
             pageLength: 10,
             columns: [
@@ -101,6 +109,39 @@ function SCBReadApartments(apartmentsData) {
     let apartments = JSON.parse(apartmentsData);
     try {
         tbl = $('#ApartmentTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
+                }
+            ],
             data: apartments,
             pageLength: 10,
             columns: [
