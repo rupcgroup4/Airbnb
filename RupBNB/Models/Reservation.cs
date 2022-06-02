@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using RupBNB.Models.DAL;
 
 namespace RupBNB.Models
 {
@@ -32,5 +33,11 @@ namespace RupBNB.Models
         public int ApartmentId { get => apartmentId; set => apartmentId = value; }
         public string UserEmail { get => userEmail; set => userEmail = value; }
         public bool IsCanceled { get => isCanceled; set => isCanceled = value; }
+
+        public bool InsertReservation()
+        {
+            ReservationServices rs = new ReservationServices();
+            return rs.InsertReservation(this);
+        }
     }
 }

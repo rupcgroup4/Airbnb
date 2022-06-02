@@ -168,6 +168,7 @@
     <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\DAL\ApartmentServices.cs" />
     <Compile Include="Models\DAL\HostServices.cs" />
+    <Compile Include="Models\DAL\ReservationServices.cs" />
     <Compile Include="Models\DAL\ReviewServices.cs" />
     <Compile Include="Models\DAL\SqlConnect.cs" />
     <Compile Include="Models\DAL\UploadDBServices.cs" />

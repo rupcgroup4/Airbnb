@@ -7,34 +7,40 @@ using System.Web;
 namespace RupBNB.Models.DAL
 {
     public class ReservationServices
-    {
-        public int InsertReservation(Reservation reservation)
+    {   
+        //Insert new reservation to Reservation Table
+        public bool InsertReservation(Reservation res)
         {
             SqlConnection con = SqlConnect.Connect();
 
+            //check if apartement is already booked on dates
+            if(IsApartmentBookedOnDates(res))
+            {
+                return false;
+            }
+
             // Create Command
-            SqlCommand command = CreateInsertReservation(con, reservation);
+            SqlCommand command = CreateInsertReservation(con, res);
 
             // Execute
-            int numAffected = command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
 
             // Close Connection
             con.Close();
 
-            return numAffected;
+            return true; 
 
         }
 
-        private SqlCommand CreateInsertReservation(SqlConnection con, Reservation reservation)
+        private SqlCommand CreateInsertReservation(SqlConnection con, Reservation res)
         {
 
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@id", reservation.Id);
-            command.Parameters.AddWithValue("@startDate", reservation.StartDate);
-            command.Parameters.AddWithValue("@endDate", reservation.EndDate);
-            command.Parameters.AddWithValue("@apartmentId", reservation.ApartmentId);
-            command.Parameters.AddWithValue("@userEmail", reservation.UserEmail);
+            command.Parameters.AddWithValue("@startDate", res.StartDate);
+            command.Parameters.AddWithValue("@endDate", res.EndDate);
+            command.Parameters.AddWithValue("@apartmentId", res.ApartmentId);
+            command.Parameters.AddWithValue("@userEmail", res.UserEmail);
 
             command.CommandText = "SP_InsertReservation";
             command.Connection = con;
@@ -44,13 +50,13 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
-
-        public bool ReservationExists(int id)
+        //
+        public bool IsApartmentBookedOnDates(Reservation res)
         {
             SqlConnection con = SqlConnect.Connect();
 
             // Create Command
-            SqlCommand command = CreateReservationExists(con, id);
+            SqlCommand command = CreateIsApartmentBookedOnDates(con, res);
 
             SqlDataReader dr = command.ExecuteReader();
 
@@ -62,13 +68,16 @@ namespace RupBNB.Models.DAL
 
         }
 
-        private SqlCommand CreateReservationExists(SqlConnection con, int id)
+        private SqlCommand CreateIsApartmentBookedOnDates(SqlConnection con, Reservation res)
         {
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@start", res.StartDate);
+            command.Parameters.AddWithValue("@end", res.EndDate);
+            command.Parameters.AddWithValue("@apartmentId", res.ApartmentId);
 
-            command.CommandText = "SP_GetReservationById";
+
+            command.CommandText = "SP_IsApartmentBookedOnDates";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds

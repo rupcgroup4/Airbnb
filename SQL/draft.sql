@@ -61,21 +61,24 @@ INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled
 VALUES ('2022-6-1', '2022-6-3', 1, 'Abhishek72@gmail.com', 0)
 
 INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
-VALUES ('2022-6-3', '2022-6-10', 1, 'Abhishek72@gmail.com', 1)
+VALUES ('2022-6-5', '2022-6-6', 1, 'Abhishek72@gmail.com', 0)
+
+--INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
+--VALUES ('2022-6-6', '2022-6-8', 1, 'Abhishek72@gmail.com', 1)
 
 
 select *
 from reservations
 
 
-DECLARE @start date, @end date
+DECLARE @start date, @end date, @apartmentId int
 SET @start = '2022-6-2'
 SET @end = '2022-6-5'
-
+SET @apartmentId
 
 select *
 from Apartments
-where id not in (select A.id 
+where  id id not in (select A.id 
 				 from Apartments as A join Reservations as R on A.id = R.apartmentId
 				 where (R.endDate > @start and R.endDate < @end ) 
 					or (R.startDate > @start and R.startDate < @end)

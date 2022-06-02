@@ -38,6 +38,13 @@ $(document).ready(function () {
     
     ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
 
+
+
+
+    $(document).on("click", "#makeReservation", () => {
+        makeReservation();
+    })
+
     //event to change date in modal when checkIn datePicker change
     $("#checkInDatePicker").change(function() {
         let checkInDate = new Date($(this).val());
@@ -143,6 +150,39 @@ function SCBGetApartment(returnApartment) {
 function ECBGetApartment(error) {
     console.log(error);
 }
+
+
+function makeReservation() {
+    let startDate = new Date($("#checkInDatePicker").val());
+    let endDate = new Date($("#checkOutDatePicker").val());
+    let apartmentId = sessionStorage.getItem("apartmentId");
+
+    //**********Need to be real email of the user from local storage*************
+    let userEmail = "Abhishek72@gmail.com";
+
+    let res = {
+        Id: 0,
+        StartDate: startDate,
+        EndDate: endDate,
+        ApartmentId: apartmentId,
+        UserEmail: userEmail,
+        IsCanceled: 0
+    }
+
+
+    ajaxCall("POST", "../api/Reservations", JSON.stringify(res), makeReservationSCB, makeReservationECB);
+
+}
+
+
+function makeReservationSCB(response) {
+    console.log(response)
+}
+
+function makeReservationECB(err) {
+    console.log(err)
+}
+
 
 // Initialize and add the map
 function myMap(lat, lon) {
