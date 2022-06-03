@@ -127,7 +127,6 @@ function SCBReadHosts(hostsData) {
                     data: "HostSince",
                     render: function (data, type, row, meta) {
                         let dateStr = new Date(data);
-
                         return dateStr.toLocaleDateString();
 
                     }
