@@ -92,10 +92,10 @@ namespace WebApplication1.Models
 
 
         //return apartemtns object order by rating (from high to low) from start row to end row
-        public List<Apartment> get12ApartmentSortedByRating(int rowStart, int rowEnd)
+        public List<Apartment> getXNumberOfApartmentsSortedByRating(int rowStart, int rowEnd)
         {
             ApartmentServices ds = new ApartmentServices();
-            return ds.get12ApartmentSortedByRating(rowStart, rowEnd);
+            return ds.getXNumberOfApartmentsSortedByRating(rowStart, rowEnd);
         }
         public Apartment getApartmentById(int id)
         {

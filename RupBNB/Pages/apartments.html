@@ -43,7 +43,7 @@
                 </div>
                 <div class="col">
                     <label for="rating" class="form-label">Min Rating</label>
-                    <select class="form-select" aria-label="Default select example">
+                    <select id="minRating" class="form-select" aria-label="Default select example">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="col">
                     <label for="rooms" class="form-label">Min Rooms</label>
-                    <select class="form-select" aria-label="Default select example">
+                    <select id="minRoom" class="form-select" aria-label="Default select example">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -62,23 +62,36 @@
                     </select>
                 </div>
                 <div class="col">
-                    <label for="distance" class="form-label">Distance</label>
-                    <input type="range" class="form-range" id="distance">
+                    <div class="d-flex justify-content-between">
+                        <label for="distance" class="form-label">Distance to center:</label>
+                        <span id="maxDistance">No Max</span>
+                    </div>
+                    <input type="range" min="0" max="50" value="0" step="0.5" class="form-range" id="distanceRange">
                 </div>
                 <div class="col">
                     <label for="rooms" class="form-label">Accommodates</label>
-                    <input type="number" class="form-control" min="1" value="1">
+                    <input id="accomodate" type="number" class="form-control" min="1" value="1">
                 </div>
                 <div class="col">
                     <label for="checkIn" class="form-label">Check In</label>
-                    <input type="date" class="form-control" name="checkIn" id="checkIn">
+                    <input type="date" class="form-control" name="checkIn" id="checkIn" 
+                           selectMultiple="true" selectMin="2" selectMax="2">
                 </div>
                 <div class="col">
                     <label for="checkOut" class="form-label">Check Out</label>
                     <input type="date" class="form-control" name="checkOut">
                 </div>
                 <div class="col d-flex align-items-end">
-                    <input type="button" onclick="search()" class="btn btn-primary bottom" value="Search"/>
+                    <label for="rooms" class="form-label">Sort By</label>
+                    <select id="sortBy" class="form-select" aria-label="Default select example">
+                        <option value="rating_D">Rating: Max</option>
+                        <option value="rating_A">Rating: Min</option>
+                        <option value="price_D">Price: Max</option>
+                        <option value="price_A">Price: Min</option>
+                        <option value="distanceToCenterKM_D">Km to center: Max</option>
+                        <option value="distanceToCenterKM_A">Km to center: Min</option>
+                    </select>
+                    <input type="button" onclick="search()" class="btn btn-primary bottom" value="Search" />
                 </div>
             </div>
         </div>

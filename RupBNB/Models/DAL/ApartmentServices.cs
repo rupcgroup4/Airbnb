@@ -70,12 +70,12 @@ namespace WebApplication1.Models.DAL
         //this function get start row and end row
         //use helper function CreateGet12ApartmentSortedByRating() which activated store procedure to get the data from DB
         //return apartemtns object order by rating (from high to low) from start row to end row
-        public List<Apartment> get12ApartmentSortedByRating(int rowStart, int rowEnd)
+        public List<Apartment> getXNumberOfApartmentsSortedByRating(int rowStart, int rowEnd)
         {
             SqlConnection con = SqlConnect.Connect();
 
             // Create Command
-            SqlCommand command = CreateGet12ApartmentSortedByRating(con, rowStart, rowEnd);
+            SqlCommand command = CreateGetXNumberOfApartmentsSortedByRating(con, rowStart, rowEnd);
 
             // Execute
             SqlDataReader dr = command.ExecuteReader();
@@ -120,7 +120,7 @@ namespace WebApplication1.Models.DAL
 
         }
 
-        private SqlCommand CreateGet12ApartmentSortedByRating(SqlConnection con, int rowStart, int rowEnd)
+        private SqlCommand CreateGetXNumberOfApartmentsSortedByRating(SqlConnection con, int rowStart, int rowEnd)
         {
 
             SqlCommand command = new SqlCommand();
@@ -128,7 +128,7 @@ namespace WebApplication1.Models.DAL
             command.Parameters.AddWithValue("@fromRow", rowStart);
             command.Parameters.AddWithValue("@toRow", rowEnd);
            
-            command.CommandText = "SP_get12ApartmentsSortedByRating";
+            command.CommandText = "SP_getXNumberOfApartmentsSortedByRating";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds

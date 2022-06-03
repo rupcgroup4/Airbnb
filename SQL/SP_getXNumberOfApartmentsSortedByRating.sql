@@ -18,7 +18,7 @@ GO
 -- Create date: 25.5.2022
 -- Description:	SP get 12 apartments sorted by rating
 -- =============================================
-CREATE PROCEDURE SP_get12ApartmentsSortedByRating
+CREATE PROCEDURE SP_getXNumberOfApartmentsSortedByRating
 	-- Add the parameters for the stored procedure here
 	@fromRow int,
 	@toRow int
@@ -31,7 +31,7 @@ BEGIN
     -- Insert statements for procedure here
 	WITH MyTable AS 
 	(
-	  SELECT ROW_NUMBER() OVER(Order By rating desc) AS [row], [id], [propertyType], [hostEmail], [name], [description], [img], [neighborhood], [latitude], [longtitude], [roomType], [numBathrooms], [numBedrooms], [numBeds], [accommodates], [amenities], [price], [minNights], [maxNights], [rating], [reviewAccuracy], [reviewsClean], [reviewLocation]
+	  SELECT ROW_NUMBER() OVER(Order By rating desc) AS [row], [id], [propertyType], [hostEmail], [name], [description], [img], [neighborhood], [latitude], [longtitude], [distanceToCenterKM], [roomType], [numBathrooms], [numBedrooms], [numBeds], [accommodates], [amenities], [price], [minNights], [maxNights], [rating], [reviewAccuracy], [reviewsClean], [reviewLocation]
 	  FROM Apartments 
 	)
 

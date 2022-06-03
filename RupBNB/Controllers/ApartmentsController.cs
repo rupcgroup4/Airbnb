@@ -39,7 +39,7 @@ namespace RupBNB.Controllers
         public HttpResponseMessage Post([FromBody] int[] rows)
         {
             Apartment a = new Apartment();
-            List<Apartment> apartments = a.get12ApartmentSortedByRating(rows[0], rows[1]);
+            List<Apartment> apartments = a.getXNumberOfApartmentsSortedByRating(rows[0], rows[1]);
 
             if(apartments.Count > 0)
             {

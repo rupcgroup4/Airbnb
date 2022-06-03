@@ -53,6 +53,7 @@ apartments = [
 let startRow = 1;
 let endRow = 8;
 let locations = []
+let isDistanceFilter = false;
 
 $(document).ready(function () {
     //getApartmentsSCB();
@@ -97,6 +98,21 @@ $(document).ready(function () {
         
     });
 
+
+    $(document).on('input', "#distanceRange", () => {
+        if ($("#distanceRange").val() == 0) {
+
+            $("#maxDistance").html("No Max");
+            isDistanceFilter = false;
+
+        } else {
+
+            $("#maxDistance").html($("#distanceRange").val() + "Km");
+            isDistanceFilter = true;
+        }
+
+    });
+
 });
 
 
@@ -106,12 +122,8 @@ function getApartmentsECB(err) {
 
 function getApartmentsSCB(apartments) {
 
-    // <div class="mt-3">
-    // <button onclick="seeApart(${apartments[i].Id})" class="btn detailBTN">See Details</button>
-    // </div>
-
     for (let i = 0; i < apartments.length; i++) {
-        let bool = true;
+        
         $("#cardContainer")
             .append(
                 `
@@ -126,7 +138,7 @@ function getApartmentsSCB(apartments) {
                                 <span><b>$</b>${apartments[i].Price}<span style="font-weight: 300;"> night</span></span>
                             </div>
                             <div class="apartName">
-                                <span>${ bool  ?"Center: 2.2km":""}</span>
+                                <span>${ isDistanceFilter ? "Center: " + apartments[i].DistanceToCenterKM + "Km": ""}</span>
                                 <h6 class="card-title">${apartments[i].Name}</h6>
                             </div>
                            
@@ -146,14 +158,51 @@ function getApartmentsSCB(apartments) {
 
 //search apartment
 function search() {
+
+
+    let checkInDate = new Date ($("#checkIn").val());
+    let checkOutDate = new Date ($("#checkOut").val());
+
+    if (checkDates(checkInDate, checkOutDate)) {
+        return;
+    }
+
     $("#cardContainer").removeClass("row-cols-md-4");
     $("#cardContainer").addClass("row-cols-md-2");
 
     $("#mapContainer").css("display", "block");
-    //myMap(locations);
+
+
+    let maxPrice = $("#priceRange").val();
+    let minRating = $("#minRating").val();
+    let minRoom = $("#minRoom").val();
+    let distanceToCenter = $("#distanceRange").val();
+    let accomodate = $("#accomodate").val();
+    let sortBy = $("#sortBy").val();
+
+    if (maxPrice == 0) {
+        maxPrice = 32767;
+    }
+
+
 }
 
+function checkDates() {
 
+
+
+    
+
+    //check if check out is bigger than check out date
+    if (checkOutDate <= checkInDate) {
+        alert("err");
+        //set check out date to be 1 day after check in
+        checkOutDate = new Date(checkInDate);
+        checkOutDate.setDate(checkOutDate.getDate() + 1);
+        //conver check out date to string format for date input
+        checkOutDateString = checkOutDate.toISOString().split('T')[0];
+        $(this).val(checkOutDateString)
+}
 
 
 
