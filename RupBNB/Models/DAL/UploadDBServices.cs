@@ -254,6 +254,7 @@ namespace WebApplication1.Models.DAL
                             {
                                 var sCoord = new GeoCoordinate(Convert.ToSingle(values[7]), Convert.ToSingle(values[8]));
                                 var eCoord = new GeoCoordinate(52.379189, 4.899431);
+                                double distanceToCenterKM = sCoord.GetDistanceTo(eCoord) / 1000;
 
                                 //return sCoord.GetDistanceTo(eCoord);
                                 InsertAppartment(new Apartment(
@@ -266,7 +267,7 @@ namespace WebApplication1.Models.DAL
                                     values[6],
                                     Convert.ToSingle(values[7]),
                                     Convert.ToSingle(values[8]),
-                                    Convert.ToSingle(sCoord.GetDistanceTo(eCoord)),
+                                    Convert.ToSingle(distanceToCenterKM),
                                     values[9],
                                     values[10],
                                     Convert.ToInt32(values[11]),

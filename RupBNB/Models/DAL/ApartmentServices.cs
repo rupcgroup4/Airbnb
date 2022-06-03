@@ -42,6 +42,7 @@ namespace WebApplication1.Models.DAL
             command.Parameters.AddWithValue("@neighborhood", apartment.Neighborhood);
             command.Parameters.AddWithValue("@latitude", apartment.Latitude);
             command.Parameters.AddWithValue("@longtitude", apartment.Longitude);
+            command.Parameters.AddWithValue("@distanceToCenterKM", apartment.DistanceToCenterKM);
             command.Parameters.AddWithValue("@roomType", apartment.RoomType);
             command.Parameters.AddWithValue("@numBathrooms", apartment.NumBathrooms);
             command.Parameters.AddWithValue("@numBedrooms", apartment.NumBedrooms);
@@ -91,6 +92,7 @@ namespace WebApplication1.Models.DAL
                 string neighborhood = Convert.ToString(dr["neighborhood"]);
                 float latitude = Convert.ToSingle(dr["latitude"]);
                 float longtitude = Convert.ToSingle(dr["longtitude"]);
+                float distanceToCenterKM = Convert.ToSingle(dr["distanceToCenterKM"]);
                 string roomType = Convert.ToString(dr["roomType"]);
                 string numBathrooms = Convert.ToString(dr["numBathrooms"]);
                 int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);
@@ -106,7 +108,7 @@ namespace WebApplication1.Models.DAL
                 float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
 
                 apartments.Add(new Apartment(id, propertyType, hostEmail, name, description,
-                    img, neighborhood, latitude, longtitude, roomType, numBathrooms, numBedrooms,
+                    img, neighborhood, latitude, longtitude, distanceToCenterKM, roomType, numBathrooms, numBedrooms,
                     numBeds, accommodates, amenities, price, minNight, maxNight, rating, reviewAccuracy,
                     reviewsClean, reviewLocation));
 
@@ -156,6 +158,7 @@ namespace WebApplication1.Models.DAL
                 string neighborhood = Convert.ToString(dr["neighborhood"]);
                 float latitude = Convert.ToSingle(dr["latitude"]);
                 float longtitude = Convert.ToSingle(dr["longtitude"]);
+                float distanceToCenterKM = Convert.ToSingle(dr["distanceToCenterKM"]);
                 string roomType = Convert.ToString(dr["roomType"]);
                 string numBathrooms = Convert.ToString(dr["numBathrooms"]);
                 int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);
@@ -171,7 +174,7 @@ namespace WebApplication1.Models.DAL
                 float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
 
                 apartment = new Apartment(id, propertyType, hostEmail, name, description,
-                    img, neighborhood, latitude, longtitude, roomType, numBathrooms, numBedrooms,
+                    img, neighborhood, latitude, longtitude, distanceToCenterKM, roomType, numBathrooms, numBedrooms,
                     numBeds, accommodates, amenities, price, minNight, maxNight, rating, reviewAccuracy,
                     reviewsClean, reviewLocation);
 
