@@ -28,6 +28,7 @@ CREATE PROCEDURE SP_InsertApartment
 	@neighborhood nvarchar(256),
 	@latitude float,
 	@longtitude float,
+	@distanceToCenterKM float,
 	@roomType varchar(20),
 	@numBathrooms varchar(20),
 	@numBedrooms tinyint,
@@ -48,11 +49,11 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	INSERT INTO apartments (propertyType, hostEmail, name, description, img, neighborhood, latitude, longtitude,
+	INSERT INTO apartments (propertyType, hostEmail, name, description, img, neighborhood, latitude, longtitude, distanceToCenterKM,
 								roomType, numBathrooms, numBedrooms, numBeds, accommodates, amenities, price, minNights, maxNights,
 									rating, reviewAccuracy, reviewsClean, reviewLocation)
 
-	VALUES (@PropertyType, @hostEmail, @name, @description, @img, @neighborhood, @latitude, @longtitude,
+	VALUES (@PropertyType, @hostEmail, @name, @description, @img, @neighborhood, @latitude, @longtitude,@distanceToCenterKM,
 								@roomType, @numBathrooms, @numBedrooms, @numBeds, @accommodates, @amenities, @price, @minNights, @maxNights,
 									@rating, @reviewAccuracy, @reviewsClean, @reviewLocation)
 END

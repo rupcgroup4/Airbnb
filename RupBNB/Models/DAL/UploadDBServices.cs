@@ -4,6 +4,7 @@ using RupBNB.Models.DAL;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Device.Location;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -251,7 +252,10 @@ namespace WebApplication1.Models.DAL
                         {
                             try
                             {
+                                var sCoord = new GeoCoordinate(Convert.ToSingle(values[7]), Convert.ToSingle(values[8]));
+                                var eCoord = new GeoCoordinate(52.379189, 4.899431);
 
+                                //return sCoord.GetDistanceTo(eCoord);
                                 InsertAppartment(new Apartment(
                                     Convert.ToInt32(values[0]),
                                     values[1],
@@ -262,6 +266,7 @@ namespace WebApplication1.Models.DAL
                                     values[6],
                                     Convert.ToSingle(values[7]),
                                     Convert.ToSingle(values[8]),
+                                    Convert.ToSingle(sCoord.GetDistanceTo(eCoord)),
                                     values[9],
                                     values[10],
                                     Convert.ToInt32(values[11]),
@@ -329,6 +334,7 @@ namespace WebApplication1.Models.DAL
             command.Parameters.AddWithValue("@neighborhood", apartment.Neighborhood);
             command.Parameters.AddWithValue("@latitude", apartment.Latitude);
             command.Parameters.AddWithValue("@longtitude", apartment.Longitude);
+            command.Parameters.AddWithValue("@distanceToCenterKM", apartment.DistanceToCenterKM);  
             command.Parameters.AddWithValue("@roomType", apartment.RoomType);
             command.Parameters.AddWithValue("@numBathrooms", apartment.NumBathrooms);
             command.Parameters.AddWithValue("@numBedrooms", apartment.NumBedrooms);

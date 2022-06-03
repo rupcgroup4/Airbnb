@@ -111,10 +111,10 @@ function getApartmentsSCB(apartments) {
     // </div>
 
     for (let i = 0; i < apartments.length; i++) {
-
+        let bool = true;
         $("#cardContainer")
-        .append(
-            `
+            .append(
+                `
                 <div class="col">
                     <div onclick="seeApart(${apartments[i].Id})" class="card h-100">
                         <div>
@@ -122,10 +122,11 @@ function getApartmentsSCB(apartments) {
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-                                <span><b><i class="fa-solid fa-star"></i> </b> ${apartments[i].Rating} </span>
+                                <span><b><i class="fa-solid fa-star"></i> </b> ${apartments[i].Rating} </span>  
                                 <span><b>$</b>${apartments[i].Price}<span style="font-weight: 300;"> night</span></span>
                             </div>
                             <div class="apartName">
+                                <span>${ bool  ?"Center: 2.2km":""}</span>
                                 <h6 class="card-title">${apartments[i].Name}</h6>
                             </div>
                            

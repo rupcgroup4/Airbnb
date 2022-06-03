@@ -8,6 +8,7 @@ create table Apartments (
 	neighborhood nvarchar(256),
 	latitude float,
 	longtitude float,
+	distanceToCenterKM float,
 	roomType varchar(20),
 	numBathrooms varchar(20),
 	numBedrooms tinyint,
