@@ -17,6 +17,7 @@ namespace WebApplication1.Models
         string neighborhood;
         float latitude;
         float longitude;
+        float distanceToCenterKM;
         string roomType;
         string numBathrooms;
         int numBedrooms;
@@ -33,12 +34,12 @@ namespace WebApplication1.Models
 
         public Apartment() { }
 
-        public Apartment(int id, string propertyType, string hostEmail, string name, 
+        public Apartment(int id, string propertyType, string hostEmail, string name,
             string description, string img, string neighborhood, float latitude,
-            float longitude, string roomType, string numBathrooms, int numBedrooms,
-            int numBeds, int accommodates, string amenities, int price, int minNight,
-            int maxNight, float rating, float reviewAccuracy, float reviewsClean,
-            float reviewLocation)
+            float longitude, float distanceToCenterKM, string roomType,
+            string numBathrooms, int numBedrooms, int numBeds, int accommodates,
+            string amenities, int price, int minNight, int maxNight, float rating,
+            float reviewAccuracy, float reviewsClean, float reviewLocation)
         {
             this.Id = id;
             this.PropertyType = propertyType;
@@ -49,6 +50,7 @@ namespace WebApplication1.Models
             this.Neighborhood = neighborhood;
             this.Latitude = latitude;
             this.Longitude = longitude;
+            this.DistanceToCenterKM = distanceToCenterKM;
             this.RoomType = roomType;
             this.NumBathrooms = numBathrooms;
             this.NumBedrooms = numBedrooms;
@@ -73,6 +75,7 @@ namespace WebApplication1.Models
         public string Neighborhood { get => neighborhood; set => neighborhood = value; }
         public float Latitude { get => latitude; set => latitude = value; }
         public float Longitude { get => longitude; set => longitude = value; }
+        public float DistanceToCenterKM { get => distanceToCenterKM; set => distanceToCenterKM = value; }
         public string RoomType { get => roomType; set => roomType = value; }
         public string NumBathrooms { get => numBathrooms; set => numBathrooms = value; }
         public int NumBedrooms { get => numBedrooms; set => numBedrooms = value; }
@@ -86,7 +89,6 @@ namespace WebApplication1.Models
         public float ReviewAccuracy { get => reviewAccuracy; set => reviewAccuracy = value; }
         public float ReviewsClean { get => reviewsClean; set => reviewsClean = value; }
         public float ReviewLocation { get => reviewLocation; set => reviewLocation = value; }
-
 
 
         //return apartemtns object order by rating (from high to low) from start row to end row
