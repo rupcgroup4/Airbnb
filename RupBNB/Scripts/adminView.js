@@ -42,7 +42,10 @@ function SCBReadUsers(usersData) {
             responsive: true,
             dom: 'Bfrtip',
             buttons: [
-                'copyHtml5',
+                {
+                    extend: 'copyHtml5',
+                    title: fileName
+                },
                 {
                     extend: 'csvHtml5',
                     title: fileName
@@ -55,7 +58,10 @@ function SCBReadUsers(usersData) {
                     extend: 'pdfHtml5',
                     title: fileName
                 },
-                'print'
+                {
+                    extend: 'print',
+                    title: fileName
+                },
             ],
   
             columns: [
@@ -84,17 +90,19 @@ function SCBReadUsers(usersData) {
 }
 // Read hosts success call back
 function SCBReadHosts(hostsData) {
-    
     let hosts = JSON.parse(hostsData);
     const fileName = 'Hosts data export';
     try {
         tbl = $('#HostTable').DataTable({
-            data: apartments,
+            data: hosts,
             pageLength: 10,
             responsive: true,
             dom: 'Bfrtip',
             buttons: [
-                'copyHtml5',
+                {
+                    extend: 'copyHtml5',
+                    title: fileName
+                },
                 {
                     extend: 'csvHtml5',
                     title: fileName
@@ -107,7 +115,11 @@ function SCBReadHosts(hostsData) {
                     extend: 'pdfHtml5',
                     title: fileName
                 },
-                'print'
+                {
+                    extend: 'print',
+                    title: fileName
+                },
+                
             ],
             columns: [
                 { data: "HostEmail" },
@@ -146,37 +158,37 @@ function SCBReadApartments(apartmentsData) {
                 {
                     extend: 'copy',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 },
                 {
                     extend: 'csv',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 },
                 {
                     extend: 'excel',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 },
                 {
                     extend: 'pdf',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 },
                 {
                     extend: 'print',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 }
             ],
 
@@ -186,14 +198,14 @@ function SCBReadApartments(apartmentsData) {
                 { data: "Apartment_name" },
                 { data: "Total_rentals" },
                 { data: "Total_cancels" },
-                {
-                    data: "s",
-                    render: function (data, type, row, meta) {
-                        let dataApartmentId = "data-apartmentId='" + row.Apartment_id + "'";
-                        return `<input type="button" ${dataApartmentId} class="apartmentIdView btn btn-info" value="Watch">`;
+                //{
+                //    data: "Link_to_apartment",
+                //    render: function (data, type, row, meta) {
+                //        let dataApartmentId = "data-apartmentId='" + row.Apartment_id + "'";
+                //        return `<input type="button" ${dataApartmentId} class="apartmentIdView btn btn-info" value="Watch">`;
 
-                    }
-                },
+                //    }
+                //},
             ],
         });
         $('#spinner').css('display', 'none');
