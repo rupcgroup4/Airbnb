@@ -186,6 +186,7 @@ namespace WebApplication1.Models.DAL
 
         }
 
+        //This function get Apartment Id and execute store procedure to get the apartment
         private SqlCommand CreateGetApartmentById(SqlConnection con, int apartmentId)
         {
 
