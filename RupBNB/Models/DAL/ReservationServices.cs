@@ -11,13 +11,14 @@ namespace RupBNB.Models.DAL
         //Insert new reservation to Reservation Table
         public bool InsertReservation(Reservation res)
         {
-            SqlConnection con = SqlConnect.Connect();
-
+            
             //check if apartement is already booked on dates
             if(IsApartmentBookedOnDates(res))
-            {
+            {   
                 return false;
             }
+
+            SqlConnection con = SqlConnect.Connect();
 
             // Create Command
             SqlCommand command = CreateInsertReservation(con, res);
