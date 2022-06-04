@@ -39,7 +39,7 @@ function submitSignUpForm() {
 function submitSignUpFormSuccess(user)
 {
 	localStorage.setItem("CGroup4_user", JSON.stringify(user));
-	//window.location.replace("insert.html");
+	window.location.replace("index.html");
 
 	Swal.fire({
 		icon: 'success',

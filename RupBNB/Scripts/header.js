@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+    let isLogin = '<li><a class="dropdown-item" href="login.html">Log In</a></li>'
+    let userLink = '<li><a class="dropdown-item" href="signUp.html">Sign Up</a></li>'
+
+    if (localStorage["CGroup4_user"] != undefined) {
+        userLink = '<li><a class="dropdown-item" href="profilePage.html">Profile</a></li>'
+        isLogin = '<li><a onclick="logOut()" class="dropdown-item" href="#">Log Out</a></li>'
+    }
+
     $("#MainHeader")
     .append(
         `
@@ -12,7 +20,7 @@ $(document).ready(function() {
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="apartments.html">Home</a>
+                                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Search</a>
@@ -27,9 +35,9 @@ $(document).ready(function() {
                             </a>
                         
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="profilePage.html">Profile</a></li>
+                            ${isLogin}
+                            ${userLink}
                             <li><a class="dropdown-item" href="#">Become Host</a></li>
-                            <li><a class="dropdown-item" href="#">Log Out</a></li>
                             </ul>
                         </div>
                     </div>
@@ -41,3 +49,8 @@ $(document).ready(function() {
 
 })
 
+//User loged out
+function logOut() {
+    localStorage.removeItem("CGroup4_user");
+    window.location.replace("index.html");
+}

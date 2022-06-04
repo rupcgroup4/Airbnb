@@ -32,15 +32,29 @@ data = [
     }
 ]
 
+//before window unload clear CGroup4_blockReservation from session storage
+window.onbeforeunload = function () {
+    sessionStorage.removeItem("CGroup4_blockReservation");
+}
 
 $(document).ready(function () {
-    let apartmentId = sessionStorage.getItem("apartmentId");
+
+    let apartmentId = sessionStorage.getItem("CGroup4_apartmentId");
+    if (apartmentId == undefined) {
+        window.location.replace("index.html");
+    }
+
+   
+    if (sessionStorage.getItem("CGroup4_blockReservation") != undefined) {
+        $("#reserve").removeClass("d-flex");
+        $("#reserve").css("display", "none");
+    }
+
     
     ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
 
 
-
-
+    //when user press on confirm reservation
     $(document).on("click", "#makeReservation", () => {
         makeReservation();
     })

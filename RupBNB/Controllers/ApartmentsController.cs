@@ -10,7 +10,8 @@ using WebApplication1.Models;
 namespace RupBNB.Controllers
 {
     public class ApartmentsController : ApiController
-    {
+    {   
+
         // GET api/<controller>
         public HttpResponseMessage Get()
         {

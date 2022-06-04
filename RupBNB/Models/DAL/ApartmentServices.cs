@@ -278,7 +278,7 @@ namespace WebApplication1.Models.DAL
             command.Parameters.AddWithValue("@endDate", Convert.ToDateTime(data["EndDate"]));
             command.Parameters.AddWithValue("@orderByColumn", Convert.ToString(data["OrderByColumn"]));
 
-            command.CommandText = "SP_getApartmentsBySearchFilte";
+            command.CommandText = "SP_getApartmentsBySearchFilter";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds

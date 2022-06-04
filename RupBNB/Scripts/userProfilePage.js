@@ -4,7 +4,9 @@ var user; //global paramater
 $(document).ready(function () {
 
     user = JSON.parse(window.localStorage.getItem('CGroup4_user'))
-
+    if (user == undefined) {
+        window.location.replace("index.html");
+    }
     $("#username").html(user.UserName);
     getMyFutureReservations();
 
@@ -21,7 +23,9 @@ function formatDate(date) {
 
 //This function is called when "Apartment Details" button is clicked
 function seeApart(apartmentId) {
-    sessionStorage.setItem("apartmentId", apartmentId);
+    sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
+    sessionStorage.setItem("CGroup4_blockReservation", true);
+    
     window.location.href = "seeApart.html";
 }
 

@@ -27,6 +27,8 @@ function submitLoginFormSuccess(user) {
 
 	localStorage.setItem("CGroup4_user", JSON.stringify(user));
 	console.log(user);
+	//move to new page and dosent allow to move back
+	window.location.replace("index.html");
 }
 
 function submitLoginFormError(err) {

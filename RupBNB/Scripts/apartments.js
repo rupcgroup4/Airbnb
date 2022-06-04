@@ -127,7 +127,7 @@ $(document).ready(function () {
 
 //failed to get apartment from server
 function getApartmentsECB(err) {
-    sessionStorage.setItem("errorMessage", err.responseText);
+    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
     window.location.replace("notFound.html");
 
 }
@@ -257,7 +257,7 @@ function apartmentSearchSCB(apartments) {
 
 //This function called when press "See Details" on Apartment
 function seeApart(apartmentId) {
-    sessionStorage.setItem("apartmentId", apartmentId);
+    sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
     window.location.href = "seeApart.html";
 }
 

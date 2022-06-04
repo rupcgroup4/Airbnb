@@ -196,7 +196,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Pages\adminView.html" />
-    <Content Include="Pages\apartments.html" />
+    <Content Include="Pages\index.html" />
     <Content Include="Pages\createDB.html" />
     <Content Include="Pages\login.html" />
     <Content Include="Pages\notFound.html" />
@@ -228,6 +228,7 @@
     <Content Include="Scripts\header.js" />
     <Content Include="Scripts\loginScript.js" />
     <Content Include="Scripts\seeApart.js" />
+    <Content Include="Scripts\signUpScript.js" />
     <Content Include="Scripts\userProfilePage.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
