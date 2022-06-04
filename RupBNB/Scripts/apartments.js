@@ -50,42 +50,49 @@ apartments = [
 
 ]
 
+//when first load the page, we load the first 8 row from the table
 let startRow = 1;
 let endRow = 8;
+//hold apartments locations to show on the map
 let locations = []
+//indicate if the user make a query with distance parameter
 let isDistanceFilter = false;
 
+//scroll handler for web
+const divScroll = () => {
+    if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
+
+        ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
+        startRow += 4;
+        endRow += 4
+
+    }
+}
+//scroll handler for mobile
+const windowScroll = () => {
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
+        startRow += 4;
+        endRow += 4
+    }
+}
+
+//when document is ready
 $(document).ready(function () {
-    //getApartmentsSCB();
+
+    //first api call to get the first 8 apartemnet to load to the page
     ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
     startRow += 8;
     endRow += 4
 
-
-
-
     //load more data on scroll for web
-    $("#cards").scroll( () => {
-        if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
-             
-            ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
-            startRow += 4;
-            endRow += 4
-        
-        }
-    });
-
+    $("#cards").scroll(divScroll);
 
     //load more data on scroll for mobile
-    $(window).scroll( () => {
-        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-            ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
-            startRow += 4;
-            endRow += 4
-        }
-    });
+    $(window).scroll(windowScroll);
 
-    
+
+    //update maxUSD span when user move price slider
     $(document).on('input', "#priceRange", () => {
         if($("#priceRange").val() == 0) {
 
@@ -98,7 +105,7 @@ $(document).ready(function () {
         
     });
 
-
+    //update maxDistance span when user move price slider
     $(document).on('input', "#distanceRange", () => {
         if ($("#distanceRange").val() == 0) {
 
@@ -113,52 +120,27 @@ $(document).ready(function () {
 
     });
 
-
-    //Create date range picker
-    const picker = new easepick.create({
-        element: "#datepicker",
-        css: [
-            "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.css"
-        ],
-        zIndex: 10,
-        autoApply: false,
-        format: "YYYY.MM.DD",
-        AmpPlugin: {
-            darkMode: false
-        },
-        RangePlugin: {
-            delimiter: " to: ",
-            tooltipNumber(num) {
-                return num - 1;
-            },
-            locale: {
-                one: 'night',
-                other: 'nights',
-            },
-        },
-        LockPlugin: {
-            minDate: new Date(),
-            minDays: 2,
-            selectForward: true
-        },
-        plugins: [
-            "AmpPlugin",
-            "RangePlugin",
-            "LockPlugin"
-        ]
-    })
+    //this function create the date range in the search filter
+    createCalander();
 
 });
 
-
+//failed to get apartment from server
 function getApartmentsECB(err) {
     console.log("no more");
 }
 
+//get apartemnts from server SCB
+//render the apartemnts to the screen
 function getApartmentsSCB(apartments) {
 
+    $('#spinner').css('display', 'none');
+
+
     for (let i = 0; i < apartments.length; i++) {
-        
+
+        let distanceRounded = Math.round(apartments[i].DistanceToCenterKM * 10) / 10
+
         $("#cardContainer")
             .append(
                 `
@@ -173,7 +155,7 @@ function getApartmentsSCB(apartments) {
                                 <span><b>$</b>${apartments[i].Price}<span style="font-weight: 300;"> night</span></span>
                             </div>
                             <div class="apartName">
-                                <span>${ isDistanceFilter ? "Center: " + apartments[i].DistanceToCenterKM + "Km": ""}</span>
+                                <span>${ isDistanceFilter ? "Center: " + distanceRounded + "Km": ""}</span>
                                 <h6 class="card-title">${apartments[i].Name}</h6>
                             </div>
                            
@@ -247,16 +229,26 @@ function search() {
 
     ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), apartmentSearchSCB, getApartmentsECB);
 
+    $("#cardContainer").html("");
+    $('#spinner').css('display', 'block');
+
+}
+
+function apartmentSearchSCB(apartments) {
+
+    //Should be removed after fix search store procedure to be able to get fromRow and toRow
+    $("#cards").off("scroll", divScroll);
+    $(window).off("scroll", windowScroll);
+
+
     //Change Layout
     $("#cardContainer").removeClass("row-cols-md-4");
     $("#cardContainer").addClass("row-cols-md-2");
     $("#mapContainer").css("display", "block");
 
-}
-
-function apartmentSearchSCB(apartments) {
-    $("#cardContainer").html("");
+    locations = [];
     getApartmentsSCB(apartments);
+    $('#spinner').css('display', 'none');
 
 }
 
@@ -295,6 +287,42 @@ function initMap() {
     console.log("connect to google map"); 
 }
 
+
+function createCalander() {
+    //Create date range picker
+    const picker = new easepick.create({
+        element: "#datepicker",
+        css: [
+            "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.css"
+        ],
+        zIndex: 10,
+        autoApply: false,
+        format: "YYYY.MM.DD",
+        AmpPlugin: {
+            darkMode: false
+        },
+        RangePlugin: {
+            delimiter: " to: ",
+            tooltipNumber(num) {
+                return num - 1;
+            },
+            locale: {
+                one: 'night',
+                other: 'nights',
+            },
+        },
+        LockPlugin: {
+            minDate: new Date(),
+            minDays: 2,
+            selectForward: true
+        },
+        plugins: [
+            "AmpPlugin",
+            "RangePlugin",
+            "LockPlugin"
+        ]
+    })
+}
 
 
 

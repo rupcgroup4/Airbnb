@@ -99,7 +99,7 @@ function SCBGetApartment(returnApartment) {
     $("#name").append(apartment.Name);
     $("#description").prepend(apartment.Description.substring(0, 200));
     $("#more").append(apartment.Description.substring(201))
-    $("#price").prepend("$" + apartment.Price);S
+    $("#price").prepend("$" + apartment.Price);
 
     $("#details").append(
         `
