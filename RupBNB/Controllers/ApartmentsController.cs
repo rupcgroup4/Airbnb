@@ -26,16 +26,19 @@ namespace RupBNB.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
         }
+
+        //Route to get an apartment by id
         [HttpGet]
-       [Route("api/Apartments/{id}")]
+        [Route("api/Apartments/{id}")]
         public Apartment Get(int id)
         {
             Apartment a = new Apartment();
             return a.getApartmentById(id);
         }
 
+        //**************This will be Deleted***************Ask Yoav
         [HttpPost]
-        // api/companylogin
+        // api/apartmentsRating
         [Route("api/apartmentsRating")]
         public HttpResponseMessage Post([FromBody] int[] rows)
         {
@@ -53,23 +56,34 @@ namespace RupBNB.Controllers
             }
         }
 
+        //Route to get apartment by query
         [HttpPost]
-        // api/apartmentsSearchFilter
+        // api/apartmentsSearch
         [Route("api/apartmentsSearch")]
         public HttpResponseMessage Post([FromBody] JObject data)
         {
             Apartment a = new Apartment();
-            List<Apartment> apartments = a.getApartmentsBySearchFilter(data);
-
-            if (apartments.Count > 0)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, apartments);
+                List<Apartment> apartments = a.getApartmentsBySearchFilter(data);
 
-            }
-            else
+                if (apartments.Count == 1 && apartments[0].Id == -1)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
+
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, apartments);
+
+                }
+
+            } 
+            catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
             }
+           
         }
 
 

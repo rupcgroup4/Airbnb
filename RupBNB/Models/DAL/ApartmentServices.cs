@@ -250,6 +250,17 @@ namespace WebApplication1.Models.DAL
             // Close Connection
             con.Close();
 
+            if (apartments.Count == 0)
+            {
+                apartments.Add(new Apartment(-1, "", "", "", "",
+                    "", "", 0, 0, 0, "", "", 0,
+                    0, 0, "", 0, 0, 0, 0, 0,
+                    0, 0));
+            }
+
+
+
+
             return apartments;
 
         }
@@ -267,7 +278,7 @@ namespace WebApplication1.Models.DAL
             command.Parameters.AddWithValue("@endDate", Convert.ToDateTime(data["EndDate"]));
             command.Parameters.AddWithValue("@orderByColumn", Convert.ToString(data["OrderByColumn"]));
 
-            command.CommandText = "SP_getApartmentsBySearchFilter";
+            command.CommandText = "SP_getApartmentsBySearchFilte";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds

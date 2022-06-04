@@ -127,7 +127,9 @@ $(document).ready(function () {
 
 //failed to get apartment from server
 function getApartmentsECB(err) {
-    console.log("no more");
+    sessionStorage.setItem("errorMessage", err.responseText);
+    window.location.replace("notFound.html");
+
 }
 
 //get apartemnts from server SCB

@@ -199,6 +199,7 @@
     <Content Include="Pages\apartments.html" />
     <Content Include="Pages\createDB.html" />
     <Content Include="Pages\login.html" />
+    <Content Include="Pages\notFound.html" />
     <Content Include="Pages\profilePage.html" />
     <Content Include="Pages\seeApart.html" />
     <Content Include="Pages\signUp.html" />
@@ -271,6 +272,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CSS\notFound.css" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
