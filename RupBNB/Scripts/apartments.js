@@ -80,8 +80,8 @@ let serachQuery = {
     MinApartmentRating: 1,
     MinBedrooms: 0,
     MaxDistanceToCenter: 50,
-    StartDate: new Date("9999-1-1"),
-    EndDate: new Date("9999-1-1"),
+    StartDate: "9999-1-1",
+    EndDate: "9999-1-1",
     OrderByColumn: "price_D",
     FromRow: 1,
     ToRow: 8,
@@ -158,7 +158,7 @@ function getApartmentsSCB(apartments) {
         $("#cardContainer")
             .append(
                 `
-                <div class="col">
+                <div class="col mt-3">
                     <div onclick="seeApart(${apartments[i].Id})" class="card h-100">
                         <div>
                             <img src="${apartments[i].Img}" class="card-img-top img-apartment">
