@@ -81,15 +81,21 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
         console.log("diff: ", diffDays);
         console.log("app id: ", reservationsData[i].ApartmentId);
         $("#futureReservationsContainer").append(`
-            <div class="card m-auto mt-5" style="width: 18rem;">
-                ${reservationsData[i].IsCanceled ? '<span style="color:red"> RESERVATION CANCELED</span>' : ""}
-                <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
-                        <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
-                        <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary" value="Apartment Details">
-                        ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-primary" value="Cancel">` : ""}
-                    </div>
+            <div class="col mt-2">
+                <div class="card h-100">
+                    <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
+                            <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
+                            <div class="bottom">
+                                ${reservationsData[i].IsCanceled ? '<span style="color:red"> RESERVATION CANCELED</span>' : ""}
+                                <div class="d-flex justify-content-between">
+                                    <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary m-auto" value="Apartment Details">
+                                    ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-danger m-auto" value="Cancel">` : ""}
+                                </div>
+                            </div>
+                        </div>
+                </div>
             </div> `)
     }
     //<span style="color:red"> RESERVATION CANCELED</span>
@@ -114,14 +120,18 @@ function getMyPastReservationsSuccess(usersReservationsData) {
         let endDate = new Date(reservationsData[i].EndDate);
 
         $("#pastReservationsContainer").append(`
-            <div class="card m-auto mt-5" style="width: 18rem;">
-                <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
-                        <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
-                        <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary" value="Apartment Details">
-                    </div>
-            </div> `)
+            <div class="col mt-2">
+                <div class="card h-100">
+                    <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
+                            <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
+                            <div class="bottom">
+                                <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary" value="Apartment Details">
+                            </div>
+                        </div>
+                </div>
+            </div>`)
     }
 }
 

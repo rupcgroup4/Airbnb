@@ -29,17 +29,16 @@
          <div id="MainHeader"></div>
 
         <div class="profileContainer">
-          <div id="profileCard" class="card">
-           
-            <!--<img src="https://images.unsplash.com/photo-1499557354967-2b2d8910bcca?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7d5363c18112a02ce22d0c46f8570147&auto=format&fit=crop&w=635&q=80%20635w" alt="profile-pic" class="profilePic">-->
-            <h1 id="username">Bevely Little</h1>
-            <!--<p>SENIOR PRODUCT DESIGNER</p>
-            <div>
-              <p>Create usable interface and designs @GraphicSpark</p>
-            </div>-->
-      
-            <hr>
-            <div id="orderContainer" class="container overflow-auto">
+            <div id="profileCard" class="card">
+
+                <!--<img src="https://images.unsplash.com/photo-1499557354967-2b2d8910bcca?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7d5363c18112a02ce22d0c46f8570147&auto=format&fit=crop&w=635&q=80%20635w" alt="profile-pic" class="profilePic">-->
+                <h1 id="username">Bevely Little</h1>
+                <!--<p>SENIOR PRODUCT DESIGNER</p>
+                <div>
+                  <p>Create usable interface and designs @GraphicSpark</p>
+                </div>-->
+
+                <hr>
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-futureReservations-tab" data-bs-toggle="tab" data-bs-target="#nav-futureReservations" type="button" role="tab" aria-controls="nav-futureReservations" aria-selected="true">Future Reservations</button>
@@ -47,56 +46,58 @@
                         <button onclick="getMyLikedApartments()" class="nav-link" id="nav-likedApartments-tab" data-bs-toggle="tab" data-bs-target="#nav-likedApartments" type="button" role="tab" aria-controls="nav-likedApartments" aria-selected="false">Liked Apartments</button>
                     </div>
                 </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <!--Future Reservations-->
-                    <div class="tab-pane fade show active" id="nav-futureReservations" role="tabpanel" aria-labelledby="nav-futureReservations-tab">
-                        <div id="futureReservationsContainer">
+                <div id="orderContainer" class="container overflow-auto">
 
+                    <div class="tab-content" id="nav-tabContent">
+                        <!--Future Reservations-->
+                        <div class="tab-pane fade show active" id="nav-futureReservations" role="tabpanel" aria-labelledby="nav-futureReservations-tab">
+                            <div id="futureReservationsContainer" class="row row-cols-1 row-cols-md-3">
+
+                            </div>
+                        </div>
+                        <!--Past Reservations-->
+                        <div class="tab-pane fade" id="nav-pastReservations" role="tabpanel" aria-labelledby="nav-pastReservations-tab">
+                            <div id="pastReservationsContainer" class="row row-cols-1 row-cols-md-3">
+
+                            </div>
+                        </div>
+
+                        <!--Liked Apartments-->
+                        <div class="tab-pane fade" id="nav-likedApartments" role="tabpanel" aria-labelledby="nav-likedApartments-tab">
+                            <div id="likedApartmentsContainer" class="row row-cols-1 row-cols-md-4">
+
+                            </div>
                         </div>
                     </div>
-                    <!--Past Reservations-->
-                    <div class="tab-pane fade" id="nav-pastReservations" role="tabpanel" aria-labelledby="nav-pastReservations-tab">
-                        <div id="pastReservationsContainer">
 
-                        </div>
-                    </div>
-
-                    <!--Liked Apartments-->
-                    <div class="tab-pane fade" id="nav-likedApartments" role="tabpanel" aria-labelledby="nav-likedApartments-tab">
-                        <div id="likedApartmentsContainer">
-
-                        </div>
-                    </div>
+                    <!--<div id="orders">
+            <div class="card m-auto mt-5" style="width: 18rem;">
+                <img src="https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Appartment Name</h5>
+                    <p class="card-text">26/5/2022 - 30/5/2022</p>
+                    <a href="#" class="btn btn-primary">Cancel</a>
                 </div>
-               
-                <!--<div id="orders">
-                    <div class="card m-auto mt-5" style="width: 18rem;">
-                        <img src="https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">Appartment Name</h5>
-                            <p class="card-text">26/5/2022 - 30/5/2022</p>
-                            <a href="#" class="btn btn-primary">Cancel</a>
-                        </div>
-                    </div>
-                    <div class="card m-auto mt-5" style="width: 18rem;">
-                        <img src="https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">Appartment Name</h5>
-                            <p class="card-text">26/5/2022 - 30/5/2022</p>
-                            <a href="#" class="btn btn-primary">Cancel</a>
-                        </div>
-                    </div>
-                    <div class="card m-auto mt-5" style="width: 18rem;">
-                        <img src="https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">Appartment Name</h5>
-                            <p class="card-text">26/5/2022 - 30/5/2022</p>
-                            <a href="#" class="btn btn-primary">Review</a>
-                        </div>
-                    </div>
-                </div>-->
             </div>
-          </div>
+            <div class="card m-auto mt-5" style="width: 18rem;">
+                <img src="https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Appartment Name</h5>
+                    <p class="card-text">26/5/2022 - 30/5/2022</p>
+                    <a href="#" class="btn btn-primary">Cancel</a>
+                </div>
+            </div>
+            <div class="card m-auto mt-5" style="width: 18rem;">
+                <img src="https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Appartment Name</h5>
+                    <p class="card-text">26/5/2022 - 30/5/2022</p>
+                    <a href="#" class="btn btn-primary">Review</a>
+                </div>
+            </div>
+        </div>-->
+                </div>
+            </div>
         </div>
       
        

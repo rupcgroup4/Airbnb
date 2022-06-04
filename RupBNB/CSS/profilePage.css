@@ -10,7 +10,6 @@
     display: inline-block;
     min-height:800px;
     margin: 1rem;
-    width: 50%;
     box-shadow: 0 12px 13px rgba(0,0,0,0.16), 0 12px 13px rgba(0,0,0,0.16);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
@@ -24,11 +23,23 @@
     box-shadow: 0 13px 26px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.16);
 }
 
-
-#orderContainer {
-    margin-top: 1rem;
-    max-height: 800px;
+.card-img-top {
+    height: 200px;
 }
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title{
+    flex-grow: 1;
+}
+.bottom {
+    margin: 0 auto;
+    margin-top: auto;
+}
+
 
 
 /* For Mobile */
@@ -36,6 +47,9 @@
     #profileCard {
         width: 100%;
         margin: 0;
-        height: 100vh;
+        /* height: 100vh; */
+    }
+    .card-img-top {
+        height: 300px;
     }
 }
