@@ -85,5 +85,22 @@ namespace RupBNB.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/Users/getUsersReservations")]
+        public HttpResponseMessage getUsersReservations(string email, bool isFutureReservations)
+        {
+            User u = new User();
+
+            string usersReservationsData = u.getUsersReservations(email, isFutureReservations);
+            if (usersReservationsData != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, usersReservationsData);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+        }
+
     }
 }
