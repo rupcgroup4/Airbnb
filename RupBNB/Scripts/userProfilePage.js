@@ -78,6 +78,7 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
         console.log("app id: ", reservationsData[i].ApartmentId);
         $("#futureReservationsContainer").append(`
             <div class="card m-auto mt-5" style="width: 18rem;">
+                ${reservationsData[i].IsCanceled ? '<span style="color:red"> RESERVATION CANCELED</span>' : ""}
                 <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
@@ -87,7 +88,7 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
                     </div>
             </div> `)
     }
-
+    //<span style="color:red"> RESERVATION CANCELED</span>
 }
 
 function getMyFutureReservationsError(err) {
