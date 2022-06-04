@@ -1,5 +1,6 @@
 ﻿
 var user; //global paramater
+var wasPastReservationsUsed = false; //boolean paramater that changes when the past reservation are shown (to prevent multiple ajax calls unneceserily to show the same thing)
 
 $(document).ready(function () {
 
@@ -83,12 +84,13 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
         $("#futureReservationsContainer").append(`
             <div class="col mt-2">
                 <div class="card h-100">
+                    ${reservationsData[i].IsCanceled ? '<span style="color:red"> RESERVATION CANCELED</span>' : '<span style="color:white">FILL THE BLANK</span>'}
                     <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
                         <div class="card-body">
                             <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
                             <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
                             <div class="bottom">
-                                ${reservationsData[i].IsCanceled ? '<span style="color:red"> RESERVATION CANCELED</span>' : ""}
+                               
                                 <div class="d-flex justify-content-between">
                                     <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary m-auto" value="Apartment Details">
                                     ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-danger m-auto" value="Cancel">` : ""}
@@ -106,7 +108,10 @@ function getMyFutureReservationsError(err) {
 }
 
 function getMyPastReservations() {
-    ajaxCall("GET", `../api/Users/getUsersReservations?email=${user.Email}&isFutureReservations=false`, "", getMyPastReservationsSuccess, getMyPastReservationsError);
+    if (!wasPastReservationsUsed) {
+        ajaxCall("GET", `../api/Users/getUsersReservations?email=${user.Email}&isFutureReservations=false`, "", getMyPastReservationsSuccess, getMyPastReservationsError);
+        wasPastReservationsUsed = true;
+    }
 }
 
 function getMyPastReservationsSuccess(usersReservationsData) {
