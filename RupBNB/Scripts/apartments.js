@@ -67,7 +67,7 @@ $(document).ready(function () {
     //load more data on scroll for web
     $("#cards").scroll( () => {
         if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
-
+             
             ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
             startRow += 4;
             endRow += 4
@@ -112,6 +112,41 @@ $(document).ready(function () {
         }
 
     });
+
+
+    //Create date range picker
+    const picker = new easepick.create({
+        element: "#datepicker",
+        css: [
+            "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.css"
+        ],
+        zIndex: 10,
+        autoApply: false,
+        format: "YYYY.MM.DD",
+        AmpPlugin: {
+            darkMode: false
+        },
+        RangePlugin: {
+            delimiter: " to: ",
+            tooltipNumber(num) {
+                return num - 1;
+            },
+            locale: {
+                one: 'night',
+                other: 'nights',
+            },
+        },
+        LockPlugin: {
+            minDate: new Date(),
+            minDays: 2,
+            selectForward: true
+        },
+        plugins: [
+            "AmpPlugin",
+            "RangePlugin",
+            "LockPlugin"
+        ]
+    })
 
 });
 
@@ -159,51 +194,71 @@ function getApartmentsSCB(apartments) {
 //search apartment
 function search() {
 
-
-    let checkInDate = new Date ($("#checkIn").val());
-    let checkOutDate = new Date ($("#checkOut").val());
-
-    if (checkDates(checkInDate, checkOutDate)) {
+    let accomodate = $("#accomodate").val();
+    if (accomodate == "") {
+        alert("not num");
         return;
     }
 
-    $("#cardContainer").removeClass("row-cols-md-4");
-    $("#cardContainer").addClass("row-cols-md-2");
+    let checkIn;
+    let checkOut;
+    let date = $("#datepicker").val();
+    if (date.length > 0) {
+        let dates = date.split(" to: ");
+        checkIn = new Date(dates[0]);
+        checkOut = new Date(dates[1]);
 
-    $("#mapContainer").css("display", "block");
-
-
+    } else {
+        checkIn = new Date("9999-1-1");
+        checkOut = new Date("9999-1-1");
+    }
+    
     let maxPrice = $("#priceRange").val();
+    if (maxPrice == 0) {
+        maxPrice = 32676;
+    }
+
     let minRating = $("#minRating").val();
     let minRoom = $("#minRoom").val();
+
     let distanceToCenter = $("#distanceRange").val();
-    let accomodate = $("#accomodate").val();
+    if (distanceToCenter == 0) {
+        distanceToCenter = 50;
+    }
+
+    
     let sortBy = $("#sortBy").val();
 
-    if (maxPrice == 0) {
-        maxPrice = 32767;
+    if (sortBy == "distanceToCenterKM_D" || sortBy == "distanceToCenterKM_A") {
+        isDistanceFilter = true;
     }
 
 
+    let serachQuery = {
+        MaxPrice: maxPrice,
+        MinApartmentRating: minRating,
+        MinBedrooms: minRoom,
+        MaxDistanceToCenter: distanceToCenter,
+        StartDate: checkIn,
+        EndDate: checkOut,
+        OrderByColumn: sortBy
+    }
+
+
+    ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), apartmentSearchSCB, getApartmentsECB);
+
+    //Change Layout
+    $("#cardContainer").removeClass("row-cols-md-4");
+    $("#cardContainer").addClass("row-cols-md-2");
+    $("#mapContainer").css("display", "block");
+
 }
 
-function checkDates() {
+function apartmentSearchSCB(apartments) {
+    $("#cardContainer").html("");
+    getApartmentsSCB(apartments);
 
-
-
-    
-
-    //check if check out is bigger than check out date
-    if (checkOutDate <= checkInDate) {
-        alert("err");
-        //set check out date to be 1 day after check in
-        checkOutDate = new Date(checkInDate);
-        checkOutDate.setDate(checkOutDate.getDate() + 1);
-        //conver check out date to string format for date input
-        checkOutDateString = checkOutDate.toISOString().split('T')[0];
-        $(this).val(checkOutDateString)
 }
-
 
 
 //This function called when press "See Details" on Apartment

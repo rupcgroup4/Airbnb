@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json.Linq;
 using WebApplication1.Models;
 
 namespace RupBNB.Controllers
@@ -52,21 +53,27 @@ namespace RupBNB.Controllers
             }
         }
 
-
-
-        // POST api/<controller>
-        public void Post([FromBody] string value)
+        [HttpPost]
+        // api/apartmentsSearchFilter
+        [Route("api/apartmentsSearch")]
+        public HttpResponseMessage Post([FromBody] JObject data)
         {
+            Apartment a = new Apartment();
+            List<Apartment> apartments = a.getApartmentsBySearchFilter(data);
+
+            if (apartments.Count > 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, apartments);
+
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
+
+
     }
 }

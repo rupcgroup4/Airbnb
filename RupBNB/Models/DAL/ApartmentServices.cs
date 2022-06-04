@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RupBNB.Models.DAL;
 using System;
 using System.Collections.Generic;
@@ -201,6 +202,79 @@ namespace WebApplication1.Models.DAL
 
             return command;
         }
+
+        public List<Apartment> getApartmentsBySearchFilter(JObject data)
+        {
+
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateGetApartmentsBySearchFilter(con, data);
+
+            // Execute
+            SqlDataReader dr = command.ExecuteReader();
+
+            List<Apartment> apartments = new List<Apartment>();
+            while (dr.Read())
+            {
+                int id = Convert.ToInt32(dr["id"]);
+                string propertyType = Convert.ToString(dr["propertyType"]);
+                string hostEmail = Convert.ToString(dr["hostEmail"]);
+                string name = Convert.ToString(dr["name"]);
+                string description = Convert.ToString(dr["description"]);
+                string img = Convert.ToString(dr["img"]);
+                string neighborhood = Convert.ToString(dr["neighborhood"]);
+                float latitude = Convert.ToSingle(dr["latitude"]);
+                float longtitude = Convert.ToSingle(dr["longtitude"]);
+                float distanceToCenterKM = Convert.ToSingle(dr["distanceToCenterKM"]);
+                string roomType = Convert.ToString(dr["roomType"]);
+                string numBathrooms = Convert.ToString(dr["numBathrooms"]);
+                int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);
+                int numBeds = Convert.ToInt32(dr["numBeds"]);
+                int accommodates = Convert.ToInt32(dr["accommodates"]);
+                string amenities = Convert.ToString(dr["amenities"]);
+                int price = Convert.ToInt32(dr["price"]);
+                int minNight = Convert.ToInt32(dr["minNights"]);
+                int maxNight = Convert.ToInt32(dr["maxNights"]);
+                float rating = Convert.ToSingle(dr["rating"]);
+                float reviewAccuracy = Convert.ToSingle(dr["reviewAccuracy"]); ;
+                float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); ;
+                float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
+
+                apartments.Add(new Apartment(id, propertyType, hostEmail, name, description,
+                    img, neighborhood, latitude, longtitude, distanceToCenterKM, roomType, numBathrooms, numBedrooms,
+                    numBeds, accommodates, amenities, price, minNight, maxNight, rating, reviewAccuracy,
+                    reviewsClean, reviewLocation));
+
+            }
+            // Close Connection
+            con.Close();
+
+            return apartments;
+
+        }
+
+        private SqlCommand CreateGetApartmentsBySearchFilter(SqlConnection con, JObject data)
+        {
+
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@maxPrice", Convert.ToInt32(data["MaxPrice"]));
+            command.Parameters.AddWithValue("@minApartmentRating", Convert.ToInt32(data["MinApartmentRating"]));
+            command.Parameters.AddWithValue("@minBedrooms", Convert.ToInt32(data["MinBedrooms"]));
+            command.Parameters.AddWithValue("@maxDistanceToCenterKM", Convert.ToSingle(data["MaxDistanceToCenter"]));
+            command.Parameters.AddWithValue("@startDate", Convert.ToDateTime(data["StartDate"]));
+            command.Parameters.AddWithValue("@endDate", Convert.ToDateTime(data["EndDate"]));
+            command.Parameters.AddWithValue("@orderByColumn", Convert.ToString(data["OrderByColumn"]));
+
+            command.CommandText = "SP_getApartmentsBySearchFilter";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+
 
         //Admin view apartments information
         private struct apartmentData

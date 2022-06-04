@@ -8,10 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script
-  src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"
-  integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA="
-  crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"
+            integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.umd.min.js"></script>
     <script src="https://kit.fontawesome.com/8f38e270eb.js" crossorigin="anonymous"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
 
@@ -73,15 +73,10 @@
                     <input id="accomodate" type="number" class="form-control" min="1" value="1">
                 </div>
                 <div class="col">
-                    <label for="checkIn" class="form-label">Check In</label>
-                    <input type="date" class="form-control" name="checkIn" id="checkIn" 
-                           selectMultiple="true" selectMin="2" selectMax="2">
+                    <label for="checkIn" class="form-label">CheckIn - CheckOut</label>
+                    <input id="datepicker" class="form-control" />
                 </div>
                 <div class="col">
-                    <label for="checkOut" class="form-label">Check Out</label>
-                    <input type="date" class="form-control" name="checkOut">
-                </div>
-                <div class="col d-flex align-items-end">
                     <label for="rooms" class="form-label">Sort By</label>
                     <select id="sortBy" class="form-select" aria-label="Default select example">
                         <option value="rating_D">Rating: Max</option>
@@ -91,6 +86,8 @@
                         <option value="distanceToCenterKM_D">Km to center: Max</option>
                         <option value="distanceToCenterKM_A">Km to center: Min</option>
                     </select>
+                </div>
+                <div class="col d-flex align-items-end">
                     <input type="button" onclick="search()" class="btn btn-primary bottom" value="Search" />
                 </div>
             </div>

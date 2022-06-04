@@ -99,7 +99,7 @@ function SCBGetApartment(returnApartment) {
     $("#name").append(apartment.Name);
     $("#description").prepend(apartment.Description.substring(0, 200));
     $("#more").append(apartment.Description.substring(201))
-    $("#price").prepend("$" + apartment.Price);
+    $("#price").prepend("$" + apartment.Price);S
 
     $("#details").append(
         `
@@ -120,7 +120,7 @@ function SCBGetApartment(returnApartment) {
 
             <div class="col text-center">
                 <i class="fa-solid fa-broom fa-2x"></i>
-                <h4>${apartment.ReviewClean ? apartment.ReviewClean : 0}</h4>
+                <h4>${apartment.ReviewClean != undefined ? apartment.ReviewClean : 0}</h4>
             </div>
             <div class="col text-center">
                 <i class="fa-solid fa-location-pin fa-2x"></i>

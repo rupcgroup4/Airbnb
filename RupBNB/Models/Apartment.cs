@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json.Linq;
 using WebApplication1.Models.DAL;
 
 namespace WebApplication1.Models
@@ -101,6 +102,13 @@ namespace WebApplication1.Models
         {
             ApartmentServices ds = new ApartmentServices();
             return ds.getApartmentById(id);
+        }
+
+
+        public List<Apartment> getApartmentsBySearchFilter(JObject data)
+        {
+            ApartmentServices ds = new ApartmentServices();
+            return ds.getApartmentsBySearchFilter(data);
         }
 
         //Admin view apartments information
