@@ -44,17 +44,22 @@ namespace RupBNB.Controllers
         public HttpResponseMessage Post([FromBody] int[] rows)
         {
             Apartment a = new Apartment();
-            List<Apartment> apartments = a.getXNumberOfApartmentsSortedByRating(rows[0], rows[1]);
-
-            if(apartments.Count > 0)
+            try
             {
+                List<Apartment> apartments = a.getXNumberOfApartmentsSortedByRating(rows[0], rows[1]);
+
+               
+                
                 return Request.CreateResponse(HttpStatusCode.OK, apartments);
 
-            }
-            else
+               
+                
+            } catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+
             }
+
         }
 
         //Route to get apartment by query
