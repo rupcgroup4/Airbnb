@@ -28,45 +28,50 @@ CREATE PROCEDURE SP_getApartmentsBySearchFilter
 	@maxDistanceToCenterKM float,
 	@startDate Date,
 	@endDate Date, 
-	@OrderByColumn nvarchar(30) 
+	@OrderByColumn nvarchar(30),
+	@fromRow int,
+	@toRow int
 	
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT OFF;
-	if @maxPrice is null SET @maxPrice=32767
-	if @minApartmentRating is null SET @minApartmentRating=1
-	if @minBedrooms is null SET @minBedrooms=0
-	if @maxDistanceToCenterKM is null SET @maxDistanceToCenterKM=1000
-	if @startDate is null SET @startDate='9999-1-1'
-	if @endDate is null SET @endDate='9999-1-1'
-	if @OrderByColumn is null SET @OrderByColumn='rating_D'
+
 
     -- Insert statements for procedure here
+
+	;WITH result AS 
+	(	
+		SELECT ROW_NUMBER() OVER(Order By (CASE @OrderByColumn
+			WHEN 'price_D' THEN price 
+			WHEN 'rating_D' THEN rating
+			WHEN 'distanceToCenterKM_D' THEN distanceToCenterKM
+			END) DESC ,
+			(CASE @OrderByColumn
+			WHEN 'price_A' THEN price 
+			WHEN 'rating_A' THEN rating
+			WHEN 'distanceToCenterKM_A' THEN distanceToCenterKM
+			END) ASC) AS [row],
+			[id], [propertyType], [hostEmail], [name], [description], [img], [neighborhood], [latitude], [longtitude], [distanceToCenterKM], [roomType], [numBathrooms], [numBedrooms], [numBeds], [accommodates], [amenities], [price], [minNights], [maxNights], [rating], [reviewAccuracy], [reviewsClean], [reviewLocation]
+			FROM Apartments as A
+			WHERE A.id not in (--apartments not avialable in inputed dates
+							 SELECT A.id 
+							 FROM Apartments AS A join Reservations AS R ON A.id = R.apartmentId
+							 WHERE (R.endDate > @startDate and R.endDate <= @endDate  ) 
+								or (R.startDate >= @startDate and R.startDate < @endDate )
+								and R.isCanceled = 0
+						) and A.price <= @maxPrice and
+							A.rating >= @minApartmentRating and
+							A.numBedrooms >= @minBedrooms and
+							A.distanceToCenterKM <= @maxDistanceToCenterKM and
+							A.accommodates >= @minAccommodates
+	)
+
+	SELECT *
+	FROM result
+	WHERE row between @fromRow and @toRow
 	
-select *
-from Apartments as A
-where A.id not in (--apartments not avialable in inputed dates
-					 select A.id 
-					 from Apartments as A join Reservations as R on A.id = R.apartmentId
-					 where (R.endDate > @startDate and R.endDate <= @endDate  ) 
-						or (R.startDate >= @startDate and R.startDate < @endDate )
-						and R.isCanceled = 0
-				) and A.price <= @maxPrice and
-					A.rating >= @minApartmentRating and
-					A.numBedrooms >= @minBedrooms and
-					A.distanceToCenterKM <= @maxDistanceToCenterKM and
-					A.accommodates >= @minAccommodates
-order by (CASE @OrderByColumn
-		WHEN 'price_D' THEN A.price 
-		WHEN 'rating_D' THEN A.rating
-		WHEN 'distanceToCenterKM_D' THEN A.distanceToCenterKM
-		END) DESC,
-		(CASE @OrderByColumn
-		WHEN 'price_A' THEN A.price 
-		WHEN 'rating_A' THEN A.rating
-		WHEN 'distanceToCenterKM_A' THEN A.distanceToCenterKM
-		END) ASC ;
+	
 END
 GO

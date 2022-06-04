@@ -250,17 +250,7 @@ namespace WebApplication1.Models.DAL
             // Close Connection
             con.Close();
 
-            if (apartments.Count == 0)
-            {
-                apartments.Add(new Apartment(-1, "", "", "", "",
-                    "", "", 0, 0, 0, "", "", 0,
-                    0, 0, "", 0, 0, 0, 0, 0,
-                    0, 0));
-            }
-
-
-
-
+            
             return apartments;
 
         }
@@ -273,10 +263,14 @@ namespace WebApplication1.Models.DAL
             command.Parameters.AddWithValue("@maxPrice", Convert.ToInt32(data["MaxPrice"]));
             command.Parameters.AddWithValue("@minApartmentRating", Convert.ToInt32(data["MinApartmentRating"]));
             command.Parameters.AddWithValue("@minBedrooms", Convert.ToInt32(data["MinBedrooms"]));
+            command.Parameters.AddWithValue("@minAccommodates", Convert.ToInt32(data["Accommodates"]));
             command.Parameters.AddWithValue("@maxDistanceToCenterKM", Convert.ToSingle(data["MaxDistanceToCenter"]));
             command.Parameters.AddWithValue("@startDate", Convert.ToDateTime(data["StartDate"]));
             command.Parameters.AddWithValue("@endDate", Convert.ToDateTime(data["EndDate"]));
             command.Parameters.AddWithValue("@orderByColumn", Convert.ToString(data["OrderByColumn"]));
+            command.Parameters.AddWithValue("@fromRow", Convert.ToInt32(data["FromRow"]));
+            command.Parameters.AddWithValue("@toRow", Convert.ToInt32(data["ToRow"]));
+
 
             command.CommandText = "SP_getApartmentsBySearchFilter";
             command.Connection = con;

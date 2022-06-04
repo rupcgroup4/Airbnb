@@ -50,9 +50,6 @@ apartments = [
 
 ]
 
-//when first load the page, we load the first 8 row from the table
-let startRow = 1;
-let endRow = 8;
 //hold apartments locations to show on the map
 let locations = []
 //indicate if the user make a query with distance parameter
@@ -62,28 +59,43 @@ let isDistanceFilter = false;
 const divScroll = () => {
     if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
 
-        ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
-        startRow += 4;
-        endRow += 4
+        ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
+        serachQuery.FromRow += 4;
+        serachQuery.ToRow += 4
 
     }
 }
 //scroll handler for mobile
 const windowScroll = () => {
     if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-        ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
-        startRow += 4;
-        endRow += 4
+        ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
+        serachQuery.FromRow += 4;
+        serachQuery.ToRow += 4
     }
 }
 
+//default query to show apartments on load
+let serachQuery = {
+    MaxPrice: 32676,
+    MinApartmentRating: 1,
+    MinBedrooms: 0,
+    MaxDistanceToCenter: 50,
+    StartDate: new Date("9999-1-1"),
+    EndDate: new Date("9999-1-1"),
+    OrderByColumn: "price_D",
+    FromRow: 1,
+    ToRow: 8,
+}
 //when document is ready
 $(document).ready(function () {
 
+    
+
+
     //first api call to get the first 8 apartemnet to load to the page
-    ajaxCall("POST", "../api/apartmentsRating", JSON.stringify([startRow, endRow]), getApartmentsSCB, getApartmentsECB);
-    startRow += 8;
-    endRow += 4
+    ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
+    serachQuery.FromRow += 8;
+    serachQuery.ToRow += 4
 
     //load more data on scroll for web
     $("#cards").scroll(divScroll);
@@ -217,15 +229,17 @@ function search() {
         isDistanceFilter = true;
     }
 
-
-    let serachQuery = {
+    serachQuery = {
         MaxPrice: maxPrice,
         MinApartmentRating: minRating,
         MinBedrooms: minRoom,
+        Accommodates: accomodate,
         MaxDistanceToCenter: distanceToCenter,
         StartDate: checkIn,
         EndDate: checkOut,
-        OrderByColumn: sortBy
+        OrderByColumn: sortBy,
+        FromRow: 1,
+        ToRow: 8,
     }
 
 
@@ -239,8 +253,8 @@ function search() {
 function apartmentSearchSCB(apartments) {
 
     //Should be removed after fix search store procedure to be able to get fromRow and toRow
-    $("#cards").off("scroll", divScroll);
-    $(window).off("scroll", windowScroll);
+    //$("#cards").off("scroll", divScroll);
+    //$(window).off("scroll", windowScroll);
 
 
     //Change Layout
