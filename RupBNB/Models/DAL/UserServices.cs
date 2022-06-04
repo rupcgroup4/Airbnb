@@ -99,8 +99,8 @@ namespace RupBNB.Models.DAL
         //Admin view users information
         private struct userData
         {
-            public userData(string user_Email, DateTime register_date,int total_rentals,
-                int total_income, int total_cancels)
+            public userData(string user_Email, DateTime register_date,int total_rentals
+                ,int total_cancels , int total_income)
             {
                 User_Email = user_Email;
                 Register_date = register_date;
@@ -134,7 +134,7 @@ namespace RupBNB.Models.DAL
                 int totalCanceled = Convert.ToInt32(dr["TotalCanceled"]);
                 int totalPrice = Convert.ToInt32(dr["TotalPrice"]);
 
-                usersData.Add(new userData(userEmail, userRegisteredSince, totalRents, totalCanceled, totalPrice));
+                usersData.Add(new userData(userEmail, userRegisteredSince, totalRents , totalCanceled, totalPrice));
             }
 
             con.Close();
