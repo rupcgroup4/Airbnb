@@ -313,7 +313,7 @@ function createCalander() {
         ],
         zIndex: 10,
         autoApply: false,
-        format: "YYYY.MM.DD",
+        format: "DD.MM.YYYY",
         AmpPlugin: {
             darkMode: false
         },
