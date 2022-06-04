@@ -26,7 +26,7 @@ function renderApartmentsTables() {
         $(document).on("click", ".apartmentIdView", function () {
             let dataApartmentId = this.getAttribute('data-ApartmentId');
             sessionStorage.setItem("apartmentId", `${dataApartmentId}`);
-            window.location.replace("seeApart.html");
+            window.location.href = "seeApart.html";
 
         });
     }
@@ -70,15 +70,12 @@ function SCBReadUsers(usersData) {
                     data: "Register_date",
                     render: function (data, type, row, meta) {
                         let dateStr = new Date(data);
-
                         return dateStr.toLocaleDateString();
-
-                    }
-
+                   }
                 },
                 { data: "Total_rentals" },
-                { data: "Total_income" },
-                { data: "Total_cancels" }
+                { data: "Total_cancels"  },
+                { data: "Total_income" }
             ]
         });
 
@@ -133,8 +130,8 @@ function SCBReadHosts(hostsData) {
 
                 },
                 { data: "Total_rentals" },
-                { data: "Total_income" },
-                { data: "Total_cancels" }
+                { data: "Total_cancels" },
+                { data: "Total_income" }
             ]
         });
         $('#spinner').css('display', 'none');
@@ -147,70 +144,69 @@ function SCBReadHosts(hostsData) {
 function SCBReadApartments(apartmentsData) {
     let apartments = JSON.parse(apartmentsData);
     const fileName = 'Apartments data export';
+    console.log(apartments);
     try {
         tbl = $('#ApartmentTable').DataTable({
             data: apartments,
             pageLength: 10,
-            responsive: true,
+            responsive: false,
             dom: 'Bfrtip',
             buttons: [
                 {
                     extend: 'copy',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
                 },
                 {
                     extend: 'csv',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
                 },
                 {
                     extend: 'excel',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
                 },
                 {
                     extend: 'pdf',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
                 },
                 {
                     extend: 'print',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
                 }
             ],
 
             columns: [
-
                 { data: "Apartment_id"},
                 { data: "Apartment_name" },
                 { data: "Total_rentals" },
                 { data: "Total_cancels" },
-                //{
-                //    data: "Link_to_apartment",
-                //    render: function (data, type, row, meta) {
-                //        let dataApartmentId = "data-apartmentId='" + row.Apartment_id + "'";
-                //        return `<input type="button" ${dataApartmentId} class="apartmentIdView btn btn-info" value="Watch">`;
-
-                //    }
-                //},
+                {
+                    render: function (data, type, row, meta) {
+                        let dataApartmentId = "data-apartmentId='" + row.Apartment_id + "'";
+                        return `<input type='button' ${dataApartmentId} class='apartmentIdView btn btn-outline-success' value="Watch">`;
+                    },
+                },
             ],
+
         });
         $('#spinner').css('display', 'none');
     }
     catch (err) {
-        alert(err);
+      //  alert(err);
     }
 }
 // Read users error call back

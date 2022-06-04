@@ -88,7 +88,7 @@ namespace WebApplication1.Models.DAL
         private struct hostData
         {
             public hostData(string hostEmail, DateTime hostSince, int total_rentals,
-                int total_income, int total_cancels)
+                 int total_cancels, int total_income)
             {
                 HostEmail = hostEmail;
                 HostSince = hostSince;
