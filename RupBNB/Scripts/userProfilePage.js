@@ -6,7 +6,7 @@ $(document).ready(function () {
     user = JSON.parse(window.localStorage.getItem('CGroup4_user'))
 
     $("#username").html(user.UserName);
-    ajaxCall("GET", `../api/Users/getUsersReservations?email=${user.Email}&isFutureReservations=true`, "", getMyFutureReservationsSuccess, getMyFutureReservationsError);
+    getMyFutureReservations();
 
 })
 
@@ -27,16 +27,32 @@ function seeApart(apartmentId) {
 
 //function gets a reservationId and canceles the reservation
 function cancelReservation(reservationId) {
-    ajaxCall("POST", `../api/Reservations/cancelReservation`, "reservationId", cancelReservationSuccess, cancelReservationError);
+    ajaxCall("PUT", `../api/Reservations/cancelReservation`, JSON.stringify(reservationId), cancelReservationSuccess, cancelReservationError);
 
 }
 
 function cancelReservationSuccess(result) {
     console.log(result);
+
+    getMyFutureReservations(); //update desplay
+
+    Swal.fire({
+        icon: 'success',
+        title: 'success',
+        text: 'Reservation canceled'
+    })
 }
 
 function cancelReservationError(err) {
-    alert(err);
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "couldn't cancel reservation"
+    })
+}
+
+function getMyFutureReservations() {
+    ajaxCall("GET", `../api/Users/getUsersReservations?email=${user.Email}&isFutureReservations=true`, "", getMyFutureReservationsSuccess, getMyFutureReservationsError);
 }
 
 function getMyFutureReservationsSuccess(usersReservationsData) {
@@ -48,12 +64,15 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
     //currentDate.setHours(0, 0, 0, 0);
     console.log("curent date: ", currentDate)
 
+    $("#futureReservationsContainer").html(""); //empty the div from reservation- for when the method is called after info update (when a reservation is canceled)
+
     for (let i = 0; i < reservationsData.length; i++) {
 
         let startDate = new Date(reservationsData[i].StartDate);
         let endDate = new Date(reservationsData[i].EndDate);
 
         const diffDays = Math.round(Math.abs((currentDate - startDate) / oneDay));
+        let allowCancelReservation = (diffDays >= 2) && (reservationsData[i].IsCanceled==0);
         //console.log(startDate.toLocaleDateString());
         console.log("diff: ", diffDays);
         console.log("app id: ", reservationsData[i].ApartmentId);
@@ -64,11 +83,10 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
                         <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
                         <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
                         <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary" value="Apartment Details">
-                        ${diffDays >= 2 ? '<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-primary" value="Cancel">' : ""}
+                        ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-primary" value="Cancel">` : ""}
                     </div>
             </div> `)
     }
-    //<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-primary" value="Cancel">
 
 }
 

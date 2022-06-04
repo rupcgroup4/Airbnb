@@ -34,5 +34,6 @@ select R.id as reservationId, A.id as apartmentId, A.img as apartmentImg,
 		 Apartments as A on R.apartmentId=A.id
 	where R.userEmail=@email and
 		  R.startDate>GETDATE()
+	order by R.startDate
 END
 GO

@@ -45,5 +45,22 @@ namespace RupBNB.Controllers
         public void Delete(int id)
         {
         }
+
+        [HttpPut]
+        [Route("api/Reservations/cancelReservation")]
+        public HttpResponseMessage Put([FromBody] int reservationId)
+        {
+            Reservation r = new Reservation();
+            if (r.cancelReservation(reservationId)>0)
+            {
+                 return Request.CreateResponse(HttpStatusCode.OK,"");
+                //return Request.CreateResponse(200);
+
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+        }
     }
 }

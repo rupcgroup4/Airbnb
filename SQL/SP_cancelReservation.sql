@@ -15,12 +15,12 @@ SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
 -- Author:		CGroup4
--- Create date: 3.6.22
--- Description:	SP get users past reservations info: ApartmentImg, ApartmentName, StartDate, EndDate
+-- Create date: 4.6.2022
+-- Description:	SP cancel reservation
 -- =============================================
-CREATE PROCEDURE SP_GetUsersPastReservations
+CREATE PROCEDURE SP_cancelReservation
 	-- Add the parameters for the stored procedure here
-	@email nvarchar(64)
+	@reservationId int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -28,12 +28,8 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	select R.id as reservationId, A.id as apartmentId, A.img as apartmentImg,
-	   A.name as apartmentName,R.startDate, R.endDate, R.isCanceled   
-	from Reservations as R inner join
-		 Apartments as A on R.apartmentId=A.id
-	where R.userEmail=@email and
-		  R.startDate<=GETDATE()
-	order by R.startDate
+	UPDATE Reservations
+	SET isCanceled = 1
+	WHERE id = @reservationId
 END
 GO

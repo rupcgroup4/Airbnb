@@ -65,8 +65,6 @@ namespace RupBNB.Models.DAL
             con.Close();
 
             return flag;
-
-
         }
 
         private SqlCommand CreateIsApartmentBookedOnDates(SqlConnection con, Reservation res)
@@ -85,5 +83,37 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
+
+        //method gets reservationId and cancels the reservation
+        public int cancelReservation(int reservationId)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateCancelReservation(con, reservationId);
+
+            // Execute
+            int numAffected = command.ExecuteNonQuery();
+
+            // Close Connection
+            con.Close();
+
+            return numAffected;
+        }
+
+        private SqlCommand CreateCancelReservation(SqlConnection con, int reservationId)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@reservationId", reservationId);
+
+            command.CommandText = "SP_cancelReservation";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+
     }
 }

@@ -63,12 +63,31 @@ VALUES ('2022-6-1', '2022-6-3', 1, 'Abhishek72@gmail.com', 0)
 INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
 VALUES ('2022-6-5', '2022-6-6', 1, 'Abhishek72@gmail.com', 0)
 
+--new stav added
+INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
+VALUES ('2022-7-24', '2022-7-29', 4, 'Abhishek72@gmail.com', 0)
+
+INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
+VALUES ('2022-9-2', '2022-9-14', 13, 'Abhishek72@gmail.com', 0)
+
+INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
+VALUES ('2022-6-4', '2022-6-5', 10, 'Abhishek72@gmail.com', 0)
+
+INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
+VALUES ('2022-6-5', '2022-6-7', 23, 'Abhishek72@gmail.com', 0)
+
+INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
+VALUES ('2022-8-20', '2022-8-22', 20, 'Abhishek72@gmail.com', 0)
+-- end new stav added
+select * from Reservations
+
 --INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
 --VALUES ('2022-6-6', '2022-6-8', 1, 'Abhishek72@gmail.com', 1)
 
 
 select *
-from reservations
+from Reservations inner join apartments on Reservations.apartmentId=Apartments.id
+where Reservations.userEmail='Abhishek72@gmail.com'
 
 
 DECLARE @start date, @end date, @apartmentId int

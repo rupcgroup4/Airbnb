@@ -39,5 +39,12 @@ namespace RupBNB.Models
             ReservationServices rs = new ReservationServices();
             return rs.InsertReservation(this);
         }
+
+        public int cancelReservation(int reservationId)
+        {
+            ReservationServices rs = new ReservationServices();
+            return rs.cancelReservation(reservationId);
+        }
+
     }
 }
