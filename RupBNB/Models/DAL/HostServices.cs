@@ -105,13 +105,15 @@ namespace WebApplication1.Models.DAL
                 bool isSuperHost = dr["responseRate"].ToString() == "t" ? true : false;
                 string img = dr["img"].ToString();
                 bool isVerified = dr["isVerified"].ToString() == "t" ? true : false;
+                h = new Host(hostEmail, null, null, null, null,
+            new DateTime(),new DateTime(), hostSince, location, about, responseTime, responseRate, isSuperHost, img, isVerified);
+  
 
-                //h = new Host(hostEmail, hostSince, location, about, responseTime, responseRate, isSuperHost, img, isVerified);
             }
 
             con.Close();
 
-            return u;
+            return h;
 
         }
     }

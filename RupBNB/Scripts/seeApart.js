@@ -31,6 +31,25 @@ data = [
         ReviewLocation: 4.68
     }
 ]
+hostData = [
+    {
+        Email: "Abhishek72@gmail.com",
+        UserName: "Abhishek72",
+        FirstName: "Abhishek",
+        LastName: "Abhishek",
+        Password: 12345678,
+        BirthDate: "1961-12-01",
+        UserRegisteredSince: "2015-08-21",
+        HostSince: "2015-08-21",
+        Location: "Amsterdam North Holland Netherlands",
+        About: "My wife and I are travelers. We travel for work or for vacations. If I can recall correctly we have been to almost 20+ countries till now and lucky to meet people from different cultures and nationalities.",
+        ResponseTime: "a few days or more",
+        ResponseRate: "25%",
+        IsSuperHost: 1,
+        Img: "https://a0.muscache.com/im/users/42104065/profile_pic/1440162676/original.jpg?aki_policy=profile_x_medium",
+        IsVerified: 0
+    }
+]
 
 //before window unload clear CGroup4_blockReservation from session storage
 window.onbeforeunload = function () {
@@ -118,26 +137,26 @@ function SCBGetApartment(returnApartment) {
     $("#details").append(
         `
             <div class="col text-center">
-                <i class="fas fa-bed fa-2x"></i>
+                <i class="fas fa-bed fa-2x" title="Number of beds"></i>
                 <h4>${apartment.NumBeds}</h4>
             </div>
 
             <div class="col text-center">
-                <i class="fa-solid fa-person fa-2x"></i>
+                <i class="fa-solid fa-person fa-2x" title="Number of persons"></i>
                 <h4>${apartment.NumBeds}</h4>
             </div>
 
             <div class="col text-center">
-                <i class="fa-solid fa-star fa-2x"></i>
+                <i class="fa-solid fa-star fa-2x" title="Rating score"></i>
                 <h4>${apartment.Rating}</h4>
             </div>
 
             <div class="col text-center">
-                <i class="fa-solid fa-broom fa-2x"></i>
+                <i class="fa-solid fa-broom fa-2x" title="Cleaning review"></i>
                 <h4>${apartment.ReviewClean != undefined ? apartment.ReviewClean : 0}</h4>
             </div>
             <div class="col text-center">
-                <i class="fa-solid fa-location-pin fa-2x"></i>
+                <i class="fa-solid fa-location-pin fa-2x" title="Location review"></i>
                 <h4>${apartment.ReviewLocation}</h4>
             </div>
         `
@@ -157,32 +176,42 @@ function SCBGetApartment(returnApartment) {
             );
     }
     //get host img and more details
-  //  getHostDetails(apartment.HostEmail);
+    getHostDetails(apartment.HostEmail);
 
     //calculate total price of current dates with apartment price
     calculatePrice();
 }
 function getHostDetails(hostEmail) {
-    let qs = "Email=" + hostEmail;
-    ajaxCall("GET", `../api/Hosts?${qs}`, "", SCBGetHostDetails, ECBGetHostDetails);
+
+    SCBGetHostDetails(hostData);
+
+    //let qs = "email=" + hostEmail;
+    //ajaxCall("GET", `../api/Hosts?${qs}`, "", SCBGetHostDetails, ECBGetHostDetails);
 }
 
 function SCBGetHostDetails(host) {
     $("#host").append(
         `
-            <div class="col text-center">
-                <i class="fas fa-bed fa-2x"></i>
-                <img id="headerImg" src="../images/smy.png" />
-                blablabla
+            <div class="col">
+            <div class="row">
+            <div class="col"><img id="headerImg" src='${host[0].Img}' /></div>
+            <div class="col"><h4>${host[0].UserName}</h4></div>
+            </div>
+            <div class="row">
+            <div class="col"><h4>${host[0].IsSuperHost != 0 ? "isSuperHost" : ""}</h4></div>
+            <div class="col"><h4>${host[0].IsVerified != 0 ? "isVerified" : "" }</h4></div>
+            </div>
             </div>
 
-  
+                
+                
+           
+
+
+
         `
     )
-        //< div class="col text-center" >
-        //        <i class="fa-solid fa-broom fa-2x"></i>
-        //        <h4>${apartment.ReviewClean != undefined ? apartment.ReviewClean : 0}</h4>
-        //    </div >
+
 }
 
 function ECBGetHostDetails(error) {
