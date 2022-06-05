@@ -258,7 +258,8 @@ function apartmentSearchSCB(apartments) {
 
 
     //Change Layout
-    $("#cardContainer").removeClass("row-cols-md-4");
+    $("#cardContainer").removeClass("row-cols-lg-4");
+    $("#cardContainer").removeClass("row-cols-md-3");
     $("#cardContainer").addClass("row-cols-md-2");
     $("#mapContainer").css("display", "block");
 
