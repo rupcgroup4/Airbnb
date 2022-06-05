@@ -252,10 +252,6 @@ function search() {
 
 function apartmentSearchSCB(apartments) {
 
-    //Should be removed after fix search store procedure to be able to get fromRow and toRow
-    //$("#cards").off("scroll", divScroll);
-    //$(window).off("scroll", windowScroll);
-
 
     //Change Layout
     $("#cardContainer").removeClass("row-cols-lg-4");

@@ -19,9 +19,6 @@ namespace RupBNB.Models.DAL
           
             con.Open();
 
-           
-            
-
             return con;
 
         }

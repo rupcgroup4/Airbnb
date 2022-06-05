@@ -1,6 +1,6 @@
 
 select *
-from UsersDB 
+from UsersDB as U join Reservations as R on U.email = R.userEmail
 
 
 except
@@ -125,7 +125,7 @@ group by A.id
 	
 
 
-
+select * from UsersDB
 
 
 

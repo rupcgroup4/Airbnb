@@ -73,7 +73,7 @@ namespace RupBNB.Controllers
             {
                 List<Apartment> apartments = a.getApartmentsBySearchFilter(data);
 
-                if (apartments.Count == 1 && apartments[0].Id == -1)
+                if (apartments.Count == 0)
                 {
                     return Request.CreateResponse(HttpStatusCode.NoContent);
 
