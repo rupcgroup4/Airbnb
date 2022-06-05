@@ -156,9 +156,37 @@ function SCBGetApartment(returnApartment) {
             `
             );
     }
+    //get host img and more details
+  //  getHostDetails(apartment.HostEmail);
 
     //calculate total price of current dates with apartment price
     calculatePrice();
+}
+function getHostDetails(hostEmail) {
+    let qs = "Email=" + hostEmail;
+    ajaxCall("GET", `../api/Hosts?${qs}`, "", SCBGetHostDetails, ECBGetHostDetails);
+}
+
+function SCBGetHostDetails(host) {
+    $("#host").append(
+        `
+            <div class="col text-center">
+                <i class="fas fa-bed fa-2x"></i>
+                <img id="headerImg" src="../images/smy.png" />
+                blablabla
+            </div>
+
+  
+        `
+    )
+        //< div class="col text-center" >
+        //        <i class="fa-solid fa-broom fa-2x"></i>
+        //        <h4>${apartment.ReviewClean != undefined ? apartment.ReviewClean : 0}</h4>
+        //    </div >
+}
+
+function ECBGetHostDetails(error) {
+    console.log(error);
 }
 
 function ECBGetApartment(error) {

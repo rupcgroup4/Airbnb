@@ -50,5 +50,11 @@ namespace WebApplication1.Models
             AdminServices ds = new AdminServices();
             return ds.GetHostsInfo();
         }
+        //Get host
+        public Host GetHost(string email)
+        {
+            HostServices hs = new HostServices();   
+            return hs.GetHost(email);
+        }
     }
 }

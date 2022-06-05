@@ -58,7 +58,7 @@ namespace WebApplication1.Models.DAL
             SqlConnection con = SqlConnect.Connect();
 
             // Create Command
-            SqlCommand command = CreateHostExists(con, email);
+            SqlCommand command = CreateGetHostByEmail(con, email);
 
             SqlDataReader dr = command.ExecuteReader();
 
@@ -70,7 +70,7 @@ namespace WebApplication1.Models.DAL
 
         }
 
-        private SqlCommand CreateHostExists(SqlConnection con, string email)
+        private SqlCommand CreateGetHostByEmail(SqlConnection con, string email)
         {
             SqlCommand command = new SqlCommand();
 
@@ -84,6 +84,35 @@ namespace WebApplication1.Models.DAL
             return command;
         }
 
-        
+        public Host GetHost(string email)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateGetHostByEmail(con, email);
+
+            SqlDataReader dr = command.ExecuteReader();
+
+            Host h = null;
+            while (dr.Read())
+            {
+                string hostEmail = dr["email"].ToString();
+                DateTime hostSince = Convert.ToDateTime(dr["hostSince"]);
+                string location = dr["location"].ToString();
+                string about = dr["about"].ToString();
+                string responseTime = dr["responseTime"].ToString();
+                string responseRate = dr["responseRate"].ToString();
+                bool isSuperHost = dr["responseRate"].ToString() == "t" ? true : false;
+                string img = dr["img"].ToString();
+                bool isVerified = dr["isVerified"].ToString() == "t" ? true : false;
+
+                //h = new Host(hostEmail, hostSince, location, about, responseTime, responseRate, isSuperHost, img, isVerified);
+            }
+
+            con.Close();
+
+            return u;
+
+        }
     }
 }
