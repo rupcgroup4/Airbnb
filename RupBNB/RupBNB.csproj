@@ -157,6 +157,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApartmentsController.cs" />
     <Compile Include="Controllers\DBController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
@@ -167,6 +168,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Apartment.cs" />
+    <Compile Include="Models\DAL\AdminServices.cs" />
     <Compile Include="Models\DAL\ApartmentServices.cs" />
     <Compile Include="Models\DAL\HostServices.cs" />
     <Compile Include="Models\DAL\ReservationServices.cs" />
@@ -192,6 +194,7 @@
     <Content Include="CSS\main.css" />
     <Content Include="CSS\profilePage.css" />
     <Content Include="CSS\seeApart.css" />
+    <Content Include="CSS\spinner.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

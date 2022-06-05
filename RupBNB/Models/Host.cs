@@ -47,7 +47,7 @@ namespace WebApplication1.Models
         //Admin view hosts information
         public string AdminViewHostsInfo()
         {
-            HostServices ds = new HostServices();
+            AdminServices ds = new AdminServices();
             return ds.GetHostsInfo();
         }
     }

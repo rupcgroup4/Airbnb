@@ -7,12 +7,16 @@ var flag_apartmentView = true;
 var flag_hostView = true;
 
 function renderUsersTables() {
-    ajaxCall("GET", "../api/Users", "", SCBReadUsers, ECBReadUsers);
+    let qs = "type=usersView";
+    ajaxCall("GET", `../api/Admin?${qs}`, "", SCBReadUsers, ECBReadUsers);
 }
 function renderHostsTables() {
     if (flag_hostView) {
         $('#spinner').css('display', 'block');
-        ajaxCall("GET", "../api/Hosts", "", SCBReadHosts, ECBReadHosts);
+
+        let qs = "type=hostsView";
+        ajaxCall("GET", `../api/Admin?${qs}`, "", SCBReadHosts, ECBReadHosts);
+
         flag_hostView = false;
         $("#nav-host-tab").prop('onclick', null);
     }
@@ -20,8 +24,11 @@ function renderHostsTables() {
 function renderApartmentsTables() {
     if (flag_apartmentView) {
         $('#spinner').css('display', 'block');
-        ajaxCall("GET", "../api/Apartments", "", SCBReadApartments, ECBReadApartments);
+
+        let qs = "type=apartmentsView";
+        ajaxCall("GET", `../api/Admin?${qs}`, "", SCBReadApartments, ECBReadApartments);
         flag_apartmentView = false;
+
         $("#nav-apartment-tab").prop('onclick', null);
         $(document).on("click", ".apartmentIdView", function () {
             let dataApartmentId = this.getAttribute('data-ApartmentId');
@@ -65,7 +72,7 @@ function SCBReadUsers(usersData) {
             ],
   
             columns: [
-                { data: "User_Email" },
+                { data: "Email" },
                 {
                     data: "Register_date",
                     render: function (data, type, row, meta) {
@@ -119,9 +126,9 @@ function SCBReadHosts(hostsData) {
                 
             ],
             columns: [
-                { data: "HostEmail" },
+                { data: "Email" },
                 {
-                    data: "HostSince",
+                    data: "Register_date",
                     render: function (data, type, row, meta) {
                         let dateStr = new Date(data);
                         return dateStr.toLocaleDateString();
@@ -144,48 +151,47 @@ function SCBReadHosts(hostsData) {
 function SCBReadApartments(apartmentsData) {
     let apartments = JSON.parse(apartmentsData);
     const fileName = 'Apartments data export';
-    console.log(apartments);
     try {
         tbl = $('#ApartmentTable').DataTable({
             data: apartments,
             pageLength: 10,
-            responsive: false,
+            responsive: true,
             dom: 'Bfrtip',
             buttons: [
                 {
                     extend: 'copy',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 },
                 {
                     extend: 'csv',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 },
                 {
                     extend: 'excel',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 },
                 {
                     extend: 'pdf',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 },
                 {
                     extend: 'print',
                     title: fileName,
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
+                    //exportOptions: {
+                    //    columns: 'th:not(:last-child)'
+                    //}
                 }
             ],
 
@@ -193,31 +199,34 @@ function SCBReadApartments(apartmentsData) {
                 { data: "Apartment_id"},
                 { data: "Apartment_name" },
                 { data: "Total_rentals" },
-                { data: "Total_cancels" },
-                {
-                    render: function (data, type, row, meta) {
-                        let dataApartmentId = "data-apartmentId='" + row.Apartment_id + "'";
-                        return `<input type='button' ${dataApartmentId} class='apartmentIdView btn btn-outline-success' value="Watch">`;
-                    },
-                },
+                { data: "Total_cancels" }
+                //{
+                //    render: function (data, type, row, meta) {
+                //        let dataApartmentId = "data-apartmentId='" + row.Apartment_id + "'";
+                //        return `<input type='button' ${dataApartmentId} class='apartmentIdView btn btn-outline-success' value="Watch">`;
+                //    },
+                //},
             ],
 
         });
         $('#spinner').css('display', 'none');
     }
     catch (err) {
-      //  alert(err);
+       alert(err);
     }
 }
 // Read users error call back
-function ECBReadUsers(error) {
-    console.log(error);
+function ECBReadUsers(err) {
+    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+    window.location.replace("notFound.html");
 }
 // Read hosts error call back
-function ECBReadHosts(error) {
-    console.log(error);
+function ECBReadHosts(err) {
+    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+    window.location.replace("notFound.html");
 }
 // Read apartments error call back
-function ECBReadApartments(error) {
-    console.log(error);
+function ECBReadApartments(err) {
+    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+    window.location.replace("notFound.html");
 }

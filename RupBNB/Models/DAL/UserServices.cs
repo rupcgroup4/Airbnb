@@ -96,66 +96,6 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
-        //Admin view users information
-        private struct userData
-        {
-            public userData(string user_Email, DateTime register_date,int total_rentals
-                ,int total_cancels , int total_income)
-            {
-                User_Email = user_Email;
-                Register_date = register_date;
-                Total_rentals = total_rentals;
-                Total_income = total_income;
-                Total_cancels = total_cancels;
-            }
-            public string User_Email { get; private set; }
-            public DateTime Register_date { get; private set; }
-            public int Total_rentals { get; private set; }
-            public int Total_income { get; private set; }
-            public int Total_cancels { get; private set; }
-        }
-
-        public string GetUsersInfo()
-        {
-            SqlConnection con = SqlConnect.Connect();
-
-            // Create Command
-            SqlCommand command = CreateGetUsersInfo(con);
-
-            SqlDataReader dr = command.ExecuteReader();
-
-            List<userData> usersData = new List<userData>();
-
-            while (dr.Read())
-            {
-                string userEmail = dr["email"].ToString();
-                DateTime userRegisteredSince = Convert.ToDateTime(dr["userRegisteredSince"]);
-                int totalRents = Convert.ToInt32(dr["TotalRents"]);
-                int totalCanceled = Convert.ToInt32(dr["TotalCanceled"]);
-                int totalPrice = Convert.ToInt32(dr["TotalPrice"]);
-
-                usersData.Add(new userData(userEmail, userRegisteredSince, totalRents , totalCanceled, totalPrice));
-            }
-
-            con.Close();
-
-            return JsonConvert.SerializeObject(usersData);
-
-        }
-
-        private SqlCommand CreateGetUsersInfo(SqlConnection con)
-        {
-            SqlCommand command = new SqlCommand();
-
-            command.CommandText = "SP_AdminViewUsersInfo";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
-
-
         //for user profile page
         //struct that contains data from reservation and apartment
         private struct reservationData

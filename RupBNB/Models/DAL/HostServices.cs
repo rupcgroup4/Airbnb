@@ -84,65 +84,6 @@ namespace WebApplication1.Models.DAL
             return command;
         }
 
-        //Admin view hosts information
-        private struct hostData
-        {
-            public hostData(string hostEmail, DateTime hostSince, int total_rentals,
-                 int total_cancels, int total_income)
-            {
-                HostEmail = hostEmail;
-                HostSince = hostSince;
-                Total_rentals = total_rentals;
-                Total_income = total_income;
-                Total_cancels = total_cancels;
-            }
-            public string HostEmail { get; private set; }
-            public DateTime HostSince { get; private set; }
-            public int Total_rentals { get; private set; }
-            public int Total_income { get; private set; }
-            public int Total_cancels { get; private set; }
-        }
-
-        public string GetHostsInfo()
-        {
-            SqlConnection con = SqlConnect.Connect();
-
-            // Create Command
-            SqlCommand command = CreateGetHostsInfo(con);
-
-            SqlDataReader dr = command.ExecuteReader();
-
-            List<hostData> hostsData = new List<hostData>();
-
-            while (dr.Read())
-            {
-                string hostEmail = dr["email"].ToString();
-                DateTime hostSince = Convert.ToDateTime(dr["hostSince"]);
-                int totalRents = Convert.ToInt32(dr["TotalRents"]);
-                int totalCanceled = Convert.ToInt32(dr["TotalCanceled"]);
-                int totalPrice = Convert.ToInt32(dr["TotalPrice"]);
-
-                hostsData.Add(new hostData(hostEmail, hostSince, totalRents, totalCanceled, totalPrice));
-
-            }
-
-            con.Close();
-
-            return JsonConvert.SerializeObject(hostsData);
-
-        }
-
-        private SqlCommand CreateGetHostsInfo(SqlConnection con)
-        {
-            SqlCommand command = new SqlCommand();
-
-            command.CommandText = "SP_AdminViewHostsInfo";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
-
+        
     }
 }

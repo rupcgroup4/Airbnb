@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Newtonsoft.Json.Linq;
+using RupBNB.Models.DAL;
 using WebApplication1.Models.DAL;
 
 namespace WebApplication1.Models
@@ -114,7 +115,7 @@ namespace WebApplication1.Models
         //Admin view apartments information
         public string AdminViewApartmentsInfo()
         {
-            ApartmentServices ds = new ApartmentServices();
+            AdminServices ds = new AdminServices();
             return ds.GetApartmentsInfo();
         }
     }

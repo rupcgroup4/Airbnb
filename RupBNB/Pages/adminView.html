@@ -26,30 +26,17 @@
     <!--End DataTable JS-->
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="../CSS/spinner.css">
+
     <script src="../Scripts/header.js"></script>
     <script src="../Scripts/adminView.js"></script>
     <script src="../Scripts/ajaxCalls.js"></script>
-
-    <style>
-        .spinner {
-            position: absolute;
-            height: 100px;
-            width: 100px;
-            top: 50%;
-            left: 50%;
-            margin-left: -50px;
-            margin-top: -50px;
-            background: url(/link/to/your/image);
-            background-size: 100%;
-        }
-    </style>
 </head>
 
 <body>
     <div class="container">
         <!-- NavBar -->
         <div id="MainHeader"></div>
-
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-user-tab" data-bs-toggle="tab" data-bs-target="#nav-user" type="button" role="tab" aria-controls="nav-user" aria-selected="true">Users</button>
@@ -79,10 +66,9 @@
                 <table id="HostTable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                     <thead>
                         <tr>
-                            
                             <th>Host email</th>
                             <th>Register date</th>
-                            <th>Number of apartments</th>
+                            <th>Total rentals</th>
                             <th>Total cancels</th>
                             <th>Total income</th>
                         </tr>
@@ -99,7 +85,7 @@
                             <th>Apartment name</th>
                             <th>Days rented</th>
                             <th>Total cancels</th>
-                            <th>Link to apartment</th>
+                            <!--<th>Link to apartment</th>-->
                         </tr>
                     </thead>
                 </table>

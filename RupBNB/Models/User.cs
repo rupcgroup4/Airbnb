@@ -52,7 +52,7 @@ namespace RupBNB.Models
         //Admin view users information
         public string AdminViewUsersInfo()
         {
-            UserServices ds = new UserServices();
+            AdminServices ds = new AdminServices();
             return ds.GetUsersInfo();
         }
 
