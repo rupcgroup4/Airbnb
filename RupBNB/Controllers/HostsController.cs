@@ -12,7 +12,7 @@ namespace RupBNB.Controllers
     {
         public HttpResponseMessage Get(string hostEmail)
         {
-            Host h = h.GetHost(hostEmail)
+            Host h = h.GetHost(hostEmail);
 
             return Request.CreateResponse(HttpStatusCode.OK, hostEmail);
 
