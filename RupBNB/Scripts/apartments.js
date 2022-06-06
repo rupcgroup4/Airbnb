@@ -201,12 +201,14 @@ function search() {
     let date = $("#datepicker").val();
     if (date.length > 0) {
         let dates = date.split(" to: ");
-        checkIn = new Date(dates[0]);
-        checkOut = new Date(dates[1]);
+        checkIn = dates[0].split(".");
+        checkIn = checkIn[2] + "." + checkIn[1] + "." + checkIn[0]
+        checkOut = dates[1].split(".");
+        checkOut = checkOut[2] + "." + checkOut[1] + "." + checkOut[0]
 
     } else {
-        checkIn = new Date("9999-1-1");
-        checkOut = new Date("9999-1-1");
+        checkIn = "9999-1-1";
+        checkOut = "9999-1-1";
     }
     
     let maxPrice = $("#priceRange").val();
