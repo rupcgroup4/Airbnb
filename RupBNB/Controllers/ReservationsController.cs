@@ -25,15 +25,21 @@ namespace RupBNB.Controllers
         // POST api/<controller>
         public HttpResponseMessage Post([FromBody] Reservation res)
         {
+            try
+            {
+                if (res.InsertReservation())
+                {
+                    return Request.CreateResponse(HttpStatusCode.Created, res);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
+            } catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
             
-            if (res.InsertReservation())
-            {
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
-            }
         }
 
         // PUT api/<controller>/5

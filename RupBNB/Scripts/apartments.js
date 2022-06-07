@@ -60,8 +60,8 @@ const divScroll = () => {
     if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
 
         ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
-        serachQuery.FromRow += 4;
-        serachQuery.ToRow += 4
+        serachQuery.FromRow += 8;
+        serachQuery.ToRow += 8;
 
     }
 }
@@ -69,8 +69,8 @@ const divScroll = () => {
 const windowScroll = () => {
     if ($(window).scrollTop() == $(document).height() - $(window).height()) {
         ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
-        serachQuery.FromRow += 4;
-        serachQuery.ToRow += 4
+        serachQuery.FromRow += 8;
+        serachQuery.ToRow += 8;
     }
 }
 
@@ -84,7 +84,7 @@ let serachQuery = {
     EndDate: "9999-1-1",
     OrderByColumn: "price_D",
     FromRow: 1,
-    ToRow: 8,
+    ToRow: 12,
 }
 //when document is ready
 $(document).ready(function () {

@@ -10,7 +10,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/8f38e270eb.js" crossorigin="anonymous"></script>
 
-
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/header.css">
     <script src="../Scripts/header.js"></script>
@@ -25,7 +24,6 @@
     <div class="container">
         <!-- NavBar -->
         <div id="MainHeader"></div>
-        <!-- Button trigger modal -->
         <!-- Apartment Details -->
         <div id="apartmentDetails" class="row m-auto mt-5">
             <div class="col-12 col-md-7">
@@ -46,8 +44,9 @@
                 <div id="details" class="row row-cols-5"></div>
                 <h3>Ameneties:</h3>
                 <div id="ameneties" class="row row-cols-2"></div>
-                <div id="host" class="row row-cols-2"></div>
-                <h3>Location:</h3>
+                <h3>Host:</h3>
+                <div id="host" class="row"></div>
+                <h3 class="mt-2">Location:</h3>
                 <div id="map"></div>
             </div>
         </div>
@@ -58,6 +57,7 @@
                 <p id="price" style="font-size: 1.1rem;"><span style="font-weight: 300;"> night</span></p>
                 <p></p>
             </div>
+            <!-- Button trigger modal -->
             <button id="bookBTN" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Reserve</button>
         </div>
 
@@ -152,6 +152,7 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFo09_zZh1zxvdJJrnwYzJBTIBCqgmsk&callback=initMap&v=weekly"
         defer></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
 

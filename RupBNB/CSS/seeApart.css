@@ -81,7 +81,7 @@ h4 {
 }
 
 
-#headerImg {
+.headerImg {
     height: 50px;
     border-radius: 100%;
 }

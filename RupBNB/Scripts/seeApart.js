@@ -47,7 +47,7 @@ hostData = [
         ResponseRate: "25%",
         IsSuperHost: 1,
         Img: "https://a0.muscache.com/im/users/42104065/profile_pic/1440162676/original.jpg?aki_policy=profile_x_medium",
-        IsVerified: 0
+        IsVerified: 1
     }
 ]
 
@@ -190,25 +190,21 @@ function getHostDetails(hostEmail) {
 }
 
 function SCBGetHostDetails(host) {
+
+    let isSuperHost = host[0].IsSuperHost != 0 ? '<img class="headerImg" src="../Pages/superHost.png" />' : ""
+    let isVerified = host[0].IsVerified != 0 ? '<img class="headerImg" src="../Pages/verified.jpg" />' : ""
+
+
     $("#host").append(
         `
             <div class="col">
-            <div class="row">
-            <div class="col"><img id="headerImg" src='${host[0].Img}' /></div>
-            <div class="col"><h4>${host[0].UserName}</h4></div>
+                <div class="d-flex justify-content-between">
+                    <img class="headerImg" src="${host[0].Img}" />
+                    <h4>${host[0].FirstName}</h4>
+                    ${isSuperHost}
+                    ${isVerified }
+                </div>
             </div>
-            <div class="row">
-            <div class="col"><h4>${host[0].IsSuperHost != 0 ? "isSuperHost" : ""}</h4></div>
-            <div class="col"><h4>${host[0].IsVerified != 0 ? "isVerified" : "" }</h4></div>
-            </div>
-            </div>
-
-                
-                
-           
-
-
-
         `
     )
 
@@ -226,10 +222,10 @@ function ECBGetApartment(error) {
 function makeReservation() {
     let startDate = new Date($("#checkInDatePicker").val());
     let endDate = new Date($("#checkOutDatePicker").val());
-    let apartmentId = sessionStorage.getItem("apartmentId");
+    let apartmentId = sessionStorage.getItem("CGroup4_apartmentId");
 
     //**********Need to be real email of the user from local storage*************
-    let userEmail = "Abhishek72@gmail.com";
+    let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
 
     let res = {
         Id: 0,
@@ -247,11 +243,28 @@ function makeReservation() {
 
 
 function makeReservationSCB(response) {
-    console.log(response)
+
+    console.log(response);
+
+    
 }
 
 function makeReservationECB(err) {
-    console.log(err)
+
+    if (err.status == 400) {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Already Booked!',
+            text: 'The dates you choose are not available'
+        })
+
+    } else {
+        sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+        window.location.replace("notFound.html");
+    }
+
+    
 }
 
 
