@@ -78,32 +78,15 @@ $(document).ready(function () {
         makeReservation();
     })
 
-    //event to change date in modal when checkIn datePicker change
-    $("#checkInDatePicker").change(function() {
-        let checkInDate = new Date($(this).val());
-        writeDateInModal("checkIn", checkInDate);
+    //set the minimun date of the date inputs to be today 
+    $("#checkInDatePicker").attr("min", new Date().toISOString().split('T')[0]);
+    $("#checkOutDatePicker").attr("min", new Date().toISOString().split('T')[0]);
+
+
+    //trigger event each date one of the date input has changed
+    $('input[type=date]').change(function() {
+        checkDates();
     });
-
-    //event to change date in modal when checkOut datePicker change
-    $("#checkOutDatePicker").change(function() {
-        let checkOutDate = new Date($(this).val());
-        let checkInDate = new Date($("#checkInDatePicker").val());
-
-        //check if check out is bigger than check out date
-        if (checkOutDate <= checkInDate) {
-            alert("err");
-            //set check out date to be 1 day after check in
-            checkOutDate = new Date(checkInDate);
-            checkOutDate.setDate(checkOutDate.getDate() + 1);
-            //conver check out date to string format for date input
-            checkOutDateString = checkOutDate.toISOString().split('T')[0];
-            $(this).val(checkOutDateString)
-        } 
-
-        writeDateInModal("checkOut", checkOutDate);
-        
-    });
-
 
     // Temporary, will get the date from search filter later
     const today = new Date();
@@ -120,13 +103,42 @@ $(document).ready(function () {
 
 });
 
+//this function get called everytime one of the dates in modal has changed
+function checkDates() {
+
+    let checkInDate = new Date($("#checkInDatePicker").val());
+    let checkOutDate = new Date($("#checkOutDatePicker").val());
+
+    //set min date for checkOut (minimun checkInDate + 1)
+    let minCheckOutDate = new Date(checkInDate);
+    minCheckOutDate.setDate(minCheckOutDate.getDate() + 1);
+    $("#checkOutDatePicker").attr("min", minCheckOutDate.toISOString().split('T')[0]);
+
+    //check if check out is smaller than check in date
+    if (checkOutDate <= checkInDate) {
+        //set check out date to be 1 day after check in
+        checkOutDate = new Date(checkInDate);
+        checkOutDate.setDate(checkOutDate.getDate() + 1);
+    }  
+    
+    //set date to the date input
+    $("#checkOutDatePicker").val(checkOutDate.toISOString().split('T')[0]);
+    $("#checkInDatePicker").val(checkInDate.toISOString().split('T')[0]);
+    //render date to Modal
+    writeDateInModal("checkIn", checkInDate);
+    writeDateInModal("checkOut", checkOutDate);
+
+}
+
+//this function is the success call back of GetApartment
+//the response is apartment details that will be render to the screen
 function SCBGetApartment(returnApartment) {
 
+    //save apartment in global variable to be able to access to the detials again if needed
     apartment = returnApartment;
 
     myMap(Number(apartment.Latitude), Number(apartment.Longitude));
     
-
     $("#image").attr("src", apartment.Img);
     $("#modalImage").attr("src", apartment.Img);
     $("#name").append(apartment.Name);
@@ -181,6 +193,7 @@ function SCBGetApartment(returnApartment) {
     //calculate total price of current dates with apartment price
     calculatePrice();
 }
+
 function getHostDetails(hostEmail) {
 
     SCBGetHostDetails(hostData);
@@ -219,14 +232,16 @@ function ECBGetApartment(error) {
 }
 
 
+//when press on confirm reservation
 function makeReservation() {
+
     let startDate = new Date($("#checkInDatePicker").val());
     let endDate = new Date($("#checkOutDatePicker").val());
     let apartmentId = sessionStorage.getItem("CGroup4_apartmentId");
-
-    //**********Need to be real email of the user from local storage*************
     let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
 
+    //new order that will be sent to backend
+    //order id is Identity in sql
     let res = {
         Id: 0,
         StartDate: startDate,
@@ -236,19 +251,16 @@ function makeReservation() {
         IsCanceled: 0
     }
 
-
     ajaxCall("POST", "../api/Reservations", JSON.stringify(res), makeReservationSCB, makeReservationECB);
 
 }
 
-
 function makeReservationSCB(response) {
-
     console.log(response);
-
-    
 }
 
+//makeReservation Error callback
+//present messgae if the apartment is not avialable in the dates
 function makeReservationECB(err) {
 
     if (err.status == 400) {
@@ -263,8 +275,6 @@ function makeReservationECB(err) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
         window.location.replace("notFound.html");
     }
-
-    
 }
 
 
