@@ -75,5 +75,47 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
+        public List<Review> GetReviewsByApartmentId(int id)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateGetReviewsByApartmentId(con, id);
+
+            SqlDataReader dr = command.ExecuteReader();
+
+            List<Review> reviews = new List<Review>();
+            while(dr.Read())
+            {
+                int reviewId = Convert.ToInt32(dr["id"]);
+                int apartmentId = Convert.ToInt32(dr["apartmentId"]);
+                string userName = Convert.ToString(dr["userName"]);
+                DateTime reviewDate = Convert.ToDateTime(dr["reviewDate"]);
+                string comment = Convert.ToString(dr["comments"]);
+
+                reviews.Add(new Review(reviewId, apartmentId, userName, reviewDate, comment));
+            }
+
+            con.Close();
+
+            return reviews;
+
+
+        }
+
+        private SqlCommand CreateGetReviewsByApartmentId(SqlConnection con, int id)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@apartmentID", id);
+
+            command.CommandText = "SP_GetReviewsByApartmentId";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
+
     }
 }

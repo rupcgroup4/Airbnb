@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using RupBNB.Models.DAL;
 
 namespace RupBNB.Models
 {
@@ -29,5 +30,11 @@ namespace RupBNB.Models
         public string UserName { get => userName; set => userName = value; }
         public DateTime ReviewDate { get => reviewDate; set => reviewDate = value; }
         public string Comments { get => comments; set => comments = value; }
+
+        public List<Review> GetReviewsByApartmentId(int id)
+        {
+            ReviewServices rs = new ReviewServices();
+            return rs.GetReviewsByApartmentId(id);
+        }
     }
 }

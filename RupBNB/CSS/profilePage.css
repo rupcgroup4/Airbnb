@@ -41,6 +41,15 @@
     width: 75%;
 }
 
+#nav-futureReservations-tab, #nav-pastReservations-tab, #nav-likedApartments-tab {
+    border: 1px solid gray;
+    border-radius: 25px;
+    margin: 0 auto;
+}
+
+.nav-tabs {
+    border: none;
+}
 
 
 /* For Mobile */

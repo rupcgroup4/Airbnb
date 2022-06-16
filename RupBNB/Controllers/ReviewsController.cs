@@ -4,21 +4,30 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using RupBNB.Models;
 
 namespace RupBNB.Controllers
 {
     public class ReviewsController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        //Route to get an reviews by apartment by id
+        [HttpGet]
+        [Route("api/Reviews/{id}")]
+        public HttpResponseMessage Get(int id)
         {
-            return new string[] { "value1", "value2" };
-        }
+            Review r = new Review();
+            try
+            {
+                List<Review> reviews = r.GetReviewsByApartmentId(id);
+                return Request.CreateResponse(HttpStatusCode.OK, reviews);
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+
+            }
+
         }
 
         // POST api/<controller>

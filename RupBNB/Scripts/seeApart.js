@@ -1,8 +1,11 @@
 months = {0: "Jan", 1: "Feb", 2: "Mar", 3: "Apr", 4: "May", 5: "Jun",
-            6: "July", 7: "Aug", 8: "Sep", 9: "Oct", 10: "Nov", 11: "Dec"};
+            6: "Jul", 7: "Aug", 8: "Sep", 9: "Oct", 10: "Nov", 11: "Dec"};
 
 days = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursaday", 5: "Friday", 6: "Saturday"};
 
+//Different Format
+months2 = {0: "January", 1: "February", 2: "March", 3: "April", 4: "May", 5: "June",
+            6: "July", 7: "August", 8: "September", 9: "October", 10: "November", 11: "December"};
 let apartment;
 
 data = [
@@ -142,8 +145,19 @@ function SCBGetApartment(returnApartment) {
     $("#image").attr("src", apartment.Img);
     $("#modalImage").attr("src", apartment.Img);
     $("#name").append(apartment.Name);
-    $("#description").prepend(apartment.Description.substring(0, 200));
-    $("#more").append(apartment.Description.substring(201))
+
+    if(apartment.Description.length > 200) {
+        $("#description").prepend(apartment.Description.substring(0, 200));
+        $("#more").append(apartment.Description.substring(201));
+        $("#readBTN").css("display", "block");
+    } else {
+        $("#description").prepend(apartment.Description);
+        $("#dots").css("display", "none");
+        $("#more").css("display", "none");
+        $("#readBTN").css("display", "none");
+
+    }
+    
     $("#price").prepend("$" + apartment.Price);
 
     $("#details").append(
@@ -165,7 +179,7 @@ function SCBGetApartment(returnApartment) {
 
             <div class="col text-center">
                 <i class="fa-solid fa-broom fa-2x" title="Cleaning review"></i>
-                <h4>${apartment.ReviewClean != undefined ? apartment.ReviewClean : 0}</h4>
+                <h4>${apartment.ReviewClean ? apartment.ReviewClean : 0}</h4>
             </div>
             <div class="col text-center">
                 <i class="fa-solid fa-location-pin fa-2x" title="Location review"></i>
@@ -173,22 +187,30 @@ function SCBGetApartment(returnApartment) {
             </div>
         `
     )
-    let am = JSON.parse(apartment.Amenities);
+    try {
+        let am = JSON.parse(apartment.Amenities);
 
-    for (let i = 0; i < am.length; i++) {
-        $("#ameneties")
-            .append(
+        for (let i = 0; i < am.length; i++) {
+            $("#ameneties")
+                .append(
+                    `
+                    <div class="col">
+                        <h6>
+                            <span class="badge bg-secondary">${am[i]}</span>
+                        </h6>
+                    </div>
                 `
-                <div class="col">
-                    <h6>
-                        <span class="badge bg-secondary">${am[i]}</span>
-                    </h6>
-                </div>
-            `
-            );
+                );
+        }
+    } catch {
+        //Remove try catch after fixing DB
     }
+    
     //get host img and more details
     getHostDetails(apartment.HostEmail);
+
+    //get apartment reviews
+    getReviews(apartment.Id);
 
     //calculate total price of current dates with apartment price
     calculatePrice();
@@ -204,8 +226,8 @@ function getHostDetails(hostEmail) {
 
 function SCBGetHostDetails(host) {
 
-    let isSuperHost = host[0].IsSuperHost != 0 ? '<img class="headerImg" src="../Pages/superHost.png" />' : ""
-    let isVerified = host[0].IsVerified != 0 ? '<img class="headerImg" src="../Pages/verified.jpg" />' : ""
+    const isSuperHost = host[0].IsSuperHost != 0 ? '<img class="headerImg" src="../Pages/superHost.png" />' : ""
+    const isVerified = host[0].IsVerified != 0 ? '<img class="headerImg" src="../Pages/verified.jpg" />' : ""
 
 
     $("#host").append(
@@ -232,17 +254,101 @@ function ECBGetApartment(error) {
 }
 
 
+function getReviews(apartmentId) {
+
+    ajaxCall("GET", `../api/Reviews/${apartmentId}`, "", getReviewsSCB, getReviewsECB);
+}
+
+function getReviewsSCB(reviews) {
+
+    for(let i = 0; i < reviews.length; i++) {
+
+        const date = new Date(reviews[i].ReviewDate);
+        const year = date.getFullYear();
+        const month = months2[date.getMonth()];
+
+
+        $("#numReviews").html(`${apartment.Rating} · ${reviews.length} reviews`)
+
+        const comment = checkIfReviewIsLong(reviews[i]);
+           
+        $("#reviews").append(
+            `
+                <div class="col">
+                    <div>
+                        <div class="d-flex">
+                            <img src="user-avatar.png" class="reviewImg">
+                            <div class="d-flex flex-column ms-2">
+                                <h6 class="mt-1 mb-0">${reviews[i].UserName}</h6>
+                                <p class="reviewComment">${month + " " + year}</p>
+                            </div>
+                        </div>
+                        ${comment}
+                    </div>
+                </div>
+    
+            `
+        );
+    }
+    
+}
+
+function checkIfReviewIsLong(review) {
+    let comment;
+    if(review.Comments.length > 200) {
+
+        comment = 
+        `<p id="${"review"+review.Id}" >
+            ${review.Comments.substring(0, 200)}
+            <span id="${"dots"+review.Id}">...</span>
+            <span id="${"more"+review.Id}" class="more">${review.Comments.substring(201)}</span>
+            <br>
+            <button onclick="expandReview(${review.Id})" id="${"reviewBTN"+review.Id}" class="reviewBTN">Show more ></button>
+         </p>`;
+
+    } else {
+        comment = `<p id="${"review"+review.Id}" >
+            ${review.Comments}
+        </p>`
+
+    }
+
+    return comment;
+}
+
+//Expand Appartment Description
+function expandReview(reviewId) {
+    var dots = document.getElementById("dots"+reviewId);
+    var moreText = document.getElementById("more"+reviewId);
+    var btnText = document.getElementById("reviewBTN"+reviewId);
+  
+    if (dots.style.display === "none") {
+      dots.style.display = "inline";
+      btnText.innerHTML = "Show more >";
+      moreText.style.display = "none";
+    } else {
+      dots.style.display = "none";
+      btnText.innerHTML = "Show less >";
+      moreText.style.display = "inline";
+    }
+}
+
+function getReviewsECB(err) {
+    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+    window.location.replace("notFound.html");
+}
+
 //when press on confirm reservation
 function makeReservation() {
 
-    let startDate = new Date($("#checkInDatePicker").val());
-    let endDate = new Date($("#checkOutDatePicker").val());
-    let apartmentId = sessionStorage.getItem("CGroup4_apartmentId");
-    let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
+    const startDate = new Date($("#checkInDatePicker").val());
+    const endDate = new Date($("#checkOutDatePicker").val());
+    const apartmentId = sessionStorage.getItem("CGroup4_apartmentId");
+    const userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
 
     //new order that will be sent to backend
     //order id is Identity in sql
-    let res = {
+    const res = {
         Id: 0,
         StartDate: startDate,
         EndDate: endDate,
@@ -306,11 +412,11 @@ function expandText() {
   
     if (dots.style.display === "none") {
       dots.style.display = "inline";
-      btnText.innerHTML = "Read more";
+      btnText.innerHTML = "Show more";
       moreText.style.display = "none";
     } else {
       dots.style.display = "none";
-      btnText.innerHTML = "Read less";
+      btnText.innerHTML = "Show less";
       moreText.style.display = "inline";
     }
 }
