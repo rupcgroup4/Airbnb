@@ -230,3 +230,122 @@ function ECBReadApartments(err) {
     sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
     window.location.replace("notFound.html");
 }
+
+
+
+//**********************Chat********************************
+
+let activeUserInChat;
+
+let chatArr = [];
+
+function sendMessage() {
+
+    let message = $("#newMessage").val();
+    $("#newMessage").val("");
+
+    if (activeUserInChat == undefined) {
+        return;
+    }
+
+    firebase.database().ref(activeUserInChat).push().set({
+        "sender": "manager",
+        "message": message
+    })
+
+}
+
+//listen to DB for all users
+firebase.database().ref().on("child_added", snapshot => {
+    const user = snapshot.key;
+    chatArr[user] = new Array();
+    //create new line in the accordion for the user and render to the screen
+    createListForEachUser(user);
+    //listen to the user messages and render to the screen
+    listenToUser(user);
+
+});
+
+
+//create new accordion line for user
+function createListForEachUser(user) {
+
+    $("#usersContainer").append(
+
+        `
+             <li id="${user}" class="clearfix" onclick="renderUserMessages(this.id)">
+                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                 <div class="about">
+                    <div class="name">${user}</div>
+                    <div class="status"> <i class="fa fa-circle offline"></i>Offline</div>                                            
+                </div>
+            </li>
+        `
+    )
+
+}
+
+//listen to a specific user and add his mesages to the chat
+function listenToUser(user) {
+
+    firebase.database().ref(user).on("child_added", snapshot => {
+
+        const message = {
+            sender: snapshot.val().sender,
+            message: snapshot.val().message
+        }
+
+        chatArr[user].push(message);
+
+        if ($("#activeUserChat").text() == user) {
+            addMessage(message);
+        }
+
+    });
+}
+
+function renderUserMessages(user) {
+
+    activeUserInChat = user;
+
+    $(".chat-list li").removeClass("active");
+
+    $(`#${user}`).addClass("active");
+
+
+    $("#activeChat").html("");
+    $("#activeUserChat").html(user);
+
+    for (let i = 0; i < chatArr[user].length; i++) {
+
+
+        addMessage(chatArr[user][i])
+
+    }
+
+}
+
+function addMessage(message) {
+
+    let text_right = "";
+    let float_right = "";
+    let managerImg = "";
+
+    if (message.sender == "manager") {
+        text_right = "text-right";
+        float_right = "float-right";
+        managerImg = '<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">';
+    }
+
+    $("#activeChat").append(
+        `
+            <li class="clearfix">
+               <div class="message-data ${text_right}">
+                    <span class="message-data-time">10:10 AM, Today</span>
+                    ${managerImg}
+                </div>
+                <div class="message other-message ${float_right}">${message.message}</div>
+            </li>
+        `
+    );
+}

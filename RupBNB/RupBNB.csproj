@@ -189,6 +189,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="CSS\apartments.css" />
+    <Content Include="CSS\chat.css" />
     <Content Include="CSS\header.css" />
     <Content Include="CSS\login-signup.css" />
     <Content Include="CSS\main.css" />
@@ -228,6 +229,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Scripts\apartments.js" />
+    <Content Include="Scripts\config.js" />
     <Content Include="Scripts\header.js" />
     <Content Include="Scripts\loginScript.js" />
     <Content Include="Scripts\seeApart.js" />

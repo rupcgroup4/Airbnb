@@ -11,6 +11,8 @@ $(document).ready(function () {
     $("#username").html(user.UserName);
     getMyFutureReservations();
 
+    loadUserChat(user);
+
 })
 
 //function gets a date and return a string representing the date in 'dd/mm/yyyy' format
@@ -143,3 +145,57 @@ function getMyPastReservationsSuccess(usersReservationsData) {
 function getMyPastReservationsError(err) {
     alert(err);
 }
+
+
+
+
+
+
+//**********************Chat***************************
+
+
+function sendMessage() {
+
+    let message = $("#newMessage").val();
+
+    firebase.database().ref(user.UserName).push().set({
+        "sender": user.FirstName,
+        "message": message
+    })
+
+    return false
+}
+
+function loadUserChat(user) {
+    firebase.database().ref(user.UserName).on("child_added", snapshot => {
+        message = {
+            sender: snapshot.val().sender,
+            message: snapshot.val().message,
+        }
+
+
+        let text_right = "";
+        let float_right = "";
+        let managerImg = "";
+
+        if (message.sender == "manager") {
+            text_right = "text-right";
+            float_right = "float-right";
+            managerImg = '<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">';
+        }
+
+        $("#activeChat").append(
+            `
+                    <li class="clearfix">
+                            <div class="message-data ${text_right}">
+                                <span class="message-data-time">10:10 AM, Today</span>
+                                ${managerImg}
+                            </div>
+                        <div class="message other-message ${float_right}">${message.message}</div>
+                    </li>
+                `
+        );
+
+    });
+}
+
