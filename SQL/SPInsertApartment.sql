@@ -34,7 +34,7 @@ CREATE PROCEDURE SP_InsertApartment
 	@numBedrooms tinyint,
 	@numBeds tinyint,
 	@accommodates tinyint,
-	@amenities varchar(256),
+	@amenities text,
 	@price smallint,
 	@minNights tinyint,
 	@maxNights smallint,

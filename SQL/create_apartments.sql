@@ -14,7 +14,7 @@ create table Apartments (
 	numBedrooms tinyint,
 	numBeds tinyint,
 	accommodates tinyint not null,
-	amenities varchar(256),
+	amenities text,
 	price smallint not null,
 	minNights tinyint,
 	maxNights smallint,
