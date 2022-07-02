@@ -7,3 +7,5 @@ create table Reservations (
 	isCanceled bit not null, 
 	check(startDate <= endDate),
 )
+
+

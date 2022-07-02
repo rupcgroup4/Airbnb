@@ -13,6 +13,12 @@ function submitLoginForm() {
 	let email = $("#email").val();
 	let password = $("#password").val();
 
+	if (email == 'admin@gmail.com') {
+		adminLogIn(password);
+		return false;
+	}
+
+	
 	let emailAndPassword = {
 		Email: email,
 		Password: password,
@@ -22,6 +28,26 @@ function submitLoginForm() {
 	return false;
 
 }
+
+
+//this function get call if log in with admin email
+function adminLogIn(password) {
+	
+	if (password != '123') {
+		Swal.fire({
+			icon: 'error',
+			title: 'Admin Log In',
+			text: 'Password incorrect'
+		});
+	}
+
+	let isAdmin = true;
+
+	localStorage.setItem("CGroup4_manager", JSON.stringify(isAdmin));
+	window.location.replace("adminView.html");
+
+}
+
 
 function submitLoginFormSuccess(user) {
 

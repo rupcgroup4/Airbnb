@@ -1,12 +1,29 @@
 $(document).ready(function() {
 
+    //Default header options
+    let manager ='';
     let isLogin = '<li><a class="dropdown-item" href="login.html">Log In</a></li>'
     let userLink = '<li><a class="dropdown-item" href="signUp.html">Sign Up</a></li>'
 
+    //Header options when user log in
     if (localStorage["CGroup4_user"] != undefined) {
         userLink = '<li><a class="dropdown-item" href="profilePage.html">Profile</a></li>'
         isLogin = '<li><a onclick="logOut()" class="dropdown-item" href="#">Log Out</a></li>'
     }
+
+    //Header options when manager logIn
+    if (localStorage["CGroup4_manager"] != undefined) { 
+        manager =
+            `
+                <li class="nav-item">
+                    <a class="nav-link" href="adminView.html">Manager</a>
+                </li>
+            `;
+
+        isLogin = '<li><a onclick="logOut()" class="dropdown-item" href="#">Log Out</a></li>';
+        userLink = '';
+    }
+
 
     $("#MainHeader")
     .append(
@@ -25,9 +42,7 @@ $(document).ready(function() {
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Search</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Something</a>
-                            </li>
+                            ${manager}
                         </ul>
                         <div class="dropdown" id="profileBTN">
                             <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -52,5 +67,6 @@ $(document).ready(function() {
 //User loged out
 function logOut() {
     localStorage.removeItem("CGroup4_user");
+    localStorage.removeItem("CGroup4_manager");
     window.location.replace("index.html");
 }
