@@ -81,13 +81,11 @@ $(document).ready(function () {
 
         const startDate = new Date($("#checkInDatePicker").val());
         const endDate = new Date($("#checkOutDatePicker").val());
-        const minNight = sessionStorage.getItem("CGroup4_minNight");
+        const minNight = apartment.MinNights;
 
         var Difference_In_Time = endDate - startDate;
         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
         console.log(Difference_In_Days);
-        //let difference = checkIn - checkOut;
-        //const TotalDays = Math.ceil(difference / (1000 * 3600 * 24))
 
         if (minNight <= Difference_In_Days) {
             console.log("in if", minNight);

@@ -311,7 +311,6 @@ function apartmentSearchSCB(apartments) {
 //This function called when press "See Details" on Apartment
 function seeApart(apartmentId, minNight) {
     sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
-    sessionStorage.setItem("CGroup4_minNight", minNight);
 
     window.location.href = "seeApart.html";
 }
