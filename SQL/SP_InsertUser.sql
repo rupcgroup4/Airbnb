@@ -25,8 +25,7 @@ CREATE PROCEDURE SP_InsertUser
     @password nvarchar(30),
 	@firstName nvarchar(30),
 	@lastName nvarchar(30),
-	@birthDate date,
-	@userRegisteredSince date
+	@birthDate date
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -36,6 +35,6 @@ BEGIN
     -- Insert statements for procedure here
 	INSERT INTO UsersDB ([email],[username],[password], [firstName],[lastName], [birthDate],[userRegisteredSince])
 
-	VALUES(@email,@username, @password, @firstName, @lastName, @birthDate,@userRegisteredSince)
+	VALUES(@email,@username, @password, @firstName, @lastName, @birthDate, getDate())
 END
 GO
