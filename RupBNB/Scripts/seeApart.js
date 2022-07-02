@@ -179,7 +179,7 @@ function SCBGetApartment(returnApartment) {
 
             <div class="col text-center">
                 <i class="fa-solid fa-broom fa-2x" title="Cleaning review"></i>
-                <h4>${apartment.ReviewClean ? apartment.ReviewClean : 0}</h4>
+                <h4>${apartment.ReviewsClean}</h4>
             </div>
             <div class="col text-center">
                 <i class="fa-solid fa-location-pin fa-2x" title="Location review"></i>
@@ -187,25 +187,11 @@ function SCBGetApartment(returnApartment) {
             </div>
         `
     )
-    try {
-        let am = JSON.parse(apartment.Amenities);
-
-        for (let i = 0; i < am.length; i++) {
-            $("#ameneties")
-                .append(
-                    `
-                    <div class="col">
-                        <h6>
-                            <span class="badge bg-secondary">${am[i]}</span>
-                        </h6>
-                    </div>
-                `
-                );
-        }
-    } catch {
-        //Remove try catch after fixing DB
-    }
     
+    let amenities = JSON.parse(apartment.Amenities);
+
+    renderAmenties(amenities);
+
     //get host img and more details
     getHostDetails(apartment.HostEmail);
 
@@ -215,6 +201,65 @@ function SCBGetApartment(returnApartment) {
     //calculate total price of current dates with apartment price
     calculatePrice();
 }
+
+
+function renderAmenties(amenities) {
+
+   
+    let maxAmeneties = amenities.length <= 14 ? amenities.length : 14;
+    
+    for (let i = 0; i < maxAmeneties; i++) {
+        $("#ameneties")
+            .append(
+                `
+                <div class="col">
+                    <h6>
+                        <span class="badge bg-secondary">${amenities[i]}</span>
+                    </h6>
+                </div>
+            `
+        );
+    }
+
+    if(amenities.length > 14) {
+        for (let i = maxAmeneties; i < amenities.length; i++) {
+
+            $("#amenetiesMore")
+                .append(
+                    `
+                    <div class="col">
+                        <h6>
+                            <span class="badge bg-secondary">${amenities[i]}</span>
+                        </h6>
+                    </div>
+                `
+            );
+
+        }
+
+       
+
+        $("#amenetiesBTN").css("display", "block");
+    }
+    
+}
+
+function expandAmeneties() {
+    
+    let ameneties = document.getElementById("amenetiesMore"); 
+    let showMoreBTN = document.getElementById("amenetiesBTN");
+
+    if (ameneties.style.display === "none") {
+        ameneties.style.display = "flex";
+        showMoreBTN.innerHTML = "Show more >";
+      } else {
+        ameneties.style.display = "none";
+        showMoreBTN.innerHTML = "Show less >";
+      }
+
+
+}
+
 
 function getHostDetails(hostEmail) {
 
@@ -293,6 +338,8 @@ function getReviewsSCB(reviews) {
     
 }
 
+//this function get a review and render it to the screen int the correct way
+//if the review is more than 200 characters the review will have button "See more"
 function checkIfReviewIsLong(review) {
     let comment;
     if(review.Comments.length > 200) {
