@@ -45,6 +45,10 @@ namespace RupBNB.Models
             ReservationServices rs = new ReservationServices();
             return rs.cancelReservation(reservationId);
         }
-
+        public Reservation getReservationById(int id)
+        {
+            ReservationServices ds = new ReservationServices();
+            return ds.getReservationById(id);
+        }
     }
 }

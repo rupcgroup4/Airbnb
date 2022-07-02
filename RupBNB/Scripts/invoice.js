@@ -63,13 +63,25 @@ ReservationData = {
 }
 
 $(document).ready(function () {
-    //let apartmentId = sessionStorage.getItem("CGroup4_apartmentId");
-    //if (apartmentId == undefined) {
+
+    //let reservationId = sessionStorage.getItem("CGroup4_reservationId");
+    //if (reservationId == undefined) {
     //    window.location.replace("index.html");
     //}
-    //ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
-    SCBGetApartment(data[0]);
+    let reservationId = 2;
+
+    ajaxCall("GET", `../api/Reservations/${reservationId}`, "", SCBGetReservation, ECBGetReservation);
+  //  SCBGetApartment(data[0]);
 });
+
+//this function is the success call back of GetReservation
+function SCBGetReservation(returnReservation) {
+    //save reservation in global variable to be able to access to the detials again if needed
+    reservation = returnReservation
+
+    let apartmentId = reservation.ApartmentId;
+    ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
+}
 
 
 //this function is the success call back of GetApartment
@@ -79,17 +91,17 @@ function SCBGetApartment(returnApartment) {
     //save apartment in global variable to be able to access to the detials again if needed
     apartment = returnApartment;
 
-    const checkIn = new Date(ReservationData.StartDate);
-    const checkOut = new Date(ReservationData.EndDate);
+    const checkIn = new Date(reservation.StartDate);
+    const checkOut = new Date(reservation.EndDate);
 
-    myMap(Number(apartment.Latitude), Number(apartment.Longtitude));
+    myMap(Number(apartment.Latitude), Number(apartment.Longitude));
 
     $("#image").attr("src", apartment.Img);
     $("#modalImage").attr("src", apartment.Img); 
     $("#name").append(apartment.Name);
     $("#reservaionNum").append(
         `Booking confirmation
-        <small>CONFIRMATION NUMBER: #${ReservationData.Id}</small>
+        <small>CONFIRMATION NUMBER: #${reservation.Id}</small>
 
     `);
 
@@ -168,7 +180,8 @@ function getHostDetails(hostEmail) {
     //let qs = "email=" + hostEmail;
     //ajaxCall("GET", `../api/Hosts?${qs}`, "", SCBGetHostDetails, ECBGetHostDetails);
 }
-
+//this function is the success call back of getHostDetails
+//the response is host details that will be render to the screen
 function SCBGetHostDetails(host) {
     $("#host").append(
         `
@@ -187,7 +200,9 @@ function ECBGetHostDetails(error) {
 function ECBGetApartment(error) {
     console.log(error);
 }
-
+function ECBGetReservation(error) {
+    console.log(error);
+}
 
 // Initialize and add the map
 function myMap(lat, lon) {
@@ -204,7 +219,7 @@ function myMap(lat, lon) {
         map: map,
     });
 }
-
+// google map success callback
 function initMap() {
     console.log("connect to google map");
 }

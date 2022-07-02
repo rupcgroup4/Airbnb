@@ -114,6 +114,51 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
+        //method gets reservationId and return back reservation
+        public Reservation getReservationById(int reservationId)
+        {
+            SqlConnection con = SqlConnect.Connect();
 
+            // Create Command
+            SqlCommand command = CreateGetReservationById(con, reservationId);
+
+            // Execute
+            SqlDataReader dr = command.ExecuteReader();
+
+            Reservation apartment = null;
+            while (dr.Read())
+            {
+    
+                int apartmentId = Convert.ToInt32(dr["apartmentId"]);
+                DateTime startDate = Convert.ToDateTime(dr["startDate"]);
+                DateTime endDate = Convert.ToDateTime(dr["endDate"]);
+                string userEmail = dr["userEmail"].ToString();
+                bool isCanceled = Convert.ToBoolean(dr["isCanceled"]);
+
+                apartment = new Reservation(reservationId, startDate , endDate, apartmentId, userEmail, isCanceled);
+
+            }
+            // Close Connection
+            con.Close();
+
+            return apartment;
+
+        }
+
+        //This function get Reservation Id and execute store procedure to get the reservation
+        private SqlCommand CreateGetReservationById(SqlConnection con, int reservationId)
+        {
+
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@id", reservationId);
+
+            command.CommandText = "SP_getReservationById";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
     }
 }

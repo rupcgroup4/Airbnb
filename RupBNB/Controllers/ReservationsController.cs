@@ -10,16 +10,13 @@ namespace RupBNB.Controllers
 {
     public class ReservationsController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        //Route to get an apartment by id
+        [HttpGet]
+        [Route("api/Reservations/{id}")]
+        public Reservation Get(int id)
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
+            Reservation a = new Reservation();
+            return a.getReservationById(id);
         }
 
         // POST api/<controller>
