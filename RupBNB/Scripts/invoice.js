@@ -79,8 +79,8 @@ function SCBGetApartment(returnApartment) {
     //save apartment in global variable to be able to access to the detials again if needed
     apartment = returnApartment;
 
-    const checkIn = new Date(ReservationData.EndDate);
-    const checkOut = new Date(ReservationData.StartDate);
+    const checkIn = new Date(ReservationData.StartDate);
+    const checkOut = new Date(ReservationData.EndDate);
 
     myMap(Number(apartment.Latitude), Number(apartment.Longtitude));
 
@@ -94,7 +94,7 @@ function SCBGetApartment(returnApartment) {
     `);
 
 
-    let difference = checkIn - checkOut;
+    let difference = checkOut - checkIn;
     const TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
     $("#TotalNights").append(TotalDays);
     $("#price").prepend("$" + apartment.Price);
@@ -106,37 +106,40 @@ function SCBGetApartment(returnApartment) {
     $("#details").append(
         `
             
-              <div class="col">
-                <div class="d-flex justify-content-between align-items-center">
-                 <div class="check-out">
-                 <div class="d-flex flex-row align-items-center">
-                    <h1 id="checkOutDate">25</h1>
-                            <div class="d-flex flex-column ml-2 date">
-                            <span id="checkOutMonthAndYear">July 20</span>
-                <span id="checkOutDay">Friday</span>
-                </div>
-                    </div>
-                <div class="d-flex flex-column ml-2 date">
-                <span>Check in</span>
-                 <span>Anytime after 3PM</span>
-          </div>
-            </div>
-             <div class="check-in">
-              <div class="d-flex flex-row align-items-center">
-               <h1 id="checkInDate">24</h1>
-               <div class="d-flex flex-column ml-2 date">
-               <span id="checkInMonthAndYear">July 20</span>
-               <span id="checkInDay">Friday</span>
-                </div>
-                </div>
-                 <div class="d-flex flex-column ml-2 date">
-                 <span>Check out</span>
-                 <span>11AM</span>
-                </div>
-             </div>
-          </div>
+             <div class="col">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="check-in">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <h1 id="checkInDate">24</h1>
+                                                <div class="d-flex flex-column ml-2 date">
+                                                    <span id="checkInMonthAndYear">July 20</span>
+                                                    <span id="checkInDay">Friday</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column ml-2 date">
+                                                <span>Check in</span>
+                                                <span>Anytime after 3PM</span>
+                                            </div>
+                                        </div>
 
-        </div>
+
+                                        <div class="check-out">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <h1 id="checkOutDate">25</h1>
+                                                <div class="d-flex flex-column ml-2 date">
+                                                    <span id="checkOutMonthAndYear">July 20</span>
+                                                    <span id="checkOutDay">Friday</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column ml-2 date">
+                                                <span>Check out</span>
+                                                <span>11AM</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
 
 
         `
