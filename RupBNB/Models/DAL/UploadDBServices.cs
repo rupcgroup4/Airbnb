@@ -49,7 +49,7 @@ namespace WebApplication1.Models.DAL
                                 bool isSuperHost = values[12] == "t" ? true : false;
                                 bool isVerified = values[14] == "t" ? true : false;
 
-                                InsertUser(new User(values[0], values[1], values[2], values[3], values[4], 
+                                InsertUser(new User(values[0], values[1], values[4], values[2], values[3], 
                                     Convert.ToDateTime(values[5]), Convert.ToDateTime(values[6])));
 
                                 InsertHost(new Host(values[0], values[1], values[2], values[3], values[4],
@@ -70,6 +70,10 @@ namespace WebApplication1.Models.DAL
                         {
 
                         }
+
+                    }
+                    else
+                    {
 
                     }
 
@@ -270,7 +274,7 @@ namespace WebApplication1.Models.DAL
                                     Convert.ToSingle(distanceToCenterKM),
                                     values[9],
                                     values[10],
-                                    Convert.ToInt32(values[11]),
+                                    (int)Convert.ToDouble(values[11]),
                                     Convert.ToInt32(values[12]),
                                     Convert.ToInt32(values[13]),
                                     values[14],
