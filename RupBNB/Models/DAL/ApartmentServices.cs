@@ -104,9 +104,9 @@ namespace WebApplication1.Models.DAL
                 int minNight = Convert.ToInt32(dr["minNights"]);
                 int maxNight = Convert.ToInt32(dr["maxNights"]);
                 float rating = Convert.ToSingle(dr["rating"]);
-                float reviewAccuracy = Convert.ToSingle(dr["reviewAccuracy"]); ;
-                float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); ;
-                float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
+                float reviewAccuracy = Convert.ToSingle(dr["reviewAccuracy"]); 
+                float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); 
+                float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); 
 
                 apartments.Add(new Apartment(id, propertyType, hostEmail, name, description,
                     img, neighborhood, latitude, longtitude, distanceToCenterKM, roomType, numBathrooms, numBedrooms,
