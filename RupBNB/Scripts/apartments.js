@@ -81,7 +81,7 @@ let serachQuery = {
     MinBedrooms: 0,
     MaxDistanceToCenter: 50,
     StartDate: "9999-1-1",
-    EndDate: "9999-1-1",
+    EndDate: "9999-1-2", //default
     OrderByColumn: "price_D",
     FromRow: 1,
     ToRow: 12,
@@ -191,9 +191,8 @@ function getApartmentsSCB(apartments) {
 function search() {
 
     let accomodate = $("#accomodate").val();
-    if (accomodate == "") {
-        alert("not num");
-        return;
+    if (accomodate == "") { //accomadte is type number- handles case of keyboard interferce
+        accomodate = 1; //default 
     }
 
     let checkIn;
@@ -206,14 +205,14 @@ function search() {
         checkOut = dates[1].split(".");
         checkOut = checkOut[2] + "." + checkOut[1] + "." + checkOut[0]
 
-    } else {
+    } else {    //no dates were picked
         checkIn = "9999-1-1";
-        checkOut = "9999-1-1";
+        checkOut = "9999-1-10";
     }
     
     let maxPrice = $("#priceRange").val();
     if (maxPrice == 0) {
-        maxPrice = 32676;
+        maxPrice = 32676;   //default
     }
 
     let minRating = $("#minRating").val();
