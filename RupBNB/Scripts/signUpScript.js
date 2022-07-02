@@ -18,9 +18,13 @@ function submitSignUpForm() {
 	let email = $("#email").val();
 	let userName = $("#userName").val();
 	let password = $("#password").val();
+	let cnfmPassword = $("#confirmPassword").val();
 	let firstName = $("#firstName").val();
 	let lastName = $("#lastName").val();
 	let birthDate = $("#birthDate").val();
+	
+
+	
 
 	let newUser = {
 		Email: email,
@@ -34,6 +38,30 @@ function submitSignUpForm() {
 	ajaxCall("POST", "../api/Users", JSON.stringify(newUser), submitSignUpFormSuccess, submitSignUpFormError);
 
 	return false;
+}
+
+
+//add custom validators for passwords and age
+function check() {
+
+	let password = $("#password").val();
+	let cnfmPassword = $("#confirmPassword").val();
+	let birthDate = $("#birthDate").val();
+
+	if (cnfmPassword = "") {
+		document.getElementById("confirmPassword").setCustomValidity("Confirm your password");
+		return false;
+	}
+
+	if(password != cnfmPassword) {
+		document.getElementById("confirmPassword").setCustomValidity("Those passwords didn’t match. Try again");
+		return false;
+	}
+
+	if(!check18Age(birthDate)) {
+		document.getElementById("birthDate").setCustomValidity("Not 18 yet");
+		return false;
+	}
 }
 
 
