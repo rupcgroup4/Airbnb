@@ -81,7 +81,10 @@
                 <div class="mb-3">
                     <label for="forBirthDate" class="form-label">Birth Date</label>
                     <input type="date" id="birthDate"
-                           class="form-control" required>
+                        pattern="check18Age()"
+                        oninvalid="this.setCustomValidity('Must be 18+')"
+                        oninput="this.setCustomValidity('')"
+                        class="form-control" required>
                 </div>
                 <div class="d-grid gap-2">
                     <button value="Submit" id="signUpBtn" class="btn btn-primary">SignUp</button>
