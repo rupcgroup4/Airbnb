@@ -218,33 +218,31 @@ namespace WebApplication1.Models.DAL
             while (dr.Read())
             {
                 int id = Convert.ToInt32(dr["id"]);
-                string propertyType = Convert.ToString(dr["propertyType"]);
-                string hostEmail = Convert.ToString(dr["hostEmail"]);
+               // string propertyType = Convert.ToString(dr["propertyType"]);
+                //string hostEmail = Convert.ToString(dr["hostEmail"]);
                 string name = Convert.ToString(dr["name"]);
-                string description = Convert.ToString(dr["description"]);
+                //string description = Convert.ToString(dr["description"]);
                 string img = Convert.ToString(dr["img"]);
-                string neighborhood = Convert.ToString(dr["neighborhood"]);
+                //string neighborhood = Convert.ToString(dr["neighborhood"]);
                 float latitude = Convert.ToSingle(dr["latitude"]);
                 float longtitude = Convert.ToSingle(dr["longtitude"]);
                 float distanceToCenterKM = Convert.ToSingle(dr["distanceToCenterKM"]);
-                string roomType = Convert.ToString(dr["roomType"]);
-                string numBathrooms = Convert.ToString(dr["numBathrooms"]);
-                int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);
-                int numBeds = Convert.ToInt32(dr["numBeds"]);
-                int accommodates = Convert.ToInt32(dr["accommodates"]);
-                string amenities = Convert.ToString(dr["amenities"]);
+                //string roomType = Convert.ToString(dr["roomType"]);
+                //string numBathrooms = Convert.ToString(dr["numBathrooms"]);
+                //int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);
+                //int numBeds = Convert.ToInt32(dr["numBeds"]);
+                //int accommodates = Convert.ToInt32(dr["accommodates"]);
+                //string amenities = Convert.ToString(dr["amenities"]);
                 int price = Convert.ToInt32(dr["price"]);
-                int minNight = Convert.ToInt32(dr["minNights"]);
-                int maxNight = Convert.ToInt32(dr["maxNights"]);
+                //int minNight = Convert.ToInt32(dr["minNights"]);
+                //int maxNight = Convert.ToInt32(dr["maxNights"]);
                 float rating = Convert.ToSingle(dr["rating"]);
-                float reviewAccuracy = Convert.ToSingle(dr["reviewAccuracy"]); ;
-                float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); ;
-                float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
+                //float reviewAccuracy = Convert.ToSingle(dr["reviewAccuracy"]); ;
+                //float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); ;
+                //float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
 
-                apartments.Add(new Apartment(id, propertyType, hostEmail, name, description,
-                    img, neighborhood, latitude, longtitude, distanceToCenterKM, roomType, numBathrooms, numBedrooms,
-                    numBeds, accommodates, amenities, price, minNight, maxNight, rating, reviewAccuracy,
-                    reviewsClean, reviewLocation));
+                apartments.Add(new Apartment(id, name, img, latitude, longtitude,
+                    distanceToCenterKM, price, rating));
 
             }
             // Close Connection

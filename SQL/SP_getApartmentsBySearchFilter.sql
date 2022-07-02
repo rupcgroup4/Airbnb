@@ -69,8 +69,9 @@ BEGIN
 							A.minNights  <= DATEDIFF(day,@startDate, @endDate) 
 	)
 
-	SELECT *
-	FROM result
+	SELECT R.id, R.img, R.rating, R.price, R.name,
+			R.distanceToCenterKM, R.latitude, R.longtitude
+	FROM result as R
 	WHERE row between @fromRow and @toRow
 	
 	

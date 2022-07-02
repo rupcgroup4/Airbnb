@@ -68,6 +68,20 @@ namespace WebApplication1.Models
             this.ReviewLocation = reviewLocation;
         }
 
+        //constructor for apartments view in index.html
+        public Apartment(int id, string name, string img, float latitude,
+            float longitude, float distanceToCenterKM, int price, float rating)
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Img = img;
+            this.Latitude = latitude;
+            this.Longitude = longitude;
+            this.DistanceToCenterKM = distanceToCenterKM;
+            this.Price = price;
+            this.Rating = rating;
+        }
+
         public int Id { get => id; set => id = value; }
         public string PropertyType { get => propertyType; set => propertyType = value; }
         public string HostEmail { get => hostEmail; set => hostEmail = value; }

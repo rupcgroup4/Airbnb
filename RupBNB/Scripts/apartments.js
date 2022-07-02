@@ -173,6 +173,7 @@ function getApartmentsSCB(apartments) {
     }
     //found apartments
     firstLoadApartments = false;
+    console.log(apartments);
         for (let i = 0; i < apartments.length; i++) {
 
             let distanceRounded = Math.round(apartments[i].DistanceToCenterKM * 10) / 10
