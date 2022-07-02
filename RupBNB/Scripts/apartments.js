@@ -182,7 +182,7 @@ function getApartmentsSCB(apartments) {
                 .append(
                     `
                 <div class="col mt-3">
-                    <div onclick="seeApart(${apartments[i].Id})" class="card h-100">
+                    <div onclick="seeApart(${apartments[i].Id}, ${apartments[i].MinNight})" class="card h-100">
                         <div>
                             <img src="${apartments[i].Img}" class="card-img-top img-apartment">
                         </div>
@@ -311,8 +311,10 @@ function apartmentSearchSCB(apartments) {
 
 
 //This function called when press "See Details" on Apartment
-function seeApart(apartmentId) {
+function seeApart(apartmentId, minNight) {
     sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
+    sessionStorage.setItem("CGroup4_minNight", minNight);
+
     window.location.href = "seeApart.html";
 }
 
@@ -379,6 +381,7 @@ function createCalander() {
             "LockPlugin"
         ]
     })
+
 }
 
 

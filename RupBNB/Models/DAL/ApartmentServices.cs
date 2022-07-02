@@ -234,7 +234,7 @@ namespace WebApplication1.Models.DAL
                 //int accommodates = Convert.ToInt32(dr["accommodates"]);
                 //string amenities = Convert.ToString(dr["amenities"]);
                 int price = Convert.ToInt32(dr["price"]);
-                //int minNight = Convert.ToInt32(dr["minNights"]);
+                int minNight = Convert.ToInt32(dr["minNights"]);
                 //int maxNight = Convert.ToInt32(dr["maxNights"]);
                 float rating = Convert.ToSingle(dr["rating"]);
                 //float reviewAccuracy = Convert.ToSingle(dr["reviewAccuracy"]); ;
@@ -242,7 +242,7 @@ namespace WebApplication1.Models.DAL
                 //float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
 
                 apartments.Add(new Apartment(id, name, img, latitude, longtitude,
-                    distanceToCenterKM, price, rating));
+                    distanceToCenterKM, price, minNight, rating));
 
             }
             // Close Connection

@@ -70,7 +70,7 @@ BEGIN
 	)
 
 	SELECT R.id, R.img, R.rating, R.price, R.name,
-			R.distanceToCenterKM, R.latitude, R.longtitude
+			R.distanceToCenterKM, R.latitude, R.longtitude, R.minNights
 	FROM result as R
 	WHERE row between @fromRow and @toRow
 	

@@ -70,7 +70,7 @@ namespace WebApplication1.Models
 
         //constructor for apartments view in index.html
         public Apartment(int id, string name, string img, float latitude,
-            float longitude, float distanceToCenterKM, int price, float rating)
+            float longitude, float distanceToCenterKM, int price, int minNight, float rating)
         {
             this.Id = id;
             this.Name = name;
@@ -79,6 +79,7 @@ namespace WebApplication1.Models
             this.Longitude = longitude;
             this.DistanceToCenterKM = distanceToCenterKM;
             this.Price = price;
+            this.MinNight = minNight;
             this.Rating = rating;
         }
 
