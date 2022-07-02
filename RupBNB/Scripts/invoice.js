@@ -1,4 +1,12 @@
-﻿let apartment;
+﻿
+months = {
+    0: "Jan", 1: "Feb", 2: "Mar", 3: "Apr", 4: "May", 5: "Jun",
+    6: "Jul", 7: "Aug", 8: "Sep", 9: "Oct", 10: "Nov", 11: "Dec"
+};
+
+days = { 0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursaday", 5: "Friday", 6: "Saturday" };
+
+let apartment;
 
 data = [
     {
@@ -48,7 +56,7 @@ hostData = [
 ReservationData = {
     Id: 3,
     StartDate: "2022-07-01",
-    EndDate: "2022-07-02",
+    EndDate: "2022-07-03",
     ApartmentId: 15,
     UserEmail: "Aafje5@gmail.com",
     IsCanceled: 0
@@ -71,71 +79,105 @@ function SCBGetApartment(returnApartment) {
     //save apartment in global variable to be able to access to the detials again if needed
     apartment = returnApartment;
 
+    const checkIn = new Date(ReservationData.StartDate);
+    const checkOut = new Date(ReservationData.EndDate);
+
     myMap(Number(apartment.Latitude), Number(apartment.Longtitude));
 
     $("#image").attr("src", apartment.Img);
     $("#modalImage").attr("src", apartment.Img); 
     $("#name").append(apartment.Name);
-    $("#reservaionNum").append(`Reservation number #${ReservationData.Id}`);
+    $("#reservaionNum").append(
+        `Booking confirmation
+        <small>CONFIRMATION NUMBER: #${ReservationData.Id}</small>
 
-    if (apartment.Description.length > 200) {
-        $("#description").prepend(apartment.Description.substring(0, 200));
-        $("#more").append(apartment.Description.substring(201));
-        $("#readBTN").css("display", "block");
-    } else {
-        $("#description").prepend(apartment.Description);
-        $("#dots").css("display", "none");
-        $("#more").css("display", "none");
-        $("#readBTN").css("display", "none");
-    }
+    `);
 
-    let difference = new Date(ReservationData.EndDate) - new Date(ReservationData.StartDate);
-    let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+
+    let difference = checkOut - checkIn;
+    const TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
     $("#TotalNights").append(TotalDays);
     $("#price").prepend("$" + apartment.Price);
     $("#TotalPrice").prepend("$" + (apartment.Price * TotalDays));
-    
+
+
+
 
     $("#details").append(
         `
-            <h3>Details:
-            <div class="text-center">
-                <h4>${ReservationData.StartDate} - ${ReservationData.EndDate}</h4>
-            </div>
-            </h3>
+            
+             <div class="col">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="check-in">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <h1 id="checkInDate">24</h1>
+                                                <div class="d-flex flex-column ml-2 date">
+                                                    <span id="checkInMonthAndYear">July 20</span>
+                                                    <span id="checkInDay">Friday</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column ml-2 date">
+                                                <span>Check in</span>
+                                                <span>Anytime after 3PM</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="check-out">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <h1 id="checkOutDate">25</h1>
+                                                <div class="d-flex flex-column ml-2 date">
+                                                    <span id="checkOutMonthAndYear">July 20</span>
+                                                    <span id="checkOutDay">Friday</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column ml-2 date">
+                                                <span>Check out</span>
+                                                <span>11AM</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
         `
     )
+    //render date to Modal
+    writeDate("checkIn", checkIn);
+    writeDate("checkOut", checkOut);
     //get host img and more details
     getHostDetails(apartment.HostEmail);
 }
+//This function get inOrOut = ["checkIn" or "checkOut"] and a date
+//then set the date in the modal accordingly to inOrOut
+function writeDate(inOrOut, date) {
+
+    const year = date.getFullYear();
+    const month = months[date.getMonth()];
+    const day = days[date.getDay()];
+
+    $(`#${inOrOut}Date`).html(date.getDate())
+    $(`#${inOrOut}MonthAndYear`).html(month + " " + year);
+    $(`#${inOrOut}Day`).html(day);
+}
 
 function getHostDetails(hostEmail) {
-
     SCBGetHostDetails(hostData);
-
     //let qs = "email=" + hostEmail;
     //ajaxCall("GET", `../api/Hosts?${qs}`, "", SCBGetHostDetails, ECBGetHostDetails);
 }
 
 function SCBGetHostDetails(host) {
-
-    const isSuperHost = host[0].IsSuperHost != 0 ? '<img class="headerImg" src="../Pages/superHost.png" />' : ""
-    const isVerified = host[0].IsVerified != 0 ? '<img class="headerImg" src="../Pages/verified.jpg" />' : ""
-
-
     $("#host").append(
         `
             <div class="col">
-                <div class="d-flex justify-content-between">
-                    <img class="headerImg" src="${host[0].Img}" />
-                    <h4>${host[0].FirstName}</h4>
-                    ${isSuperHost}
-                    ${isVerified}
-                </div>
+                <h4>Contact info</h4>
+                    <h4>${host[0].UserName} - ${host[0].Email}</h4>
             </div>
         `
     )
-
 }
 
 function ECBGetHostDetails(error) {
@@ -167,19 +209,3 @@ function initMap() {
     console.log("connect to google map");
 }
 
-//Expand Appartment Description
-function expandText() {
-    var dots = document.getElementById("dots");
-    var moreText = document.getElementById("more");
-    var btnText = document.getElementById("readBTN");
-
-    if (dots.style.display === "none") {
-        dots.style.display = "inline";
-        btnText.innerHTML = "Show more";
-        moreText.style.display = "none";
-    } else {
-        dots.style.display = "none";
-        btnText.innerHTML = "Show less";
-        moreText.style.display = "inline";
-    }
-}

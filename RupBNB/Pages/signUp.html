@@ -55,7 +55,15 @@
                     <label for="forPassword" class="form-label">Password</label>
                     <input type="password" id="password"
                            pattern="^.{3,30}$"
-                           oninvalid="this.setCustomValidity('Password must be 8-30 characters')"
+                           oninvalid="this.setCustomValidity('Password must be 3-30 characters')"
+                           oninput="this.setCustomValidity('')"
+                           class="form-control"
+                           placeholder="Password" required>
+                </div>
+                <div class="mb-3">
+                <label for="forPassword" class="form-label">Confrim password</label>
+                    <input type="password" id="confirmPassword"
+                           pattern="^.{3,30}$"
                            oninput="this.setCustomValidity('')"
                            class="form-control"
                            placeholder="Password" required>
@@ -81,13 +89,11 @@
                 <div class="mb-3">
                     <label for="forBirthDate" class="form-label">Birth Date</label>
                     <input type="date" id="birthDate"
-                        pattern="check18Age()"
-                        oninvalid="this.setCustomValidity('Must be 18+')"
                         oninput="this.setCustomValidity('')"
                         class="form-control" required>
                 </div>
                 <div class="d-grid gap-2">
-                    <button value="Submit" id="signUpBtn" class="btn btn-primary">SignUp</button>
+                    <button value="Submit" onclick="check()" id="signUpBtn" class="btn btn-primary">SignUp</button>
                 </div>
             </form>
         </div>
