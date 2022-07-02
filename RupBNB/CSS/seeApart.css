@@ -94,6 +94,15 @@ h4 {
     font-weight: 500;
 }
 
+/* Swall Buttons */
+.swal2-styled.swal2-deny {
+    background-color: blueviolet;
+}
+.swal2-styled.swal2-confirm, .swal2-styled.swal2-deny, .swal2-styled.swal2-cancel {
+    border-radius: 25px;
+}
+
+
 /* For Mobile */
 @media only screen and (max-width: 960px) {
     #reserve {

@@ -66,36 +66,15 @@ $(document).ready(function () {
         window.location.replace("index.html");
     }
 
-   
     if (sessionStorage.getItem("CGroup4_blockReservation") != undefined) {
         $("#reserve").removeClass("d-flex");
         $("#reserve").css("display", "none");
     }
 
-    
     ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
 
-
     //when user press on confirm reservation
-    $(document).on("click", "#makeReservation", () => {
-
-        const startDate = new Date($("#checkInDatePicker").val());
-        const endDate = new Date($("#checkOutDatePicker").val());
-        const minNight = apartment.MinNights;
-
-        var Difference_In_Time = endDate - startDate;
-        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-        console.log(Difference_In_Days);
-
-        if (minNight <= Difference_In_Days) {
-            console.log("in if", minNight);
-            makeReservation();
-        }
-        else {
-            $("#reserveModal").modal('hide');
-            alert("min night bad");
-        }
-    })
+    $(document).on("click", "#makeReservation", clickReserve);
 
     //set the minimun date of the date inputs to be today 
     $("#checkInDatePicker").attr("min", new Date().toISOString().split('T')[0]);
@@ -107,20 +86,49 @@ $(document).ready(function () {
         checkDates();
     });
 
-    // Temporary, will get the date from search filter later
-    const today = new Date();
-    const todayString = today.toISOString().split('T')[0];
-    $("#checkInDatePicker").val(todayString);
-    writeDateInModal("checkIn", today);
-
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const tomorrowString = tomorrow.toISOString().split('T')[0];
-    $("#checkOutDatePicker").val(tomorrowString);
-    writeDateInModal("checkOut", tomorrow);
-    
 
 });
+
+function clickReserve() {
+    //if user is not logged in
+    if (sessionStorage.getItem("CGroup4_user") == undefined) {
+        userNotLogedIn();
+        return;
+    }
+
+    const startDate = new Date($("#checkInDatePicker").val());
+    const endDate = new Date($("#checkOutDatePicker").val());
+    const minNight = apartment.MinNight;
+
+    const Difference_In_Time = endDate - startDate;
+    const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+    if (minNight <= Difference_In_Days) {
+        console.log("in if", minNight);
+        makeReservation();
+    }
+    else {
+        $("#reserveModal").modal('hide');
+        alert("min night bad");
+    }
+}
+
+function userNotLogedIn() {
+    Swal.fire({
+        title: 'Must be logged in for make reservation',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Log In',
+        denyButtonText: `Sign Up`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+           window.location.replace("login.html")
+         } else if (result.isDenied) {
+            window.location.replace("signUp.html")
+        }
+    });
+}
 
 //this function get called everytime one of the dates in modal has changed
 function checkDates() {
@@ -175,6 +183,25 @@ function SCBGetApartment(returnApartment) {
     
     $("#price").prepend("$" + apartment.Price);
 
+    renderApartmentDetails();
+    
+    setModalDates();
+
+    let amenities = JSON.parse(apartment.Amenities);
+    renderAmenties(amenities);
+
+    //get host img and more details
+    getHostDetails(apartment.HostEmail);
+
+    //get apartment reviews
+    getReviews(apartment.Id);
+
+    //calculate total price of current dates with apartment price
+    calculatePrice();
+}
+
+//this function render apartment details section in the page
+function renderApartmentDetails() {
     $("#details").append(
         `
             <div class="col text-center">
@@ -202,19 +229,20 @@ function SCBGetApartment(returnApartment) {
             </div>
         `
     )
+}
+
+function setModalDates() {
+        // Temporary, will get the date from search filter later
+        const today = new Date();
+        const todayString = today.toISOString().split('T')[0];
+        $("#checkInDatePicker").val(todayString);
+        writeDateInModal("checkIn", today);
     
-    let amenities = JSON.parse(apartment.Amenities);
-
-    renderAmenties(amenities);
-
-    //get host img and more details
-    getHostDetails(apartment.HostEmail);
-
-    //get apartment reviews
-    getReviews(apartment.Id);
-
-    //calculate total price of current dates with apartment price
-    calculatePrice();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + apartment.MinNight);
+        const tomorrowString = tomorrow.toISOString().split('T')[0];
+        $("#checkOutDatePicker").val(tomorrowString);
+        writeDateInModal("checkOut", tomorrow);
 }
 
 

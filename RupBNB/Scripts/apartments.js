@@ -96,10 +96,10 @@ let serachQuery = {
 //when document is ready
 $(document).ready(function () {
 
-    //first api call to get the first 8 apartemnet to load to the page
+    //first api call to get the first 12 apartemnet to load to the page
     ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
     serachQuery.FromRow += 12;
-    serachQuery.ToRow += 8
+    serachQuery.ToRow += 8;
 
     //load more data on scroll for web
     $("#cards").scroll(divScroll);
