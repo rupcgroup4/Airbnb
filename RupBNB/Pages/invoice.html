@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="../CSS/invoice.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/header.css">
     <script src="../Scripts/header.js"></script>
@@ -20,7 +20,7 @@
     <!-- This Page Start Here -->
     <link rel="stylesheet" href="../CSS/seeApart.css">
     <script src="../Scripts/invoice.js"></script>
-
+    <link href="../CSS/invoice.css" rel="stylesheet" />
     <script src="../Scripts/ajaxCalls.js"></script>
 </head>
 <body>
@@ -37,26 +37,18 @@
         </div>
         <!-- end invoice-header -->
         <!-- Apartment Details -->
-        <div id="apartmentDetails" class="row m-auto mt-3 mt-md-5">
+        <div id="apartmentDetails" class="row m-auto mt-1 mt-md-1">
             <div class="col-12 col-md-7">
                 <div class="card mb-3">
+                    <h5 id="name" class="card-title"></h5>
                     <img id="image" src="" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 id="name" class="card-title"></h5>
-                        <p id="description" class="card-text">
-                            <span id="dots">...</span>
-                            <span id="more" class="more"></span>
-                        </p>
-                        <button onclick="expandText()" id="readBTN" class="btn">Show more</button>
-                    </div>
+
                 </div>
             </div>
             <div class=" col-12 col-md-5">
-   
                 <div id="details" class="row"></div>
-                <h3>Host:</h3>
                 <div id="host" class="row"></div>
-                <h3 class="mt-2">Location:</h3>
+                <h3 class="mt-1"></h3>
                 <div id="map"></div>
             </div>
 
@@ -67,7 +59,7 @@
                 <div class="invoice-price-row">
                     <div class="sub-price">
                         <small>PRICE</small>
-                        <span class="text-inverse"  id="price"></span>
+                        <span class="text-inverse" id="price"></span>
                     </div>
                     <div class="sub-price">
                         <i class="fa fa-times text-muted"></i>
@@ -83,6 +75,25 @@
             </div>
         </div>
         <!-- end invoice-price -->
+
+        <div id="moreDetails" class="row m-auto mt-2">
+            <h4>Things to know</h4>
+            <div class="col">
+                <h5>Health & safety</h5>
+                <p>Airbnb's COVID-19 safety practices apply</p>
+                <p>No carbon monoxide alarm</p>
+                <p>No smoke alarm</p>
+            </div>
+            <div class="col">
+                <h5>Cancellation policy</h5>
+                <p>Free cancellation for 48 hours.</p>
+                <p>Review the Host’s full cancellation policy which applies even if you cancel for illness or disruptions caused by COVID-19.</p>
+
+            </div>
+            <div class="col"></div>
+        </div>
+
+
     </div>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFo09_zZh1zxvdJJrnwYzJBTIBCqgmsk&callback=initMap&v=weekly"

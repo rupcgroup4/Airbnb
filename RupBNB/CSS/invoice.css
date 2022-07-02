@@ -50,3 +50,14 @@
             left: 10px;
             font-size: 12px
         }
+
+
+#image { 
+    height:470px;
+}
+#apartmentDetails {
+    padding-bottom:0px;
+}
+#moreDetails { 
+    margin:0px;
+}
