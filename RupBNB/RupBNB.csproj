@@ -184,24 +184,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="CSS\apartments.css" />
     <Content Include="CSS\chat.css" />
     <Content Include="CSS\header.css" />
+    <Content Include="CSS\invoice.css" />
     <Content Include="CSS\login-signup.css" />
     <Content Include="CSS\main.css" />
     <Content Include="CSS\profilePage.css" />
     <Content Include="CSS\seeApart.css" />
     <Content Include="CSS\spinner.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Pages\adminView.html" />
     <Content Include="Pages\index.html" />
     <Content Include="Pages\createDB.html" />
+    <Content Include="Pages\invoice.html" />
     <Content Include="Pages\login.html" />
     <Content Include="Pages\notFound.html" />
     <Content Include="Pages\profilePage.html" />
@@ -231,6 +228,7 @@
     <Content Include="Scripts\apartments.js" />
     <Content Include="Scripts\config.js" />
     <Content Include="Scripts\header.js" />
+    <Content Include="Scripts\invoice.js" />
     <Content Include="Scripts\loginScript.js" />
     <Content Include="Scripts\seeApart.js" />
     <Content Include="Scripts\signUpScript.js" />
@@ -252,30 +250,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\bootstrap.min.css.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\bootstrap.css.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CSS\notFound.css" />

@@ -28,7 +28,14 @@ function formatDate(date) {
 function seeApart(apartmentId) {
     sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
     sessionStorage.setItem("CGroup4_blockReservation", true);
-    
+    if (reservationsData != undefined) {
+        for (var i = 0; i < reservationsData.length; i++) {
+            if (reservationsData[i].ApartmentId == apartmentId) {
+                sessionStorage.setItem("CGroup4_reservation", reservationsData);
+            }
+        }
+    }
+
     window.location.href = "seeApart.html";
 }
 
@@ -63,7 +70,7 @@ function getMyFutureReservations() {
 }
 
 function getMyFutureReservationsSuccess(usersReservationsData) {
-    let reservationsData = JSON.parse(usersReservationsData)
+    reservationsData = JSON.parse(usersReservationsData)
     console.log(reservationsData);
 
     let oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds

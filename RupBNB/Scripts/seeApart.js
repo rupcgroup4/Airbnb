@@ -155,7 +155,6 @@ function SCBGetApartment(returnApartment) {
         $("#dots").css("display", "none");
         $("#more").css("display", "none");
         $("#readBTN").css("display", "none");
-
     }
     
     $("#price").prepend("$" + apartment.Price);

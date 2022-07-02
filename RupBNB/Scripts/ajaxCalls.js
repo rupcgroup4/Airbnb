@@ -7,9 +7,6 @@
         contentType: "application/json",
         dataType: "json",
         success: successCB,
-        error: errorCB,
-        statusCode: {
-            201: successCB
-        }
+        error: errorCB
     });
 }
