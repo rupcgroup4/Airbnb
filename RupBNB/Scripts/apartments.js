@@ -55,6 +55,9 @@ let locations = []
 //indicate if the user make a query with distance parameter
 let isDistanceFilter = false;
 
+//boolean indicating wether the apartments on display where are only from the first search(only 12 first appartments)
+let firstLoadApartments = true;
+
 //scroll handler for web
 const divScroll = () => {
     if ($("#cards").scrollTop() + 50 > $("#cardContainer").height() - $("#cards").height()) {
@@ -62,6 +65,7 @@ const divScroll = () => {
         ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
         serachQuery.FromRow += 8;
         serachQuery.ToRow += 8;
+        console.log("from scroll web");
 
     }
 }
@@ -71,6 +75,8 @@ const windowScroll = () => {
         ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
         serachQuery.FromRow += 8;
         serachQuery.ToRow += 8;
+        console.log("from scroll mobile");
+
     }
 }
 
@@ -102,7 +108,7 @@ $(document).ready(function () {
 
     //load more data on scroll for mobile
     $(window).scroll(windowScroll);
-
+    
 
     //update maxUSD span when user move price slider
     $(document).on('input', "#priceRange", () => {
@@ -148,16 +154,32 @@ function getApartmentsECB(err) {
 //render the apartemnts to the screen
 function getApartmentsSCB(apartments) {
 
-    $('#spinner').css('display', 'none');
+    $('#spinner').css('display', 'none'); //display loading sign while waiting for apartments
 
-
-    for (let i = 0; i < apartments.length; i++) {
-
-        let distanceRounded = Math.round(apartments[i].DistanceToCenterKM * 10) / 10
-
+    //no apartments matching the search filters found and it is not because of scroll
+    if (!apartments && firstLoadApartments) {
+        console.log("no apartments");
         $("#cardContainer")
-            .append(
-                `
+            .append("<h3> NO APARTMENTS FOUND </h3>");
+        return;
+    }
+    //no more apartments found after scroll
+    else if (!apartments) { //for scroll
+        console.log("no more..");
+        $("#cards").off('scroll', divScroll);
+        $(window).off('scroll', windowScroll);
+
+        return;
+    }
+    //found apartments
+    firstLoadApartments = false;
+        for (let i = 0; i < apartments.length; i++) {
+
+            let distanceRounded = Math.round(apartments[i].DistanceToCenterKM * 10) / 10
+
+            $("#cardContainer")
+                .append(
+                    `
                 <div class="col mt-3">
                     <div onclick="seeApart(${apartments[i].Id})" class="card h-100">
                         <div>
@@ -169,7 +191,7 @@ function getApartmentsSCB(apartments) {
                                 <span><b>$</b>${apartments[i].Price}<span style="font-weight: 300;"> night</span></span>
                             </div>
                             <div class="apartName">
-                                <span>${ isDistanceFilter ? "Center: " + distanceRounded + "Km": ""}</span>
+                                <span>${ isDistanceFilter ? "Center: " + distanceRounded + "Km" : ""}</span>
                                 <h6 class="card-title">${apartments[i].Name}</h6>
                             </div>
                            
@@ -177,18 +199,26 @@ function getApartmentsSCB(apartments) {
                     </div>
                 </div>
             `
-        )
+                )
 
-        locations.push({lat: apartments[i].Latitude , lon: apartments[i].Longitude});
-    }
+            locations.push({ lat: apartments[i].Latitude, lon: apartments[i].Longitude });
+        }
 
-    myMap(locations);
-  
+        myMap(locations);
+    
 }
 
 
 //search apartment
 function search() {
+    console.log("in search1");
+    firstLoadApartments = true;
+
+    //load more data on scroll for web
+    $("#cards").scroll(divScroll);
+
+    //load more data on scroll for mobile
+    $(window).scroll(windowScroll);
 
     let accomodate = $("#accomodate").val();
     if (accomodate == "") { //accomadte is type number- handles case of keyboard interferce
@@ -207,7 +237,7 @@ function search() {
 
     } else {    //no dates were picked
         checkIn = "9999-1-1";
-        checkOut = "9999-1-10";
+        checkOut = "9999-1-2";
     }
     
     let maxPrice = $("#priceRange").val();
@@ -245,7 +275,7 @@ function search() {
 
 
     ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), apartmentSearchSCB, getApartmentsECB);
-
+    console.log("in search");
     $("#cardContainer").html("");
     $('#spinner').css('display', 'block');
 

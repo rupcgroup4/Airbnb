@@ -66,7 +66,7 @@ BEGIN
 							A.numBedrooms >= @minBedrooms and
 							A.distanceToCenterKM <= @maxDistanceToCenterKM and
 							A.accommodates >= @minAccommodates and
-							A.minNights  >= DATEDIFF(day,@startDate, @endDate) 
+							A.minNights  <= DATEDIFF(day,@startDate, @endDate) 
 	)
 
 	SELECT *
