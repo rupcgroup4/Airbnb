@@ -28,13 +28,6 @@ function formatDate(date) {
 function seeApart(apartmentId) {
     sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
     sessionStorage.setItem("CGroup4_blockReservation", true);
-    if (reservationsData != undefined) {
-        for (var i = 0; i < reservationsData.length; i++) {
-            if (reservationsData[i].ApartmentId == apartmentId) {
-                sessionStorage.setItem("CGroup4_reservation", reservationsData);
-            }
-        }
-    }
 
     window.location.href = "seeApart.html";
 }
