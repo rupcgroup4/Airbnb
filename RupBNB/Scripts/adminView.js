@@ -236,7 +236,7 @@ let activeUserInChat;
 //]
 let chatArr = [];
 
-//this function send message from the manager to user
+//this function send message from the manager to user (by activeUserInChat)
 function sendMessage() {
 
     let message = $("#newMessage").val();
@@ -259,7 +259,7 @@ function sendMessage() {
 firebase.database().ref().on("child_added", snapshot => {
     const user = snapshot.key;
     chatArr[user] = new Array();
-    //create new line in the chat for the user and render to the screen
+    //create new line in the chat for the user and render to the screen 
     createListForEachUser(user);
     //listen to the user messages and render to the screen
     listenToUser(user);
@@ -267,7 +267,7 @@ firebase.database().ref().on("child_added", snapshot => {
 });
 
 
-//add user as a line to the chat window
+//add user as a line to the chat window with the users chat seen on the left
 function createListForEachUser(user) {
 
     $("#usersContainer").append(
@@ -285,7 +285,7 @@ function createListForEachUser(user) {
 
 }
 
-//listen to a specific user and add his mesages to the messages array
+//listen to a specific user and add his messages to the messages array
 //if the user is now active in the chat, add the message also to the chat
 function listenToUser(user) {
 
@@ -298,6 +298,12 @@ function listenToUser(user) {
 
         chatArr[user].push(message);
 
+<<<<<<< Updated upstream
+        //for real time message in active chat
+=======
+        //if a message from the user currently open on screen has arrived update the chat
+        //view to to display the message- purpose is to show real time change in open chat 
+>>>>>>> Stashed changes
         if ($("#activeUserChat").text() == user) {
             addMessage(message);
         }
@@ -305,18 +311,19 @@ function listenToUser(user) {
     });
 }
 
-//get user name and render is message to the chat window
+//get user name and render his message to the chat window
 function renderUserMessages(user) {
     //set this user to be the active user in the chat
     activeUserInChat = user;
 
-    $(".chat-list li").removeClass("active");
+    $(".chat-list li").removeClass("active"); //remove class that colors currently active user from all users
 
-    $(`#${user}`).addClass("active");
+    $(`#${user}`).addClass("active");         //add class that colors currently active user to recieved user
 
-    $("#activeChat").html("");
-    $("#activeUserChat").html(user);
+    $("#activeChat").html("");       //clear div that displays the chat messages before rendering the users messages to it
+    $("#activeUserChat").html(user); //display users name in #activeUserChat div
 
+    //render all users messages to screen
     for (let i = 0; i < chatArr[user].length; i++) {
         addMessage(chatArr[user][i])
     }

@@ -26,8 +26,9 @@ function formatDate(date) {
 
     return day + "/" + month + "/" + year;
 }
-//This function is called when "Reservation Details" button is clicked
-function seeReservation(reservationId) {
+
+//This function is called when "Apartment Details" button is clicked
+function seeApart(reservationId) {
     sessionStorage.setItem("CGroup4_reservationId", reservationId);
 
     window.location.href = "invoice.html";
@@ -38,8 +39,7 @@ function cancelReservation(reservationId) {
     ajaxCall("PUT", `../api/Reservations/cancelReservation`, JSON.stringify(reservationId), cancelReservationSuccess, cancelReservationError);
 
 }
-//cancel reservation SCB function
-//update the page with the canceled order
+
 function cancelReservationSuccess(result) {
     console.log(result);
 
@@ -51,7 +51,7 @@ function cancelReservationSuccess(result) {
         text: 'Reservation canceled'
     })
 }
-//cancel reservation error call back
+
 function cancelReservationError(err) {
     Swal.fire({
         icon: 'error',
@@ -59,12 +59,11 @@ function cancelReservationError(err) {
         text: "couldn't cancel reservation"
     })
 }
-//this function make ajax call to get future 
+
 function getMyFutureReservations() {
     ajaxCall("GET", `../api/Users/getUsersReservations?email=${user.Email}&isFutureReservations=true`, "", getMyFutureReservationsSuccess, getMyFutureReservationsError);
 }
-//SCB for get future reservations
-//get the reservations and render to the screen
+
 function getMyFutureReservationsSuccess(usersReservationsData) {
     reservationsData = JSON.parse(usersReservationsData)
     console.log(reservationsData);
@@ -78,37 +77,36 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
 
     for (let i = 0; i < reservationsData.length; i++) {
 
-        let allowCancelReservation = "";
         let startDate = new Date(reservationsData[i].StartDate);
         let endDate = new Date(reservationsData[i].EndDate);
 
         const diffDays = Math.round(Math.abs((currentDate - startDate) / oneDay));
-        //if reservations date is more than 2 days from today, reservation will have cancel button
-        if ((diffDays >= 2) && (reservationsData[i].IsCanceled == 0)) {
-            allowCancelReservation = `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-danger m-auto" value="Cancel">`
-        }
+        let allowCancelReservation = (diffDays >= 2) && (reservationsData[i].IsCanceled==0);
+        //console.log(startDate.toLocaleDateString());
+        console.log("diff: ", diffDays);
+        console.log("app id: ", reservationsData[i].ApartmentId);
         $("#futureReservationsContainer").append(`
             <div class="col mt-2">
                 <div class="card h-100">
                     ${reservationsData[i].IsCanceled ? '<span style="color:red"> RESERVATION CANCELED</span>' : '<span style="color:white">FILL THE BLANK</span>'}
                     <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
-                     <div class="card-body">
-                        <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
-                        <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
-                        <div class="bottom">
-                           
-                            <div class="d-flex justify-content-between">
-                                <input type="button" onclick="seeReservation(${reservationsData[i].ReservationId})" class="btn btn-primary m-auto" value="Order Details">
-                                ${allowCancelReservation}
+                        <div class="card-body">
+                            <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
+                            <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
+                            <div class="bottom">
+                               
+                                <div class="d-flex justify-content-between">
+                                    <input type="button" onclick="seeApart(${reservationsData[i].ReservationId})" class="btn btn-primary m-auto" value="Order Details">
+                                    ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-danger m-auto" value="Cancel">` : ""}
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div> `)
     }
     $('#spinner').css('display', 'none');
 }
-//error callback of future reservation 
+
 function getMyFutureReservationsError(err) {
     if(err.status == 500) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
@@ -116,16 +114,14 @@ function getMyFutureReservationsError(err) {
     } 
     console.log("no future reservation");
 }
-//this function get called when press on past reservation tab in the page
-//called only once
+
 function getMyPastReservations() {
     if (!wasPastReservationsUsed) {
         ajaxCall("GET", `../api/Users/getUsersReservations?email=${user.Email}&isFutureReservations=false`, "", getMyPastReservationsSuccess, getMyPastReservationsError);
         wasPastReservationsUsed = true;
     }
 }
-//get past reservation success call back
-//render past reservation to the page
+
 function getMyPastReservationsSuccess(usersReservationsData) {
 
     let reservationsData = JSON.parse(usersReservationsData)
@@ -144,7 +140,7 @@ function getMyPastReservationsSuccess(usersReservationsData) {
                         <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
                         <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
                         <div class="bottom">
-                            <input type="button" onclick="seeReservation(${reservationsData[i].ReservationId})" class="btn btn-primary" value="Order Details">
+                            <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary" value="Apartment Details">
                         </div>
                     </div>
                 </div>
@@ -152,7 +148,7 @@ function getMyPastReservationsSuccess(usersReservationsData) {
         `)
     }
 }
-//error callback of past reservation 
+
 function getMyPastReservationsError(err) {
     if(err.status == 500) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
@@ -168,25 +164,21 @@ function getMyPastReservationsError(err) {
 
 //**********************Chat***************************
 
-//this function get called when press on send message button
-//get the the text from the input and push it to firebase
+
 function sendMessage() {
 
     let message = $("#newMessage").val();
-    $("#newMessage").val("");
 
     firebase.database().ref(user.UserName).push().set({
         "sender": user.FirstName,
         "message": message
     })
 
-    return false
+    //return false
 }
-//this function get called when document is ready
-//listen to the user message data base in fire base
-//and render new message to the screen
-//(on the frst load return all the user messages)
+
 function loadUserChat(user) {
+    
     firebase.database().ref(user.UserName).on("child_added", snapshot => {
         message = {
             sender: snapshot.val().sender,
@@ -197,7 +189,7 @@ function loadUserChat(user) {
         let text_right = "";
         let float_right = "";
         let managerImg = "";
-        //messages from the manager get different properties
+
         if (message.sender == "manager") {
             text_right = "text-right";
             float_right = "float-right";
