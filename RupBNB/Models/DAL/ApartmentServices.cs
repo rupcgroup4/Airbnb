@@ -31,6 +31,7 @@ namespace WebApplication1.Models.DAL
 
         }
 
+        //CreateInsertAppartment command
         private SqlCommand CreateInsertAppartment(SqlConnection con, Apartment apartment)
         {
 
@@ -68,9 +69,9 @@ namespace WebApplication1.Models.DAL
         }
 
 
-        //this function get start row and end row
+        //this function gets start row and end row
         //use helper function CreateGet12ApartmentSortedByRating() which activated store procedure to get the data from DB
-        //return apartemtns object order by rating (from high to low) from start row to end row
+        //return apartments object order by rating (from high to low) from start row to end row
         public List<Apartment> getXNumberOfApartmentsSortedByRating(int rowStart, int rowEnd)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -121,6 +122,7 @@ namespace WebApplication1.Models.DAL
 
         }
 
+        //CreateGetXNumberOfApartmentsSortedByRating comand
         private SqlCommand CreateGetXNumberOfApartmentsSortedByRating(SqlConnection con, int rowStart, int rowEnd)
         {
 
@@ -137,6 +139,7 @@ namespace WebApplication1.Models.DAL
             return command;
         }
 
+        //method gets apartments id and returns an apartment matching the id if found, else null
         public Apartment getApartmentById(int apartmentId)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -203,6 +206,8 @@ namespace WebApplication1.Models.DAL
             return command;
         }
 
+        //method gets a JObject with the search filters data
+        //method return a list of apartments (with only the relavent fields having meaningful values) after filtering 
         public List<Apartment> getApartmentsBySearchFilter(JObject data)
         {
 
@@ -218,28 +223,14 @@ namespace WebApplication1.Models.DAL
             while (dr.Read())
             {
                 int id = Convert.ToInt32(dr["id"]);
-               // string propertyType = Convert.ToString(dr["propertyType"]);
-                //string hostEmail = Convert.ToString(dr["hostEmail"]);
                 string name = Convert.ToString(dr["name"]);
-                //string description = Convert.ToString(dr["description"]);
                 string img = Convert.ToString(dr["img"]);
-                //string neighborhood = Convert.ToString(dr["neighborhood"]);
                 float latitude = Convert.ToSingle(dr["latitude"]);
                 float longtitude = Convert.ToSingle(dr["longtitude"]);
                 float distanceToCenterKM = Convert.ToSingle(dr["distanceToCenterKM"]);
-                //string roomType = Convert.ToString(dr["roomType"]);
-                //string numBathrooms = Convert.ToString(dr["numBathrooms"]);
-                //int numBedrooms = Convert.ToInt32(dr["numBedrooms"]);
-                //int numBeds = Convert.ToInt32(dr["numBeds"]);
-                //int accommodates = Convert.ToInt32(dr["accommodates"]);
-                //string amenities = Convert.ToString(dr["amenities"]);
                 int price = Convert.ToInt32(dr["price"]);
                 int minNight = Convert.ToInt32(dr["minNights"]);
-                //int maxNight = Convert.ToInt32(dr["maxNights"]);
                 float rating = Convert.ToSingle(dr["rating"]);
-                //float reviewAccuracy = Convert.ToSingle(dr["reviewAccuracy"]); ;
-                //float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); ;
-                //float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
 
                 apartments.Add(new Apartment(id, name, img, latitude, longtitude,
                     distanceToCenterKM, price, minNight, rating));
@@ -248,11 +239,10 @@ namespace WebApplication1.Models.DAL
             // Close Connection
             con.Close();
 
-            
             return apartments;
-
         }
 
+        //CreateGetApartmentsBySearchFilter command
         private SqlCommand CreateGetApartmentsBySearchFilter(SqlConnection con, JObject data)
         {
 
