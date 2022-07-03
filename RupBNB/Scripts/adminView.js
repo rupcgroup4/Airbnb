@@ -320,6 +320,11 @@ function renderUserMessages(user) {
     //set this user to be the active user in the chat
     activeUserInChat = user;
 
+    $("#activeUserChatDetails").removeClass("hide");
+    $("#adminMessageBox").removeClass("hide");
+
+
+
     $(".chat-list li").removeClass("active"); //remove class that colors currently active user from all users
 
     $(`#${user}`).addClass("active");         //add class that colors currently active user to recieved user

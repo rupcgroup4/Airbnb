@@ -119,7 +119,7 @@
                                 <div class="chat display-flex flex-column">
                                     <div class="chat-header clearfix">
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <div id="activeUserChatDetails" class="col-lg-6 hide">
                                                 <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
                                                     <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                                 </a>
@@ -132,7 +132,7 @@
                                     <div class="chat-history overflow-auto">
                                         <ul id="activeChat" class="m-b-0"></ul>
                                     </div>
-                                    <div class="chat-message clearfix mt-auto">
+                                    <div id="adminMessageBox" class="chat-message clearfix mt-auto hide">
                                         <div class="input-group mb-0">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i onclick="sendMessage()" class="fa fa-send"></i></span>

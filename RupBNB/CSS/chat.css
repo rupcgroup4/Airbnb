@@ -277,3 +277,15 @@
         overflow-x: auto
     }
 }
+
+.chat .chat-history .other-message{
+    max-width: 45%;
+}
+
+.hide{
+    display:none;
+}
+
+.show {
+    display: block;
+}
