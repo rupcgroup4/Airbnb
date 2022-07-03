@@ -10,21 +10,35 @@ using WebApplication1.Models;
 namespace RupBNB.Controllers
 {
     public class ApartmentsController : ApiController
-    {   
-        //Route to get an apartment by id
+    {
+        //GET method- gets apartmentd id and return HttpResponseMessage accordingly,
+        //when apartment matching the id found, returns also the apartment
         [HttpGet]
-        [Route("api/Apartments/{id}")]
-        public Apartment Get(int id)
+        [Route("api/Apartments/{id}")] //Route to get an apartment by id
+        public HttpResponseMessage Get(int id)
         {
-            Apartment a = new Apartment();
-            return a.getApartmentById(id);
+            try
+            {
+                Apartment a = new Apartment();
+                a = a.getApartmentById(id);
+
+                if(a==null) //apartment matching the id not found 
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                else
+                    return Request.CreateResponse(HttpStatusCode.OK, a); //return status code 200 and apartment
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+
         }
 
      
-        //Route to get apartment by query
+        
         [HttpPost]
-        // api/apartmentsSearch
-        [Route("api/apartmentsSearch")]
+        [Route("api/apartmentsSearch")] //Route to get apartment by query
         public HttpResponseMessage Post([FromBody] JObject data)
         {
             Apartment a = new Apartment();
@@ -35,12 +49,10 @@ namespace RupBNB.Controllers
                 if (apartments.Count == 0)
                 {
                     return Request.CreateResponse(HttpStatusCode.NoContent);
-
                 }
                 else
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, apartments);
-
                 }
 
             } 
