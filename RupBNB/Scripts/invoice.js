@@ -53,7 +53,7 @@ function SCBGetApartment(returnApartment) {
     $("#image").attr("src", apartment.Img);
     $("#modalImage").attr("src", apartment.Img); 
     $("#name").append(`<b>${apartment.Name}</b>`);
-    $("#apartmentView").append(`<b>Viewing the apartment</b>`);
+    $("#apartmentView").append(`<b>See apartment details</b>`);
  
     $("#reservaionNum").append(
         `Booking confirmation
