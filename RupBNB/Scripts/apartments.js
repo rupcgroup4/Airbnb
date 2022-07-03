@@ -1,55 +1,3 @@
-apartments = [
-    {
-        Id: 1, 
-        PropertyType: "Private room in rental unit" , 
-        HostEmail: "Daniel1@gmail.com" , 
-        Name: "Quiet Garden View Room & Super Fast WiFi", 
-        Description: "Quiet Garden View Room & Super Fast WiFi<br /><br /><b>The space</b><br />I'm renting a bedroom (room overlooking the garden) in my apartment in Amsterdam <br /><br />The room is located to the east of the city centre in a quiet typical Amsterdam neighbourhood the Indische Buurt. Amsterdamâ€™s historic centre is less than 15 minutes away by bike or tram.<br /><br /><br />The features of the room are:<br /><br />- Twin beds (80 x 200 cm down quilts and pillows) <br />- 2 pure cotton towels for each guest <br />- reading lamps<br />- bedside table<br />- wardrobe<br />- table with chairs<br />- tea and coffee making facilities<br />- mini bar<br />- alarm clock<br />- Hi-Fi system with cd player connection for mp3 player / phone<br />- map of Amsterdam and public transport<br />- Wi-Fi Internet connection <br /><br />Extra services:<br /><br />- Bike rental<br /><br /><b>License number</b><br />0363 5F3A 5684 6750 D14D", 
-        Img: "https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg", 
-        Neighborhood: "Indische Buurt (Indies Neighborhood) is a neighbourhood in the eastern portion of the city of Amsterdam in the Dutch province of Noord-Holland. The name dates from the early 20th century and is derived from the fact that the neighbourhood's streets ar",
-        Latitude: 52.36575,
-        Longtitude: 4.94142,
-        RoomType: "Private room",
-        NumBathrooms: "1.5 shared baths",
-        NumBedrooms: 1,
-        NumBeds: 2,
-        Accommodates: 2,
-        Amenities: "Carbon monoxide alarm;Shampoo;Hot water;Wifi;Hair dryer;Extra pillows and blankets;Heating;Bed linens;Fire extinguisher;Long term stays allowed;Essentials;Iron;Smoke alarm;Paid parking on premises;Paid parking off premises;Hangers;Dedicated workspace;Coffe",
-        Price: 59,
-        MinNights: 3,
-        MinNights: 28,
-        Rating: 4.88,
-        ReviewAccuracy: 4.93,
-        ReviewClean: 5,
-        ReviewLocation: 4.68
-    },
-    {
-        Id: 1, 
-        PropertyType: "Private room in rental unit" , 
-        HostEmail: "Daniel1@gmail.com" , 
-        Name: "Cozy apartment in de Pijp", 
-        Description: "Quiet Garden View Room & Super Fast WiFi<br /><br /><b>The space</b><br />I'm renting a bedroom (room overlooking the garden) in my apartment in Amsterdam <br /><br />The room is located to the east of the city centre in a quiet typical Amsterdam neighbourhood the Indische Buurt. Amsterdamâ€™s historic centre is less than 15 minutes away by bike or tram.<br /><br /><br />The features of the room are:<br /><br />- Twin beds (80 x 200 cm down quilts and pillows) <br />- 2 pure cotton towels for each guest <br />- reading lamps<br />- bedside table<br />- wardrobe<br />- table with chairs<br />- tea and coffee making facilities<br />- mini bar<br />- alarm clock<br />- Hi-Fi system with cd player connection for mp3 player / phone<br />- map of Amsterdam and public transport<br />- Wi-Fi Internet connection <br /><br />Extra services:<br /><br />- Bike rental<br /><br /><b>License number</b><br />0363 5F3A 5684 6750 D14D", 
-        Img: "https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg", 
-        Neighborhood: "Indische Buurt (Indies Neighborhood) is a neighbourhood in the eastern portion of the city of Amsterdam in the Dutch province of Noord-Holland. The name dates from the early 20th century and is derived from the fact that the neighbourhood's streets ar",
-        Latitude: 52.4,
-        Longtitude: 4.9,
-        RoomType: "Private room",
-        NumBathrooms: "1.5 shared baths",
-        NumBedrooms: 1,
-        NumBeds: 2,
-        Accommodates: 2,
-        Amenities: "Carbon monoxide alarm;Shampoo;Hot water;Wifi;Hair dryer;Extra pillows and blankets;Heating;Bed linens;Fire extinguisher;Long term stays allowed;Essentials;Iron;Smoke alarm;Paid parking on premises;Paid parking off premises;Hangers;Dedicated workspace;Coffe",
-        Price: 59,
-        MinNights: 3,
-        MinNights: 28,
-        Rating: 4.88,
-        ReviewAccuracy: 4.93,
-        ReviewClean: 5,
-        ReviewLocation: 4.68
-    }
-
-]
-
 //hold apartments locations to show on the map
 let locations = []
 //indicate if the user make a query with distance parameter
@@ -152,7 +100,8 @@ function getApartmentsECB(err) {
 //render the apartemnts to the screen
 function getApartmentsSCB(apartments) {
 
-    $('#spinner').css('display', 'none'); //display loading sign while waiting for apartments
+    //display loading spinner while waiting for apartments
+    $('#spinner').css('display', 'none'); 
 
     //no apartments matching the search filters found and it is not because of scroll
     if (!apartments && firstLoadApartments) {
@@ -210,7 +159,6 @@ function getApartmentsSCB(apartments) {
 
 //search apartment
 function search() {
-    console.log("in search1");
     firstLoadApartments = true;
 
     //load more data on scroll for web
@@ -259,6 +207,7 @@ function search() {
         isDistanceFilter = true;
     }
 
+    //the query that will be sent to the sotred procedure to get apartments by filter
     serachQuery = {
         MaxPrice: maxPrice,
         MinApartmentRating: minRating,
@@ -272,16 +221,15 @@ function search() {
         ToRow: 8,
     }
 
-
     ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), apartmentSearchSCB, getApartmentsECB);
-    console.log("in search");
+    //clean all apartments cards
     $("#cardContainer").html("");
+    //start loading spinner (stop on SCB)
     $('#spinner').css('display', 'block');
 
 }
 
 function apartmentSearchSCB(apartments) {
-
 
     let isMobile = false; //initiate as false
     // device detection
@@ -300,7 +248,6 @@ function apartmentSearchSCB(apartments) {
         $("#mapContainer").css("display", "block");
     }
 
-
     locations = [];
     getApartmentsSCB(apartments);
     $('#spinner').css('display', 'none');
@@ -311,10 +258,8 @@ function apartmentSearchSCB(apartments) {
 //This function called when press "See Details" on Apartment
 function seeApart(apartmentId, minNight) {
     sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
-
     window.location.href = "seeApart.html";
 }
-
 
 
 
@@ -343,7 +288,7 @@ function initMap() {
     console.log("connect to google map"); 
 }
 
-
+//create calander datePicker from https://easepick.com/
 function createCalander() {
     //Create date range picker
     const picker = new easepick.create({

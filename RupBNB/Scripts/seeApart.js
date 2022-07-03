@@ -36,8 +36,11 @@ window.onbeforeunload = function () {
     sessionStorage.removeItem("CGroup4_blockReservation");
 }
 
+//when document ready
 $(document).ready(function () {
 
+    //if no apartment id in session storage, back to index.html
+    //can happen if the user change the url by himself
     let apartmentId = sessionStorage.getItem("CGroup4_apartmentId");
     if (apartmentId == undefined) {
         window.location.replace("index.html");
@@ -48,6 +51,7 @@ $(document).ready(function () {
         $("#reserve").css("display", "none");
     }
 
+    //bring apartment details
     ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
 
     //when user press on confirm reservation
@@ -57,12 +61,10 @@ $(document).ready(function () {
     $("#checkInDatePicker").attr("min", new Date().toISOString().split('T')[0]);
     $("#checkOutDatePicker").attr("min", new Date().toISOString().split('T')[0]);
 
-
     //trigger event each date one of the date input has changed
     $('input[type=date]').change(function() {
         checkDates();
     });
-
 
 });
 
@@ -78,15 +80,15 @@ function clickReserve() {
         return;
     }
 
+    //Check for difference in days for 2 dates
+    //used to check against minimum nights of the apartment
     const startDate = new Date($("#checkInDatePicker").val());
     const endDate = new Date($("#checkOutDatePicker").val());
     const minNight = apartment.MinNight;
-
     const Difference_In_Time = endDate - startDate;
     const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
     if (minNight <= Difference_In_Days) {
-        console.log("in if", minNight);
         makeReservation();
     }
     else {
@@ -105,7 +107,6 @@ function userNotLogedIn() {
         confirmButtonText: 'Log In',
         denyButtonText: `Sign Up`,
       }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
          if (result.isConfirmed) {
            window.location.replace("login.html")
          } else if (result.isDenied) {
@@ -185,7 +186,7 @@ function SCBGetApartment(returnApartment) {
     calculatePrice();
 }
 
-//this function render apartment details section in the page
+//this function render apartment scores section in the page
 function renderApartmentScores() {
     $("#details").append(
         `   
@@ -227,12 +228,12 @@ function setModalDates() {
         writeDateInModal("checkOut", tomorrow);
 }
 
-
+//this function render apartment amenities section in the page
 function renderAmenties(amenities) {
 
-   
     let maxAmeneties = amenities.length <= 14 ? amenities.length : 14;
-    
+
+    //render the first 14 
     for (let i = 0; i < maxAmeneties; i++) {
         $("#ameneties")
             .append(
@@ -245,7 +246,7 @@ function renderAmenties(amenities) {
             `
         );
     }
-
+    //render the rest to hide div that can open by press
     if(amenities.length > 14) {
         for (let i = maxAmeneties; i < amenities.length; i++) {
 
@@ -262,30 +263,25 @@ function renderAmenties(amenities) {
 
         }
 
-       
-
         $("#amenetiesBTN").css("display", "block");
     }
     
 }
 
+//this function expand the ameneties div
 function expandAmeneties() {
-    
     let ameneties = document.getElementById("amenetiesMore"); 
     let showMoreBTN = document.getElementById("amenetiesBTN");
-
     if (ameneties.style.display === "none") {
         ameneties.style.display = "flex";
         showMoreBTN.innerHTML = "Show more >";
-      } else {
-        ameneties.style.display = "none";
-        showMoreBTN.innerHTML = "Show less >";
-      }
-
-
+    } else {
+      ameneties.style.display = "none";
+      showMoreBTN.innerHTML = "Show less >";
+    }
 }
 
-
+//make ajax call to get host details
 function getHostDetails(hostEmail) {
 
     SCBGetHostDetails(hostData);
@@ -294,11 +290,12 @@ function getHostDetails(hostEmail) {
     //ajaxCall("GET", `../api/Hosts?${qs}`, "", SCBGetHostDetails, ECBGetHostDetails);
 }
 
+//SCB of ajax call to bring host details
+//render host details to the page
 function SCBGetHostDetails(host) {
 
     const isSuperHost = host[0].IsSuperHost != 0 ? '<img class="headerImg" src="../Pages/superHost.png" />' : ""
     const isVerified = host[0].IsVerified != 0 ? '<img class="headerImg" src="../Pages/verified.jpg" />' : ""
-
 
     $("#host").append(
         `
@@ -323,12 +320,13 @@ function ECBGetApartment(error) {
     console.log(error);
 }
 
-
+//ajax call to get the reviews of the apartment
 function getReviews(apartmentId) {
-
     ajaxCall("GET", `../api/Reviews/${apartmentId}`, "", getReviewsSCB, getReviewsECB);
 }
 
+//SCB function of fet review
+//render the reviews to the page
 function getReviewsSCB(reviews) {
 
     for(let i = 0; i < reviews.length; i++) {
@@ -336,7 +334,6 @@ function getReviewsSCB(reviews) {
         const date = new Date(reviews[i].ReviewDate);
         const year = date.getFullYear();
         const month = months2[date.getMonth()];
-
 
         $("#numReviews").html(`${apartment.Rating} · ${reviews.length} reviews`)
 
@@ -393,7 +390,6 @@ function expandReview(reviewId) {
     var dots = document.getElementById("dots"+reviewId);
     var moreText = document.getElementById("more"+reviewId);
     var btnText = document.getElementById("reviewBTN"+reviewId);
-  
     if (dots.style.display === "none") {
       dots.style.display = "inline";
       btnText.innerHTML = "Show more >";
@@ -429,12 +425,17 @@ function makeReservation() {
         IsCanceled: 0
     }
 
+    //ajax call to create new reservation
     ajaxCall("POST", "../api/Reservations", JSON.stringify(res), makeReservationSCB, makeReservationECB);
 
 }
 
-function makeReservationSCB(response) {
-    console.log(response);
+
+//SCB of make new reservation
+//save new reservation id in session storage and redirect the user to invoice.html
+function makeReservationSCB(res) {
+    sessionStorage.setItem("CGroup4_reservation", res.Id);
+    window.location.replace("invoice.html");
 }
 
 //makeReservation Error callback
@@ -472,6 +473,7 @@ function myMap(lat, lon) {
     });
 }
 
+//google callback function when connect to map service
 function initMap(){
     console.log("connect to google map");
 }
