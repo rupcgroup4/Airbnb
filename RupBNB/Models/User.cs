@@ -57,6 +57,7 @@ namespace RupBNB.Models
             UserServices ds = new UserServices();
             return ds.userExists(email);
         }
+
         //Admin view users information
         public string AdminViewUsersInfo()
         {
