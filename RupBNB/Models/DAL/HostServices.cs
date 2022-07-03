@@ -58,7 +58,9 @@ namespace WebApplication1.Models.DAL
             return command;
         }
 
-        //check if host is already exist
+        //this function check if host exsist in data base
+        //get host email and return a host if host is found
+        //else return null
         public bool HostExists(string email)
         {
             SqlConnection con = SqlConnect.Connect();

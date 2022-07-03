@@ -64,14 +64,11 @@ ReservationData = {
 
 $(document).ready(function () {
 
-    //let reservationId = sessionStorage.getItem("CGroup4_reservationId");
-    //if (reservationId == undefined) {
-    //    window.location.replace("index.html");
-    //}
-    let reservationId = 2;
-
+    let reservationId = sessionStorage.getItem("CGroup4_reservationId");
+    if (reservationId == undefined) {
+        window.location.replace("index.html");
+    }
     ajaxCall("GET", `../api/Reservations/${reservationId}`, "", SCBGetReservation, ECBGetReservation);
-  //  SCBGetApartment(data[0]);
 });
 
 //this function is the success call back of GetReservation
@@ -98,7 +95,7 @@ function SCBGetApartment(returnApartment) {
 
     $("#image").attr("src", apartment.Img);
     $("#modalImage").attr("src", apartment.Img); 
-    $("#name").append(apartment.Name);
+    $("#name").append(`<b>${apartment.Name}</b>`);
     $("#reservaionNum").append(
         `Booking confirmation
         <small>CONFIRMATION NUMBER: #${reservation.Id}</small>
@@ -178,10 +175,15 @@ function getHostDetails(hostEmail) {
 function SCBGetHostDetails(host) {
     $("#host").append(
         `
+            <hr>
             <div class="col">
-                <h4>Contact info</h4>
-                    <h4>${host.FirstName} - ${host.Email}</h4>
+                <h4 id="hostInfo">Contact info</h4>
+                  <div class="d-flex justify-content-between">
+                    <h5>${host.FirstName} </h5>
+                    <h5>${host.Email}</h5>
+                 </div>
             </div>
+            <hr>
         `
     )
 }

@@ -18,9 +18,9 @@ namespace RupBNB.Controllers
             try
             {
                 Reservation a = new Reservation();
-                a.getReservationById(id);
-                if (a != null)
-                    return Request.CreateResponse(HttpStatusCode.OK, a);
+                Reservation t = a.getReservationById(id);
+                if (t != null)
+                    return Request.CreateResponse(HttpStatusCode.OK, t);
                 else
                     return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -31,7 +31,11 @@ namespace RupBNB.Controllers
           
         }
 
-        //create new reservation
+
+        //Post request to insert new reservation to database
+        //get reservation object and create the object in the SQl table
+        //return the reservation and status code 201 if success
+        //else return error code
         public HttpResponseMessage Post([FromBody] Reservation res)
         {
             try

@@ -7,8 +7,10 @@ using System.Web;
 namespace RupBNB.Models.DAL
 {
     public class ReservationServices
-    {   
-        //Insert new reservation to Reservation Table
+    {
+        //this function create new reservation
+        //get a Reservation object and execute stored procedure to save the reservation in the data base
+        //return the true if added successfully, false otherwise 
         public bool InsertReservation(Reservation res)
         {
             
