@@ -92,7 +92,16 @@ function submitSignUpFormSuccess(user)
 	})
 }
 
+//error call back function of submitSignUpFormError
+//if there wa an exception redirect the user to notFound page
+//else the user was already in the system and was not created
 function submitSignUpFormError(err) {
+
+	if (err.status == 500) {
+		sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+		window.location.replace("notFound.html");
+	}
+
 	Swal.fire({
 		icon: 'error',
 		title: 'Oops...',

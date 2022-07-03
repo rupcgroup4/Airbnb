@@ -8,7 +8,8 @@ using WebApplication1.Models;
 namespace RupBNB.Models
 {
     public class User
-    {
+    {   
+        //Fields
         string email;
         string userName;
         string password;
@@ -17,8 +18,10 @@ namespace RupBNB.Models
         DateTime birthDate;
         DateTime userRegisteredSince;
 
+        //default constructor
         public User() { }
 
+        //all fields constructor
         public User(string email, string userName,  string password, string firstName, string lastName, DateTime birthDate, DateTime userRegisteredSince)
         {
             this.email = email;
@@ -30,6 +33,7 @@ namespace RupBNB.Models
             this.UserRegisteredSince = userRegisteredSince;
         }
 
+        //Getters ans Setters
         public string Email { get => email; set => email = value; }
         public string UserName { get => userName; set => userName = value; }
         public string Password { get => password; set => password = value; }
@@ -38,13 +42,17 @@ namespace RupBNB.Models
         public DateTime BirthDate { get => birthDate; set => birthDate = value; }
         public DateTime UserRegisteredSince { get => userRegisteredSince; set => userRegisteredSince = value; }
 
+        //Insert new user function
+        //send the user details to inser user stored procedure
         public User Insert()
         {
             UserServices ds = new UserServices();
             return ds.InsertUser(this); 
         }
 
-        public User getUserByEmailAndPassword(String email, String password)
+        //this function used when user logged in
+        //get the user by the email
+        public User getUserByEmail(String email)
         {
             UserServices ds = new UserServices();
             return ds.userExists(email);

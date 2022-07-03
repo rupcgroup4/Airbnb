@@ -106,7 +106,11 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
 }
 
 function getMyFutureReservationsError(err) {
-    alert(err);
+    if(err.status == 500) {
+        sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+        window.location.replace("notFound.html");
+    } 
+    console.log("no future reservation");
 }
 
 function getMyPastReservations() {
@@ -130,20 +134,25 @@ function getMyPastReservationsSuccess(usersReservationsData) {
             <div class="col mt-2">
                 <div class="card h-100">
                     <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
-                            <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
-                            <div class="bottom">
-                                <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary" value="Apartment Details">
-                            </div>
+                    <div class="card-body">
+                        <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
+                        <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
+                        <div class="bottom">
+                            <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary" value="Apartment Details">
                         </div>
+                    </div>
                 </div>
-            </div>`)
+            </div>
+        `)
     }
 }
 
 function getMyPastReservationsError(err) {
-    alert(err);
+    if(err.status == 500) {
+        sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+        window.location.replace("notFound.html");
+    } 
+    console.log("no past reservation");
 }
 
 
