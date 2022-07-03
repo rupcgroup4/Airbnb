@@ -4,7 +4,7 @@ let locations = [];
 //indicate if the user make a query with distance parameter
 let isDistanceFilter = false;
 
-//boolean indicating wether the apartments on display where are only from the first search(only 12 first appartments)
+//boolean indicating wether the apartments on display whgetApartmentSCBere are only from the first search(only 12 first appartments)
 let firstLoadApartments = true;
 
 //scroll handler for web
@@ -96,6 +96,7 @@ function getApartmentsECB(err) {
     window.location.replace("notFound.html");
 
 }
+
 
 function getApartmentsSCB(apartments) {
     renderApartments(apartments);
@@ -231,7 +232,7 @@ function search() {
         ToRow: 8,
     }
 
-    ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), apartmentSearchSCB, getApartmentsECB);
+    ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), apartmentsSearchSCB, getApartmentsECB);
     //clean all apartments cards
     $("#cardContainer").html("");
     //start loading spinner (stop on SCB)
@@ -241,7 +242,7 @@ function search() {
 
 //success call back for apartmentSearch
 //method gets a list of appartments .........................
-function apartmentSearchSCB(apartments) {
+function apartmentsSearchSCB(apartments) {
 
     let isMobile = false; //initiate as false
     // device detection
@@ -261,7 +262,7 @@ function apartmentSearchSCB(apartments) {
     }
 
     locations = [];
-    getApartmentsSCB(apartments);
+    renderApartments(apartments);
 
     //check if year is the default year
     if(serachQuery.StartDate.substring(0,4) != '9999') {
