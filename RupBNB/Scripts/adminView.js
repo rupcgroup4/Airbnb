@@ -248,8 +248,8 @@ function sendMessage() {
     }
 
     currentDate = new Date();
-    currentDateStr = `${currentDate.getDay()}/${currentDate.getMonth()}/${currentDate.getFullYear()}`;
-    currentTimeStr = `${currentDate.getHour}:${currentDate.getMinutes()}` ;
+    currentDateStr = `${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`;
+    currentTimeStr = `${currentDate.getHours()}:${currentDate.getMinutes()}` ;
     //add the message to data base under the specific user
     firebase.database().ref(activeUserInChat).push().set({
         "sender": "manager",

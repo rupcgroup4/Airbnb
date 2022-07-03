@@ -13,11 +13,6 @@ let apartment;
 //const global paramater for maximum amenities to display (if there are more- option to select see more ameneties)
 const MAX_AMENETIES_SIZE = 14;
 
-//before window unload clear CGroup4_blockReservation from session storage
-window.onbeforeunload = function () {
-    sessionStorage.removeItem("CGroup4_blockReservation");
-}
-
 //when document ready
 $(document).ready(function () {
 
@@ -26,11 +21,6 @@ $(document).ready(function () {
     let apartmentId = sessionStorage.getItem("CGroup4_apartmentId");
     if (apartmentId == undefined) {
         window.location.replace("index.html");
-    }
-
-    if (sessionStorage.getItem("CGroup4_blockReservation")) {
-        $("#reserve").removeClass("d-flex");
-        $("#reserve").css("display", "none");
     }
 
     //bring apartment details
