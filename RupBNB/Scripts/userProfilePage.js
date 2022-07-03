@@ -29,7 +29,6 @@ function formatDate(date) {
 //This function is called when "Reservation Details" button is clicked
 function seeReservation(reservationId) {
     sessionStorage.setItem("CGroup4_reservationId", reservationId);
-    sessionStorage.setItem("CGroup4_blockReservation", true);
 
     window.location.href = "invoice.html";
 }
