@@ -181,7 +181,7 @@ function sendMessage() {
         "message": message
     })
 
-    return false
+    //return false
 }
 //this function get called when document is ready
 //listen to the user message data base in fire base

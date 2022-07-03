@@ -298,6 +298,7 @@ function listenToUser(user) {
 
         chatArr[user].push(message);
 
+        //for real time message in active chat
         if ($("#activeUserChat").text() == user) {
             addMessage(message);
         }
