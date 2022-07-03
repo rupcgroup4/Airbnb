@@ -10,26 +10,8 @@ months2 = {0: "January", 1: "February", 2: "March", 3: "April", 4: "May", 5: "Ju
 //Global apartment to use when need to
 let apartment;
 
-//need to delete after fixing host
-hostData = [
-    {
-        Email: "Abhishek72@gmail.com",
-        UserName: "Abhishek72",
-        FirstName: "Abhishek",
-        LastName: "Abhishek",
-        Password: 12345678,
-        BirthDate: "1961-12-01",
-        UserRegisteredSince: "2015-08-21",
-        HostSince: "2015-08-21",
-        Location: "Amsterdam North Holland Netherlands",
-        About: "My wife and I are travelers. We travel for work or for vacations. If I can recall correctly we have been to almost 20+ countries till now and lucky to meet people from different cultures and nationalities.",
-        ResponseTime: "a few days or more",
-        ResponseRate: "25%",
-        IsSuperHost: 1,
-        Img: "https://a0.muscache.com/im/users/42104065/profile_pic/1440162676/original.jpg?aki_policy=profile_x_medium",
-        IsVerified: 1
-    }
-]
+//const global paramater for maximum amenities to display (if there are more- option to select see more ameneties)
+const MAX_AMENETIES_SIZE = 14;
 
 //before window unload clear CGroup4_blockReservation from session storage
 window.onbeforeunload = function () {
@@ -39,7 +21,7 @@ window.onbeforeunload = function () {
 //when document ready
 $(document).ready(function () {
 
-    //if no apartment id in session storage, back to index.html
+    //if no apartment id in session storage, redirect to index.html
     //can happen if the user change the url by himself
     let apartmentId = sessionStorage.getItem("CGroup4_apartmentId");
     if (apartmentId == undefined) {
@@ -65,36 +47,22 @@ $(document).ready(function () {
 });
 
 
-//this function been called when press reserve inside modal (confirm reservation)
-//if user not logged in he dosent allow to make reservation
-//else check if the difference on date is make sense with the minimun nights of the apartments 
-//and make the reservation
+//this function is called when press reserve inside modal (confirm reservation)
+//if user is not logged in he dosent allow to make reservation, user can go to sighUp or login
+//else- make the reservation
 function clickReserve() {
+
     //if user is not logged in
     if (localStorage.getItem("CGroup4_user") == undefined) {
         userNotLogedIn();
         return;
     }
 
-    //Check for difference in days for 2 dates
-    //used to check against minimum nights of the apartment
-    const startDate = new Date($("#checkInDatePicker").val());
-    const endDate = new Date($("#checkOutDatePicker").val());
-    const minNight = apartment.MinNight;
-    const Difference_In_Time = endDate - startDate;
-    const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-
-    if (minNight <= Difference_In_Days) {
-        makeReservation();
-    }
-    else {
-        $("#reserveModal").modal('hide');
-        alert("min night bad");
-    }
+    makeReservation();
 }
 
 //this function get called when user try to reserve apartment, but he is not logged in
-//presnt messgae to the user and can redirect him to login/signup
+//presnt message to the user and can redirect him to login/signup
 function userNotLogedIn() {
     Swal.fire({
         title: 'Must be logged in for make reservation',
@@ -117,14 +85,17 @@ function checkDates() {
     let checkInDate = new Date($("#checkInDatePicker").val());
     let checkOutDate = new Date($("#checkOutDatePicker").val());
 
-    //set min date for checkOut (minimun checkInDate + 1)
+    //set min date for checkOut (minimun checkInDate + MinNights)
     let minCheckOutDate = new Date(checkInDate);
     minCheckOutDate.setDate(minCheckOutDate.getDate() + apartment.MinNight);
     $("#checkOutDatePicker").attr("min", minCheckOutDate.toISOString().split('T')[0]);
 
-    //check if check out is smaller than check in date
-    if (checkOutDate <= checkInDate) {
-        //set check out date to be minNight day after check in
+    const diffTime = Math.abs(checkOutDate - checkInDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+    //check if differance bewtween checkOutDate and checkInDate is less that the minimum nights for the apartment
+    if (diffDays < apartment.MinNight) {
+        //set check out date to be minNight days after checkInDate
         checkOutDate = new Date(checkInDate);
         checkOutDate.setDate(checkOutDate.getDate() + apartment.MinNight);
     }  
@@ -132,20 +103,20 @@ function checkDates() {
     //set date to the date input
     $("#checkOutDatePicker").val(checkOutDate.toISOString().split('T')[0]);
     $("#checkInDatePicker").val(checkInDate.toISOString().split('T')[0]);
+
     //render date to Modal
     writeDateInModal("checkIn", checkInDate);
     writeDateInModal("checkOut", checkOutDate);
-
 }
 
 //this function is the success call back of GetApartment
-//the response is apartment details that will be render to the screen
+//the response is apartment details that will be rendered to the screen
 function SCBGetApartment(returnApartment) {
 
     //save apartment in global variable to be able to access to the detials again if needed
     apartment = returnApartment;
 
-    myMap(Number(apartment.Latitude), Number(apartment.Longitude));
+    myMap(Number(apartment.Latitude), Number(apartment.Longitude)); //display apartment in map
     
     $("#image").attr("src", apartment.Img);
     $("#modalImage").attr("src", apartment.Img);
@@ -159,7 +130,8 @@ function SCBGetApartment(returnApartment) {
         $("#description").prepend(apartment.Description.substring(0, 300));
         $("#more").append(apartment.Description.substring(301));
         $("#readBTN").css("display", "block");
-    } else {
+    }
+    else {
         $("#description").prepend(apartment.Description);
         $("#dots").css("display", "none");
         $("#more").css("display", "none");
@@ -183,6 +155,12 @@ function SCBGetApartment(returnApartment) {
     calculatePrice();
 }
 
+//ECB of ajax call, there is a problem
+function ECBGetApartment(error) {
+    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
+    window.location.replace("notFound.html");
+}
+
 //this function set the min dates for checkIn to be today and for checkOut to be today + minNights of the apartment
 function setMinDates() {
     //set the minimun date of the date inputs to be in difference like apartment minNights
@@ -194,7 +172,7 @@ function setMinDates() {
     $("#price").prepend("$" + apartment.Price);
 }
 
-//this function render apartment scores section in the page
+//this function render apartment scores ratings section in the page
 function renderApartmentScores() {
     $("#details").append(
         `   
@@ -222,6 +200,9 @@ function renderApartmentScores() {
     )
 }
 
+//function sets default dates in modal calender.
+//startdDate default is the current day
+//endDate default the startDate + apartments minNight
 function setModalDates() {
         // Temporary, will get the date from search filter later
         const today = new Date();
@@ -239,36 +220,32 @@ function setModalDates() {
 //this function render apartment amenities section in the page
 function renderAmenties(amenities) {
 
-    let maxAmeneties = amenities.length <= 14 ? amenities.length : 14;
+    //MAX_AMENETIES_SIZE=14 (currently)
+    let maxAmeneties = amenities.length <= MAX_AMENETIES_SIZE ? amenities.length : MAX_AMENETIES_SIZE; 
 
-    //render the first 14 
+    //render the first MAX_AMENETIES_SIZE
     for (let i = 0; i < maxAmeneties; i++) {
         $("#ameneties")
-            .append(
-                `
+            .append(`
                 <div class="col">
                     <h6>
                         <span class="badge bg-secondary">${amenities[i]}</span>
                     </h6>
                 </div>
-            `
-        );
+            `);
     }
-    //render the rest to hide div that can open by press
-    if(amenities.length > 14) {
+    //render the rest to hide div that can be opened by press
+    if (amenities.length > MAX_AMENETIES_SIZE) {
         for (let i = maxAmeneties; i < amenities.length; i++) {
 
             $("#amenetiesMore")
-                .append(
-                    `
+                .append(`
                     <div class="col">
                         <h6>
                             <span class="badge bg-secondary">${amenities[i]}</span>
                         </h6>
                     </div>
-                `
-            );
-
+                `);
         }
 
         $("#amenetiesBTN").css("display", "block");
@@ -283,7 +260,8 @@ function expandAmeneties() {
     if (ameneties.style.display === "none") {
         ameneties.style.display = "flex";
         showMoreBTN.innerHTML = "Show more >";
-    } else {
+    }
+    else {
       ameneties.style.display = "none";
       showMoreBTN.innerHTML = "Show less >";
     }
@@ -294,15 +272,14 @@ function getHostDetails(hostEmail) {
     ajaxCall("GET", `../api/Hosts?email=${hostEmail}`, "", SCBGetHostDetails, ECBGetHostDetails);
 }
 
-//SCB of ajax call to bring host details
+//SCB of ajax call getHostDetails
 //render host details to the page
 function SCBGetHostDetails(host) {
 
     const isSuperHost = host.IsSuperHost != false ? '<img class="headerImg" src="../Pages/superHost.png" />' : ""
     const isVerified = host.IsVerified != false ? '<img class="headerImg" src="../Pages/verified.jpg" />' : ""
 
-    $("#host").append(
-        `
+    $("#host").append(`
             <div class="col">
                 <div class="d-flex justify-content-between">
                     <p><b>${apartment.RoomType} in ${apartment.Neighborhood} hosted by ${host.FirstName}</b></p>
@@ -311,32 +288,28 @@ function SCBGetHostDetails(host) {
                     ${isVerified }
                 </div>
             </div>
-        `
-    )
-
+        `)
 }
-//ECB of ajax call, there is a problem
+
+//ECB of ajax call getHostDetails, there is a problem
 function ECBGetHostDetails(error) {
     sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
     window.location.replace("notFound.html");
 }
-//ECB of ajax call, there is a problem
-function ECBGetApartment(error) {
-    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
-    window.location.replace("notFound.html");
-}
+
 
 //ajax call to get the reviews of the apartment
 function getReviews(apartmentId) {
     ajaxCall("GET", `../api/Reviews/${apartmentId}`, "", getReviewsSCB, getReviewsECB);
 }
 
-//SCB function of fet review
+//SCB function of getReviews
 //render the reviews to the page
 function getReviewsSCB(reviews) {
 
     for(let i = 0; i < reviews.length; i++) {
 
+        //to display the year and month of the review
         const date = new Date(reviews[i].ReviewDate);
         const year = date.getFullYear();
         const month = months2[date.getMonth()];
@@ -345,8 +318,7 @@ function getReviewsSCB(reviews) {
 
         const comment = checkIfReviewIsLong(reviews[i]);
            
-        $("#reviews").append(
-            `
+        $("#reviews").append(`
                 <div class="col">
                     <div>
                         <div class="d-flex">
@@ -360,8 +332,7 @@ function getReviewsSCB(reviews) {
                     </div>
                 </div>
     
-            `
-        );
+            `);
     }
     
 }
@@ -381,11 +352,11 @@ function checkIfReviewIsLong(review) {
             <button onclick="expandReview(${review.Id})" id="${"reviewBTN"+review.Id}" class="reviewBTN">Show more ></button>
          </p>`;
 
-    } else {
+    }
+    else {
         comment = `<p id="${"review"+review.Id}" >
             ${review.Comments}
         </p>`
-
     }
 
     return comment;
@@ -400,7 +371,8 @@ function expandReview(reviewId) {
       dots.style.display = "inline";
       btnText.innerHTML = "Show more >";
       moreText.style.display = "none";
-    } else {
+    }
+    else {
       dots.style.display = "none";
       btnText.innerHTML = "Show less >";
       moreText.style.display = "inline";
@@ -502,18 +474,17 @@ function expandText() {
 }
 
 
-//This function get inOrOut = ["checkIn" or "checkOut"] and a date
-//then set the date in the modal accordingly to inOrOut
+//This function get string called inOrOut it value will be ["checkIn" or "checkOut"] and a date called date
+//then desplayed the date in bold in the modal accordingly
 function writeDateInModal(inOrOut, date) {
 
     const year = date.getFullYear();
     const month = months[date.getMonth()];
     const day = days[date.getDay()];
 
-    $(`#${inOrOut}Date`).html(date.getDate())
+    $(`#${inOrOut}Date`).html(date.getDate()) 
     $(`#${inOrOut}MonthAndYear`).html(month + " " + year);
     $(`#${inOrOut}Day`).html(day);
-
 
     calculatePrice();
 }
@@ -528,7 +499,6 @@ function calculatePrice() {
     }
     const price = apartment.Price;
 
-    
     const checkIn = new Date($("#checkInDatePicker").val());
     const checkOut = new Date($("#checkOutDatePicker").val());
 
@@ -537,5 +507,4 @@ function calculatePrice() {
 
     $("#priceXnight").html(`$${price} x ${diffDays} nights`);
     $("#totalprice").html(`$${price * diffDays}`);
-
 }
