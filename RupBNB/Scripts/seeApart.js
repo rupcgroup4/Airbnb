@@ -34,7 +34,38 @@ $(document).ready(function () {
         checkDates();
     });
 
+    $("#saveIcon").click( clickedOnLikedApartmentIcon);
+
 });
+
+//this function get called when user click on liked apartment icon
+//toggle the icon color and insert/delte the liked apartment accordingly
+function clickedOnLikedApartmentIcon() {
+
+    $("#saveIcon").toggleClass("fa-regular fa-solid");
+    let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
+    let apartmentId = apartment.Id;
+    let data = {
+        UserEmail: userEmail,
+        ApartmentId: apartmentId
+    }
+    
+    if($("#saveIcon").hasClass("fa-solid")) {
+        
+        ajaxCall("POST", "../api/likedApartments", JSON.stringify(data), scb, ecb)
+    }
+    else {
+        ajaxCall("DELETE", `../api/deleteLikedApartment`, JSON.stringify(data), scb, ecb)
+    }
+}
+
+function scb(res) {
+    console.log(res);
+}
+
+function ecb(err) {
+    console.log(err);
+}
 
 
 //this function is called when press reserve inside modal (confirm reservation)
@@ -128,6 +159,11 @@ function SCBGetApartment(returnApartment) {
         $("#readBTN").css("display", "none");
     }
 
+    //check if user liked this apartment
+    let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
+    let id = apartment.Id;
+    ajaxCall("GET", `../api/likedApartments?email=${userEmail}&id=${id}`, "", likedApartmentsExistSCB, ecb);
+
     //set the min dates for date pickers
     setMinDates();
     //render apartments score to the page
@@ -143,12 +179,23 @@ function SCBGetApartment(returnApartment) {
     getReviews(apartment.Id);
     //calculate total price of current dates with apartment price
     calculatePrice();
+
+    
 }
 
 //ECB of ajax call, there is a problem
 function ECBGetApartment(error) {
     sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
     window.location.replace("notFound.html");
+}
+
+//liked apartment scb function
+//return true if the user liked the apartment
+//fill the liked apartment icon
+function likedApartmentsExistSCB(res) {
+    if(res == true) {
+        $("#saveIcon").toggleClass("fa-regular fa-solid");
+    }
 }
 
 //this function set the min dates for checkIn to be today and for checkOut to be today + minNights of the apartment

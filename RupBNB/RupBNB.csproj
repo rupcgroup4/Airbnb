@@ -161,6 +161,7 @@
     <Compile Include="Controllers\ApartmentsController.cs" />
     <Compile Include="Controllers\DBController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
+    <Compile Include="Controllers\LikedApartmentsController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -171,12 +172,14 @@
     <Compile Include="Models\DAL\AdminServices.cs" />
     <Compile Include="Models\DAL\ApartmentServices.cs" />
     <Compile Include="Models\DAL\HostServices.cs" />
+    <Compile Include="Models\DAL\LikedApartmentsServices.cs" />
     <Compile Include="Models\DAL\ReservationServices.cs" />
     <Compile Include="Models\DAL\ReviewServices.cs" />
     <Compile Include="Models\DAL\SqlConnect.cs" />
     <Compile Include="Models\DAL\UploadDBServices.cs" />
     <Compile Include="Models\DAL\UserServices.cs" />
     <Compile Include="Models\Host.cs" />
+    <Compile Include="Models\LikedApartment.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\User.cs" />
