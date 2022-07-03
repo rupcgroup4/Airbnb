@@ -6,7 +6,7 @@ var wasPastReservationsUsed = false;
 //get the future reservations of the user
 //load the firebase chat
 $(document).ready(function () {
-
+    $('#spinner').css('display', 'block');
     user = JSON.parse(window.localStorage.getItem('CGroup4_user'))
     if (user == undefined) {
         window.location.replace("index.html");
@@ -26,14 +26,6 @@ function formatDate(date) {
 
     return day + "/" + month + "/" + year;
 }
-
-// //This function is called when "Apartment Details" button is clicked
-// function seeApart(apartmentId) {
-//     sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
-//     sessionStorage.setItem("CGroup4_blockReservation", true);
-
-//     window.location.href = "seeApart.html";
-// }
 
 //This function is called when "Apartment Details" button is clicked
 function seeApart(reservationId) {
@@ -105,7 +97,7 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
                             <div class="bottom">
                                
                                 <div class="d-flex justify-content-between">
-                                    <input type="button" onclick="seeApart(${reservationsData[i].ReservationId})" class="btn btn-primary m-auto" value="Apartment Details">
+                                    <input type="button" onclick="seeApart(${reservationsData[i].ReservationId})" class="btn btn-primary m-auto" value="Order Details">
                                     ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-danger m-auto" value="Cancel">` : ""}
                                 </div>
                             </div>
@@ -113,6 +105,7 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
                 </div>
             </div> `)
     }
+    $('#spinner').css('display', 'none');
 }
 
 function getMyFutureReservationsError(err) {

@@ -1,24 +1,26 @@
-﻿$(document).ready(function () {
+﻿//on document load activate submit to login form
+//and add on click to signup button to redirect to signUp page
+$(document).ready(function () {
 
 	$("#loginForm").submit(submitLoginForm);
-
-
 	$("#signUpBTN").click(function () {
 		window.location.replace('signUp.html');
 	})
 
 });
 
+//when user submit login
+//if admin logged in send the details for adminLogin function
 function submitLoginForm() {
 	let email = $("#email").val();
 	let password = $("#password").val();
 
+	//if admin is logged in
 	if (email == 'admin@gmail.com') {
 		adminLogIn(password);
 		return false;
 	}
 
-	
 	let emailAndPassword = {
 		Email: email,
 		Password: password,
@@ -28,7 +30,6 @@ function submitLoginForm() {
 	return false;
 
 }
-
 
 //this function get call if log in with admin email
 function adminLogIn(password) {
@@ -48,15 +49,18 @@ function adminLogIn(password) {
 
 }
 
-
+//logged in SCB
+//save user details in the loacal storage
+//redirect the user to index.html
 function submitLoginFormSuccess(user) {
-
 	localStorage.setItem("CGroup4_user", JSON.stringify(user));
-	console.log(user);
-	//move to new page and dosent allow to move back
 	window.location.replace("index.html");
 }
 
+//error call back of submit login
+//return satus 401 if the password was incorrect
+//return status 404 if user is not found
+//else return any other error satus code and redirect user to notFound.html (exception)
 function submitLoginFormError(err) {
 
 	//password not correct (Unauthrized)
