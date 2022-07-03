@@ -2,18 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace RupBNB.Models.DAL
 {
     public class AdminServices
     {
-        //Admin view users information
+        //Admin view users/host struct to hold special information
         private struct User_And_Host_Data
         {
-            public User_And_Host_Data(string email, DateTime register_date, int total_rentals
-                , int total_cancels, int total_income)
+            public User_And_Host_Data(string email, DateTime register_date, int total_rentals,
+                int total_cancels, int total_income)
             {
                 Email = email;
                 Register_date = register_date;
@@ -28,13 +26,12 @@ namespace RupBNB.Models.DAL
             public int Total_cancels { get; private set; }
         }
 
+        //get users info for admin view
         public string GetUsersInfo()
         {
             SqlConnection con = SqlConnect.Connect();
 
-            // Create Command
             SqlCommand command = CreateGetUsersInfo(con);
-
             SqlDataReader dr = command.ExecuteReader();
 
             List<User_And_Host_Data> usersData = new List<User_And_Host_Data>();
@@ -56,6 +53,7 @@ namespace RupBNB.Models.DAL
 
         }
 
+        //invoke stored procedure SP_AdminViewUsersInfo
         private SqlCommand CreateGetUsersInfo(SqlConnection con)
         {
             SqlCommand command = new SqlCommand();
@@ -67,13 +65,13 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
+
+        //get hosts info for admin view
         public string GetHostsInfo()
         {
             SqlConnection con = SqlConnect.Connect();
 
-            // Create Command
             SqlCommand command = CreateGetHostsInfo(con);
-
             SqlDataReader dr = command.ExecuteReader();
 
             List<User_And_Host_Data> hostsData = new List<User_And_Host_Data>();
@@ -96,6 +94,7 @@ namespace RupBNB.Models.DAL
 
         }
 
+        //invoke stored procedure SP_AdminViewHostsInfo
         private SqlCommand CreateGetHostsInfo(SqlConnection con)
         {
             SqlCommand command = new SqlCommand();
@@ -108,7 +107,7 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
-        //Admin view apartments information
+        //Admin view apartments struct to hold special information
         private struct apartmentData
         {
             public apartmentData(int apartment_id, string apartment_name, int total_rentals, int total_cancels)
@@ -125,13 +124,12 @@ namespace RupBNB.Models.DAL
             public int Total_cancels { get; private set; }
         }
 
+        //get apartments info for admin view
         public string GetApartmentsInfo()
         {
             SqlConnection con = SqlConnect.Connect();
 
-            // Create Command
             SqlCommand command = CreateGetApartmentsInfo(con);
-
             SqlDataReader dr = command.ExecuteReader();
 
             List<apartmentData> apartmentData = new List<apartmentData>();
@@ -152,6 +150,7 @@ namespace RupBNB.Models.DAL
 
         }
 
+        //invoke SP_AdminViewApartmentsInfo sor
         private SqlCommand CreateGetApartmentsInfo(SqlConnection con)
         {
             SqlCommand command = new SqlCommand();

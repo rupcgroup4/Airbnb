@@ -10,6 +10,7 @@ namespace WebApplication1.Models
 {
     public class Apartment
     {
+        //fields
         int id;
         string propertyType;
         string hostEmail;
@@ -34,8 +35,10 @@ namespace WebApplication1.Models
         float reviewsClean;
         float reviewLocation;
 
+        //default constructor
         public Apartment() { }
 
+        //constructor with all fields
         public Apartment(int id, string propertyType, string hostEmail, string name,
             string description, string img, string neighborhood, float latitude,
             float longitude, float distanceToCenterKM, string roomType,
@@ -83,6 +86,7 @@ namespace WebApplication1.Models
             this.Rating = rating;
         }
 
+        //properties
         public int Id { get => id; set => id = value; }
         public string PropertyType { get => propertyType; set => propertyType = value; }
         public string HostEmail { get => hostEmail; set => hostEmail = value; }
@@ -108,19 +112,22 @@ namespace WebApplication1.Models
         public float ReviewLocation { get => reviewLocation; set => reviewLocation = value; }
 
 
-        //return apartemtns object order by rating (from high to low) from start row to end row
+        //return Apartments object order by rating (from high to low) from start row to end row
         public List<Apartment> getXNumberOfApartmentsSortedByRating(int rowStart, int rowEnd)
         {
             ApartmentServices ds = new ApartmentServices();
             return ds.getXNumberOfApartmentsSortedByRating(rowStart, rowEnd);
         }
+
+        //method gets apartments id and returns an apartment matching the id if found, else null
         public Apartment getApartmentById(int id)
         {
             ApartmentServices ds = new ApartmentServices();
             return ds.getApartmentById(id);
         }
 
-
+        //method gets a JObject with the search filters data
+        //method return a list of apartments (with only the relavent fields having meaningful values) after filtering 
         public List<Apartment> getApartmentsBySearchFilter(JObject data)
         {
             ApartmentServices ds = new ApartmentServices();

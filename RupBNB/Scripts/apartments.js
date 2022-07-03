@@ -4,7 +4,7 @@ let locations = [];
 //indicate if the user make a query with distance parameter
 let isDistanceFilter = false;
 
-//boolean indicating wether the apartments on display whgetApartmentSCBere are only from the first search(only 12 first appartments)
+//boolean indicating wether the apartments on display where getApartmentSCB are only from the first search(only 12 first appartments)
 let firstLoadApartments = true;
 
 //scroll handler for web
@@ -14,18 +14,15 @@ const divScroll = () => {
         ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
         serachQuery.FromRow += 8;
         serachQuery.ToRow += 8;
-        console.log("from scroll web");
-
     }
 }
+
 //scroll handler for mobile
 const windowScroll = () => {
     if ($(window).scrollTop() == $(document).height() - $(window).height()) {
         ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), getApartmentsSCB, getApartmentsECB);
         serachQuery.FromRow += 8;
         serachQuery.ToRow += 8;
-        console.log("from scroll mobile");
-
     }
 }
 
@@ -55,16 +52,14 @@ $(document).ready(function () {
 
     //load more data on scroll for mobile
     $(window).scroll(windowScroll);
-    
 
     //update maxUSD span when user move price slider
     $(document).on('input', "#priceRange", () => {
         if($("#priceRange").val() == 0) {
 
             $("#maxUSD").html("No Max");
-
-        } else {
-            
+        }
+        else {
             $("#maxUSD").html("$" + $("#priceRange").val());
         }
         
@@ -75,36 +70,35 @@ $(document).ready(function () {
         if ($("#distanceRange").val() == 0) {
 
             $("#maxDistance").html("No Max");
-            isDistanceFilter = false;
-
-        } else {
-
+            isDistanceFilter = false;   //user did not pick distance filter
+        }
+        else {
             $("#maxDistance").html($("#distanceRange").val() + "Km");
-            isDistanceFilter = true;
+            isDistanceFilter = true;    //user picked distance filter
         }
 
     });
 
     //this function create the date range in the search filter
     createCalander();
-
 });
 
+//Error callback for apartmentsSearch
 //failed to get apartment from server
 function getApartmentsECB(err) {
     sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
     window.location.replace("notFound.html");
-
 }
 
-
+//getApartmentsSCB- function that renders the appartments to the screen
+//function purpose is to render the appartments without going through the search options,
+//for the initial apartments shown in index.html and for showing more appartments after scrolling
 function getApartmentsSCB(apartments) {
-    renderApartments(apartments);
+    renderApartments(apartments); //render apartments to screen
 }
 
-
-//get apartemnts from server SCB
-//render the apartemnts to the screen
+//method gets apartemnts and renders them to the screen
+//method displays a map with the diaplayed apartments location
 function renderApartments(apartments) {
 
     //display loading spinner while waiting for apartments
@@ -122,7 +116,6 @@ function renderApartments(apartments) {
         console.log("no more..");
         $("#cards").off('scroll', divScroll);
         $(window).off('scroll', windowScroll);
-
         return;
     }
     //found apartments
@@ -130,11 +123,11 @@ function renderApartments(apartments) {
     console.log(apartments);
         for (let i = 0; i < apartments.length; i++) {
 
+            //round the DistanceToCenterKM to one digit after the dot
             let distanceRounded = Math.round(apartments[i].DistanceToCenterKM * 10) / 10
 
             $("#cardContainer")
-                .append(
-                    `
+                .append(`
                 <div class="col mt-3">
                     <div onclick="seeApart(${apartments[i].Id}, ${apartments[i].MinNight})" class="card h-100">
                         <div>
@@ -153,14 +146,13 @@ function renderApartments(apartments) {
                         </div>
                     </div>
                 </div>
-            `
-                )
+            `)
 
+            //pushe the apartments latitude and logtitude to apartments location array
             locations.push({ lat: apartments[i].Latitude, lon: apartments[i].Longitude });
         }
-
+        //diaplay all apartments locations on map
         myMap(locations);
-    
 }
 
 
@@ -180,20 +172,20 @@ function search() {
 
     let accomodate = $("#accomodate").val();
     if (accomodate == "") { //accomadte is type number- handles case of keyboard interferce
-        accomodate = 1; //default 
+        accomodate = 1;     //default 
     }
 
     let checkIn;
     let checkOut;
     let date = $("#datepicker").val();
-    if (date.length > 0) {
+    if (date.length > 0) {  //dates were picked
         let dates = date.split(" to: ");
         checkIn = dates[0].split(".");
         checkIn = checkIn[2] + "." + checkIn[1] + "." + checkIn[0]
         checkOut = dates[1].split(".");
         checkOut = checkOut[2] + "." + checkOut[1] + "." + checkOut[0]
-
-    } else {    //no dates were picked
+    }
+    else {    //no dates were picked
         checkIn = "9999-1-1";
         checkOut = "9999-1-2";
     }
@@ -211,14 +203,13 @@ function search() {
         distanceToCenter = 50;
     }
 
-    
     let sortBy = $("#sortBy").val();
 
     if (sortBy == "distanceToCenterKM_D" || sortBy == "distanceToCenterKM_A") {
         isDistanceFilter = true;
     }
 
-    //the query that will be sent to the sotred procedure to get apartments by filter
+    //the query that will be sent to the stored procedure to get apartments by filter
     serachQuery = {
         MaxPrice: maxPrice,
         MinApartmentRating: minRating,
@@ -237,11 +228,10 @@ function search() {
     $("#cardContainer").html("");
     //start loading spinner (stop on SCB)
     $('#spinner').css('display', 'block');
-
 }
 
 //success call back for apartmentSearch
-//method gets a list of appartments .........................
+//method gets a list of appartments and displays them
 function apartmentsSearchSCB(apartments) {
 
     let isMobile = false; //initiate as false
@@ -261,7 +251,7 @@ function apartmentsSearchSCB(apartments) {
         $("#mapContainer").css("display", "block");
     }
 
-    locations = [];
+    locations = []; //clean apartments location array- gets filled in renderApartments
     renderApartments(apartments);
 
     //check if year is the default year
@@ -279,11 +269,11 @@ function apartmentsSearchSCB(apartments) {
 
 
 //This function called when press "See Details" on Apartment
-function seeApart(apartmentId, minNight) {
+//function redirects to a page that shows the specific apartment details
+function seeApart(apartmentId, minNight) {  //minNight is sent, to be able to check that a reservation is at least minNight long  
     sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
     window.location.href = "seeApart.html";
 }
-
 
 
 // Initialize and add the map
