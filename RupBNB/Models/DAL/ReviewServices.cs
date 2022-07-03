@@ -8,6 +8,8 @@ namespace RupBNB.Models.DAL
 {
     public class ReviewServices
     {
+
+        //Insert new review to Reviews Table
         public int InsertReview(Review review)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -24,7 +26,7 @@ namespace RupBNB.Models.DAL
             return numAffected;
 
         }
-
+        //This function get Review and execute store procedure to insert new review
         private SqlCommand CreateInsertReview(SqlConnection con, Review review)
         {
 
@@ -43,7 +45,7 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
-
+        //check if review is already exist
         public bool ReviewExists(int id)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -60,7 +62,7 @@ namespace RupBNB.Models.DAL
 
 
         }
-
+        //This function get review id and execute store procedure to get review
         private SqlCommand CreateReviewExists(SqlConnection con, int id)
         {
             SqlCommand command = new SqlCommand();
@@ -74,7 +76,7 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
-
+        //method to get list of reviews by apartment id
         public List<Review> GetReviewsByApartmentId(int id)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -102,7 +104,7 @@ namespace RupBNB.Models.DAL
 
 
         }
-
+        //This function get review id and execute store procedure to get list of reviews by apartment id
         private SqlCommand CreateGetReviewsByApartmentId(SqlConnection con, int id)
         {
             SqlCommand command = new SqlCommand();

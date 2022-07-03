@@ -10,33 +10,30 @@ namespace RupBNB.Controllers
 {
     public class HostsController : ApiController
     {
-
+        //Route to get an host by email
         [HttpGet]
         [Route("api/Hosts")]
         public HttpResponseMessage Get(string email)
         {
-            Host h = new Host();
-
-            h = h.GetHostByEmail(email);
-            if (h != null)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, h);
+                Host h = new Host();
+                h = h.GetHostByEmail(email);
+
+                if (h != null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, h);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }
 
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
         }
     }
 }

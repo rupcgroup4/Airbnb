@@ -11,24 +11,30 @@ namespace WebApplication1.Models.DAL
 {
     public class HostServices : UserServices
     {
-
-        public int InsertHost(Host host)
+        //Insert new host to Hosts Table
+        public bool InsertHost(Host host)
         {
+
+            //check if host is already exist
+            if (HostExists(host.Email))
+            {
+                return false;
+            }
             SqlConnection con = SqlConnect.Connect();
 
             // Create Command
             SqlCommand command = CreateInsertHost(con, host);
 
             // Execute
-            int numAffected = command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
 
             // Close Connection
             con.Close();
 
-            return numAffected;
+            return true;
 
         }
-
+        //This function get Host email and execute store procedure to insert new host
         private SqlCommand CreateInsertHost(SqlConnection con, Host host)
         {
 
@@ -52,7 +58,7 @@ namespace WebApplication1.Models.DAL
             return command;
         }
 
-
+        //check if host is already exist
         public bool HostExists(string email)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -66,12 +72,9 @@ namespace WebApplication1.Models.DAL
             con.Close();
 
             return flag;
-
-
         }
 
-
-
+        //method gets host email and return back host
         public Host GetHostByEmail(string email)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -97,6 +100,7 @@ namespace WebApplication1.Models.DAL
             return h;
 
         }
+        //This function get Host email and execute store procedure to get the host
         private SqlCommand CreateGetHostByEmail(SqlConnection con, string email)
         {
             SqlCommand command = new SqlCommand();
