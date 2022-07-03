@@ -10,7 +10,6 @@ function submitSignUpForm() {
 	let email = $("#email").val();
 	let userName = $("#userName").val();
 	let password = $("#password").val();
-	let cnfmPassword = $("#confirmPassword").val();
 	let firstName = $("#firstName").val();
 	let lastName = $("#lastName").val();
 	let birthDate = $("#birthDate").val();
