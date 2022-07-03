@@ -1,15 +1,7 @@
-﻿
+﻿//on document activate submit function to the signUp form
 $(document).ready(function() {
-
 	$("#signUpForm").submit(submitSignUpForm);
-	
-	
-	//$("#loginBTN").click(function () {
-	//	window.location.replace('login.html');
-	//})
-
 });
-
 
 //submit sign up form function
 //fetch the data of the user input and send api call to store the user data in DB
@@ -23,9 +15,6 @@ function submitSignUpForm() {
 	let lastName = $("#lastName").val();
 	let birthDate = $("#birthDate").val();
 	
-
-	
-
 	let newUser = {
 		Email: email,
 		UserName: userName,
@@ -40,8 +29,9 @@ function submitSignUpForm() {
 	return false;
 }
 
-
 //add custom validators for passwords and age
+//check age is 18+
+//check confim password is not empty and is match  to the password
 function check() {
 
 	let password = $("#password").val();
@@ -64,7 +54,8 @@ function check() {
 	}
 }
 
-
+//this functionreturn true if the age of the user is 18+
+//return flase otherwise
 function check18Age() {
     var today = new Date();
     var birthDate = new Date($("#birthDate").val());
@@ -80,16 +71,12 @@ function check18Age() {
 	return true;
 }
 
+//sign up SCB, save the user details to local storage
+//redirect to index.html
 function submitSignUpFormSuccess(user)
 {
 	localStorage.setItem("CGroup4_user", JSON.stringify(user));
 	window.location.replace("index.html");
-
-	Swal.fire({
-		icon: 'success',
-		title: 'Sign Up successful',
-		text: 'Welcome ' + user.UserName
-	})
 }
 
 //error call back function of submitSignUpFormError
