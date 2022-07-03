@@ -307,13 +307,15 @@ function SCBGetHostDetails(host) {
     )
 
 }
-
+//ECB of ajax call, there is a problem
 function ECBGetHostDetails(error) {
-    console.log(error);
+    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
+    window.location.replace("notFound.html");
 }
-
+//ECB of ajax call, there is a problem
 function ECBGetApartment(error) {
-    console.log(error);
+    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
+    window.location.replace("notFound.html");
 }
 
 //ajax call to get the reviews of the apartment
@@ -397,8 +399,8 @@ function expandReview(reviewId) {
     }
 }
 
-function getReviewsECB(err) {
-    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+function getReviewsECB(error) {
+    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
     window.location.replace("notFound.html");
 }
 

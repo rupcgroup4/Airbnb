@@ -187,14 +187,17 @@ function SCBGetHostDetails(host) {
 }
 
 function ECBGetHostDetails(error) {
-    console.log(error);
+    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
+    window.location.replace("notFound.html");
 }
 
 function ECBGetApartment(error) {
-    console.log(error);
+    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
+    window.location.replace("notFound.html");
 }
 function ECBGetReservation(error) {
-    console.log(error);
+    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
+    window.location.replace("notFound.html");
 }
 
 // Initialize and add the map
