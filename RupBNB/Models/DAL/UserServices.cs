@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.Configuration;
+
 
 namespace RupBNB.Models.DAL
 {
     public class UserServices
     {
+        //this function create new user
+        //get a User object and invoke stored procedure to save the user in the data base
+        //return the user
         public User InsertUser(User user)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -20,26 +21,22 @@ namespace RupBNB.Models.DAL
                 return null;
             }
 
-            // Create Command
             SqlCommand command = CreateInsertUserCommand(con, user);
-
-            // Execute
-            int numAffected = command.ExecuteNonQuery();
-
-            // Close Connection
+            command.ExecuteNonQuery();
             con.Close();
 
             return user;
 
         }
 
+        //this function check if user exsist in data base
+        //get user email and return a user if usere found
+        //else return null
         public User userExists(String email)
         {
             SqlConnection con = SqlConnect.Connect();
 
-            // Create Command
             SqlCommand command = CreateGetUserByEmail(con, email);
-
             SqlDataReader dr = command.ExecuteReader();
 
             User u= null;
@@ -62,6 +59,7 @@ namespace RupBNB.Models.DAL
 
         }
 
+        //invoke stored procedure SP_getUserByEmail
         private SqlCommand CreateGetUserByEmail(SqlConnection con, string email)
         {
             SqlCommand command = new SqlCommand();
@@ -76,6 +74,7 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
+        //invoke store procedure SP_InsertUser
         private SqlCommand CreateInsertUserCommand(SqlConnection con, User user)
         {
             SqlCommand command = new SqlCommand();
@@ -86,8 +85,6 @@ namespace RupBNB.Models.DAL
             command.Parameters.AddWithValue("@firstName", user.FirstName);
             command.Parameters.AddWithValue("@lastName", user.LastName);
             command.Parameters.AddWithValue("@birthDate", user.BirthDate);
-           // command.Parameters.AddWithValue("@userRegisteredSince", user.UserRegisteredSince);
-
 
             command.CommandText = "SP_InsertUser";
             command.Connection = con;
@@ -96,6 +93,7 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
+
         //for user profile page
         //struct that contains data from reservation and apartment
         private struct reservationData
@@ -155,6 +153,8 @@ namespace RupBNB.Models.DAL
             return JsonConvert.SerializeObject(reservationsData);
         }
 
+        //invoke SP_GetUsersFutureReservations or SP_GetUsersPastReservations stored procedure
+        //depends on the "isFutureReservations" boolean
         private SqlCommand CreateGetUsersReservations(SqlConnection con, string email, bool isFutureReservations)
         {
             SqlCommand command = new SqlCommand();

@@ -19,6 +19,7 @@ namespace WebApplication1.Models
         string img;
         bool isVerified;
 
+        //host constructor
         public Host(string email, string userName, string firstName, string lastName, string password,
             DateTime birthDate, DateTime userRegisteredSince, DateTime hostSince, string location, string about,
             string responseTime, string responseRate, bool isSuperHost, string img,
@@ -33,7 +34,7 @@ namespace WebApplication1.Models
             this.img = img;
             this.isVerified = isVerified;
         }
-
+        //host overloading constructor
         public Host(string email, string firstName, string img, bool isSuperHost, bool isVerified)
         {
             this.Email = email;
@@ -42,7 +43,10 @@ namespace WebApplication1.Models
             this.isSuperHost = isSuperHost;
             this.isVerified = isVerified;
         }
+        //host default constructor
         public Host() { }
+
+        //host getters and setters
         public DateTime HostSince { get => hostSince; set => hostSince = value; }
         public string Location { get => location; set => location = value; }
         public string About { get => about; set => about = value; }
@@ -58,7 +62,8 @@ namespace WebApplication1.Models
             AdminServices ds = new AdminServices();
             return ds.GetHostsInfo();
         }
-        //Get host
+        //method to get host object
+        //return host by email
         public Host GetHostByEmail(string email)
         {
             HostServices hs = new HostServices();   

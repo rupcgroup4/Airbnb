@@ -15,34 +15,25 @@ namespace RupBNB.Controllers
         [Route("api/Reviews/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            Review r = new Review();
             try
             {
+                Review r = new Review();
                 List<Review> reviews = r.GetReviewsByApartmentId(id);
-                return Request.CreateResponse(HttpStatusCode.OK, reviews);
+                if (reviews.Count == 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, reviews);
 
+                }
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
 
             }
-
-        }
-
-        // POST api/<controller>
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
         }
     }
 }

@@ -32,7 +32,7 @@ namespace RupBNB.Models.DAL
             return true; 
 
         }
-
+        //This function get Reservation and execute store procedure to insert new reservation
         private SqlCommand CreateInsertReservation(SqlConnection con, Reservation res)
         {
 
@@ -51,7 +51,7 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
-        //
+        //check if apartement is already booked on dates
         public bool IsApartmentBookedOnDates(Reservation res)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -66,7 +66,7 @@ namespace RupBNB.Models.DAL
 
             return flag;
         }
-
+        //This function get Reservation Id and execute store procedure to check if apartement is already booked on dates
         private SqlCommand CreateIsApartmentBookedOnDates(SqlConnection con, Reservation res)
         {
             SqlCommand command = new SqlCommand();
@@ -85,7 +85,8 @@ namespace RupBNB.Models.DAL
         }
 
         //method gets reservationId and cancels the reservation
-        public int cancelReservation(int reservationId)
+        //returns true if reservations was successfully cancel, false otherwise
+        public bool cancelReservation(int reservationId)
         {
             SqlConnection con = SqlConnect.Connect();
 
@@ -98,9 +99,9 @@ namespace RupBNB.Models.DAL
             // Close Connection
             con.Close();
 
-            return numAffected;
+            return numAffected == 1 ? true : false;
         }
-
+        //This function get Reservation Id and execute store procedure to cancel the reservation
         private SqlCommand CreateCancelReservation(SqlConnection con, int reservationId)
         {
             SqlCommand command = new SqlCommand();

@@ -8,7 +8,11 @@ namespace RupBNB.Models.DAL
 {
     public class ReviewServices
     {
-        public int InsertReview(Review review)
+
+        //this function create new review
+        //get a Review object and execute stored procedure to save the review in the data base
+        //return the true if added successfully, false otherwise 
+        public bool InsertReview(Review review)
         {
             SqlConnection con = SqlConnect.Connect();
 
@@ -21,10 +25,10 @@ namespace RupBNB.Models.DAL
             // Close Connection
             con.Close();
 
-            return numAffected;
+            return numAffected == 1 ? true : false;
 
         }
-
+        //This function get Review and execute store procedure to insert new review
         private SqlCommand CreateInsertReview(SqlConnection con, Review review)
         {
 
@@ -43,7 +47,9 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
-
+        //this function check if review exsist in data base
+        //get review id and return a review if review is found
+        //else return null
         public bool ReviewExists(int id)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -60,7 +66,7 @@ namespace RupBNB.Models.DAL
 
 
         }
-
+        //This function get review id and execute store procedure to get review
         private SqlCommand CreateReviewExists(SqlConnection con, int id)
         {
             SqlCommand command = new SqlCommand();
@@ -74,7 +80,7 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
-
+        //method to get list of reviews by apartment id
         public List<Review> GetReviewsByApartmentId(int id)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -102,7 +108,7 @@ namespace RupBNB.Models.DAL
 
 
         }
-
+        //This function get review id and execute store procedure to get list of reviews by apartment id
         private SqlCommand CreateGetReviewsByApartmentId(SqlConnection con, int id)
         {
             SqlCommand command = new SqlCommand();

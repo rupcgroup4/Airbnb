@@ -10,17 +10,28 @@ namespace RupBNB.Controllers
 {
     public class ReservationsController : ApiController
     {
-        //Route to get an apartment by id
+        //Route to get an reservation by id
         [HttpGet]
         [Route("api/Reservations/{id}")]
-        public Reservation Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            Reservation a = new Reservation();
-            return a.getReservationById(id);
+            try
+            {
+                Reservation a = new Reservation();
+                a.getReservationById(id);
+                if (a != null)
+                    return Request.CreateResponse(HttpStatusCode.OK, a);
+                else
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+          
         }
 
         //create new reservation
-        // POST api/<controller>
         public HttpResponseMessage Post([FromBody] Reservation res)
         {
             try
@@ -40,21 +51,26 @@ namespace RupBNB.Controllers
             
         }
 
-        //cancel reservstion
+        //Route to cancel reservstion
         [HttpPut]
         [Route("api/Reservations/cancelReservation")]
         public HttpResponseMessage Put([FromBody] int reservationId)
         {
-            Reservation r = new Reservation();
-            if (r.cancelReservation(reservationId)>0)
+            try
             {
-                 return Request.CreateResponse(HttpStatusCode.OK,"");
-                //return Request.CreateResponse(200);
-
+                Reservation r = new Reservation();
+                if (r.cancelReservation(reservationId))
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }

@@ -48,7 +48,7 @@ function check() {
 	let cnfmPassword = $("#confirmPassword").val();
 	let birthDate = $("#birthDate").val();
 
-	if (cnfmPassword = "") {
+	if (cnfmPassword == "") {
 		document.getElementById("confirmPassword").setCustomValidity("Confirm your password");
 		return false;
 	}
