@@ -20,25 +20,7 @@ namespace RupBNB.Controllers
             return a.getApartmentById(id);
         }
 
-        //**************This will be Deleted***************Ask Yoav
-        [HttpPost]
-        // api/apartmentsRating
-        [Route("api/apartmentsRating")]
-        public HttpResponseMessage Post([FromBody] int[] rows)
-        {
-            Apartment a = new Apartment();
-            try
-            {
-                List<Apartment> apartments = a.getXNumberOfApartmentsSortedByRating(rows[0], rows[1]);
-                return Request.CreateResponse(HttpStatusCode.OK, apartments);
-                
-            } catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
-            }
-
-        }
-
+     
         //Route to get apartment by query
         [HttpPost]
         // api/apartmentsSearch
@@ -64,7 +46,7 @@ namespace RupBNB.Controllers
             } 
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
            
         }

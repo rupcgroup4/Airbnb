@@ -46,27 +46,34 @@ namespace RupBNB.Controllers
         [Route("api/Users/userlogin")]
         public HttpResponseMessage userlogin([FromBody] JObject emailAndPassword)
         {
-            string email = emailAndPassword.First.First.ToString();
-            string password = emailAndPassword.Last.First.ToString();
-
-            User user = new User();
-            user= user.getUserByEmailAndPassword(email,password);
-
-            if (user != null)   //user matching the inputed email found
+            try
             {
-                if (user.Password == password)//password is correct
-                { 
-                    return Request.CreateResponse(HttpStatusCode.OK, user);
-                }
-                else //password isn't correct
+                string email = emailAndPassword.First.First.ToString();
+                string password = emailAndPassword.Last.First.ToString();
+
+                User user = new User();
+                user = user.getUserByEmailAndPassword(email, password);
+
+                if (user != null)   //user matching the inputed email found
                 {
-                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+                    if (user.Password == password)//password is correct
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK, user);
+                    }
+                    else //password isn't correct
+                    {
+                        return Request.CreateResponse(HttpStatusCode.Unauthorized);
+                    }
                 }
-            }
-            else //user matching the inputed email not found
+                else //user matching the inputed email not found
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+            } catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
+            
         }
 
         [HttpGet]
