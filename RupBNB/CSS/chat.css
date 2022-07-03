@@ -58,6 +58,10 @@
     font-size: 15px
 }
 
+.name, #activeUserChat {
+    padding-top: 12px;
+}
+
 .people-list .chat-list img {
     width: 45px;
     border-radius: 50%

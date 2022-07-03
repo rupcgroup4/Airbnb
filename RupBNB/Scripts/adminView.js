@@ -247,10 +247,15 @@ function sendMessage() {
         return;
     }
 
+    currentDate = new Date();
+    currentDateStr = `${currentDate.getDay()}/${currentDate.getMonth()}/${currentDate.getFullYear()}`;
+    currentTimeStr = `${currentDate.getHour}:${currentDate.getMinutes()}` ;
     //add the message to data base under the specific user
     firebase.database().ref(activeUserInChat).push().set({
         "sender": "manager",
-        "message": message
+        "message": message,
+        "messageDate": currentDateStr, 
+        "messageTime": currentTimeStr
     })
 
 }
@@ -277,7 +282,6 @@ function createListForEachUser(user) {
                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
                 <div class="about">
                     <div class="name">${user}</div>
-                    <div class="status"> <i class="fa fa-circle offline"></i>Offline</div>                                            
                 </div>
             </li>
         `
@@ -293,17 +297,16 @@ function listenToUser(user) {
 
         const message = {
             sender: snapshot.val().sender,
-            message: snapshot.val().message
+            message: snapshot.val().message,
+            messageDate: snapshot.val().messageDate,
+            messageTime: snapshot.val().messageTime
+
         }
 
         chatArr[user].push(message);
 
-<<<<<<< Updated upstream
-        //for real time message in active chat
-=======
         //if a message from the user currently open on screen has arrived update the chat
         //view to to display the message- purpose is to show real time change in open chat 
->>>>>>> Stashed changes
         if ($("#activeUserChat").text() == user) {
             addMessage(message);
         }
@@ -348,7 +351,7 @@ function addMessage(message) {
         `
             <li class="clearfix">
                <div class="message-data ${text_right}">
-                    <span class="message-data-time">10:10 AM, Today</span>
+                    <span class="message-data-time">${message.messageTime}, ${message.messageDate}</span>
                     ${managerImg}
                 </div>
                 <div class="message other-message ${float_right}">${message.message}</div>
