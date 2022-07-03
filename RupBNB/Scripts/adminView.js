@@ -229,6 +229,11 @@ function ECBgeneral(err) {
 //hold the current user that open in the chat
 let activeUserInChat;
 
+//asscoiative array of users and their messages
+//[
+//  {userName1: [{messagesObject1},{messagesObject2}]}]
+//  {userName2: [{messagesObject1},{messagesObject2}]}
+//]
 let chatArr = [];
 
 //this function send message from the manager to user
