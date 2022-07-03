@@ -30,17 +30,11 @@ namespace RupBNB.Controllers
             try
             {
                 List<Apartment> apartments = a.getXNumberOfApartmentsSortedByRating(rows[0], rows[1]);
-
-               
-                
                 return Request.CreateResponse(HttpStatusCode.OK, apartments);
-
-               
                 
             } catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
-
             }
 
         }

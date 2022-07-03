@@ -46,7 +46,7 @@ $(document).ready(function () {
         window.location.replace("index.html");
     }
 
-    if (sessionStorage.getItem("CGroup4_blockReservation") != undefined) {
+    if (sessionStorage.getItem("CGroup4_blockReservation")) {
         $("#reserve").removeClass("d-flex");
         $("#reserve").css("display", "none");
     }
@@ -123,7 +123,7 @@ function checkDates() {
 
     //set min date for checkOut (minimun checkInDate + 1)
     let minCheckOutDate = new Date(checkInDate);
-    minCheckOutDate.setDate(minCheckOutDate.getDate() + 1);
+    minCheckOutDate.setDate(minCheckOutDate.getDate() + apartment.MinNight);
     $("#checkOutDatePicker").attr("min", minCheckOutDate.toISOString().split('T')[0]);
 
     //check if check out is smaller than check in date

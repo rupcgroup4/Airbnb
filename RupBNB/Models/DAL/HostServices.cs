@@ -87,9 +87,10 @@ namespace WebApplication1.Models.DAL
                 string hostEmail = dr["email"].ToString();
                 string firstName = dr["firstName"].ToString();
                 string img = dr["img"].ToString();
-                bool isVerified = dr["isVerified"].ToString() == "t" ? true : false;
-                bool isSuperHost = dr["isSuperHost"].ToString() == "t" ? true : false;
+                bool isVerified = Convert.ToBoolean(dr["isVerified"]);
+                bool isSuperHost = Convert.ToBoolean(dr["isSuperHost"]);
                 h = new Host(hostEmail, firstName, img, isSuperHost, isVerified);
+
             }
             con.Close();
 

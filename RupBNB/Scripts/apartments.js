@@ -96,9 +96,14 @@ function getApartmentsECB(err) {
 
 }
 
+function getApartmentsSCB(apartments) {
+    renderApartments(apartments);
+}
+
+
 //get apartemnts from server SCB
 //render the apartemnts to the screen
-function getApartmentsSCB(apartments) {
+function renderApartments(apartments) {
 
     //display loading spinner while waiting for apartments
     $('#spinner').css('display', 'none'); 
@@ -159,6 +164,10 @@ function getApartmentsSCB(apartments) {
 
 //search apartment
 function search() {
+
+    //clean dates of old search
+    sessionStorage.removeItem("CGroup4_searchDates");
+
     firstLoadApartments = true;
 
     //load more data on scroll for web
@@ -250,6 +259,16 @@ function apartmentSearchSCB(apartments) {
 
     locations = [];
     getApartmentsSCB(apartments);
+
+    //check if year is the default year
+    if(serachQuery.StartDate.substring(0,4) != '9999') {
+        const reservationDates = {
+            startDate: serachQuery.StartDate, 
+            endDate: serachQuery.EndDate
+        }
+        sessionStorage.setItem("CGroup4_searchDates", JSON.stringify(reservationDates));
+    }
+    
     $('#spinner').css('display', 'none');
 
 }
@@ -266,7 +285,7 @@ function seeApart(apartmentId, minNight) {
 // Initialize and add the map
 function myMap(locations) {
     // The location of Uluru
-    const location = { lat: apartments[0].Latitude, lng: apartments[0].Longtitude };
+    const location = { lat: locations[0].lat, lng: locations[0].lon };
     // The map, centered at Uluru
     const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 10,

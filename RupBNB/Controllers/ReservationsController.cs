@@ -19,6 +19,7 @@ namespace RupBNB.Controllers
             return a.getReservationById(id);
         }
 
+        //create new reservation
         // POST api/<controller>
         public HttpResponseMessage Post([FromBody] Reservation res)
         {
@@ -26,7 +27,7 @@ namespace RupBNB.Controllers
             {
                 if (res.InsertReservation())
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, res);
+                    return Request.CreateResponse(HttpStatusCode.Created, res.Id);
                 }
                 else
                 {
@@ -39,16 +40,7 @@ namespace RupBNB.Controllers
             
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
-
+        //cancel reservstion
         [HttpPut]
         [Route("api/Reservations/cancelReservation")]
         public HttpResponseMessage Put([FromBody] int reservationId)
