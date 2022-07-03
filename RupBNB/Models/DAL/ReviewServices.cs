@@ -9,8 +9,10 @@ namespace RupBNB.Models.DAL
     public class ReviewServices
     {
 
-        //Insert new review to Reviews Table
-        public int InsertReview(Review review)
+        //this function create new review
+        //get a Review object and execute stored procedure to save the review in the data base
+        //return the true if added successfully, false otherwise 
+        public bool InsertReview(Review review)
         {
             SqlConnection con = SqlConnect.Connect();
 
@@ -23,7 +25,7 @@ namespace RupBNB.Models.DAL
             // Close Connection
             con.Close();
 
-            return numAffected;
+            return numAffected == 1 ? true : false;
 
         }
         //This function get Review and execute store procedure to insert new review
@@ -45,7 +47,9 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
-        //check if review is already exist
+        //this function check if review exsist in data base
+        //get review id and return a review if review is found
+        //else return null
         public bool ReviewExists(int id)
         {
             SqlConnection con = SqlConnect.Connect();
