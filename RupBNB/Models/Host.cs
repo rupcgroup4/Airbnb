@@ -34,6 +34,14 @@ namespace WebApplication1.Models
             this.isVerified = isVerified;
         }
 
+        public Host(string email, string firstName, string img, bool isSuperHost, bool isVerified)
+        {
+            this.Email = email;
+            this.FirstName = firstName;
+            this.img = img;
+            this.isSuperHost = isSuperHost;
+            this.isVerified = isVerified;
+        }
         public Host() { }
         public DateTime HostSince { get => hostSince; set => hostSince = value; }
         public string Location { get => location; set => location = value; }
@@ -51,10 +59,10 @@ namespace WebApplication1.Models
             return ds.GetHostsInfo();
         }
         //Get host
-        public Host GetHost(string email)
+        public Host GetHostByEmail(string email)
         {
             HostServices hs = new HostServices();   
-            return hs.GetHost(email);
+            return hs.GetHostByEmail(email);
         }
     }
 }

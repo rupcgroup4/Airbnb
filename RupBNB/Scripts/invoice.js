@@ -104,16 +104,11 @@ function SCBGetApartment(returnApartment) {
         <small>CONFIRMATION NUMBER: #${reservation.Id}</small>
 
     `);
-
-
     let difference = checkOut - checkIn;
     const TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
     $("#TotalNights").append(TotalDays);
     $("#price").prepend("$" + apartment.Price);
     $("#TotalPrice").prepend("$" + (apartment.Price * TotalDays));
-
-
-
 
     $("#details").append(
         `
@@ -176,9 +171,7 @@ function writeDate(inOrOut, date) {
 }
 
 function getHostDetails(hostEmail) {
-    SCBGetHostDetails(hostData);
-    //let qs = "email=" + hostEmail;
-    //ajaxCall("GET", `../api/Hosts?${qs}`, "", SCBGetHostDetails, ECBGetHostDetails);
+    ajaxCall("GET", `../api/Hosts?email=${hostEmail}`, "", SCBGetHostDetails, ECBGetHostDetails);
 }
 //this function is the success call back of getHostDetails
 //the response is host details that will be render to the screen
@@ -187,7 +180,7 @@ function SCBGetHostDetails(host) {
         `
             <div class="col">
                 <h4>Contact info</h4>
-                    <h4>${host[0].UserName} - ${host[0].Email}</h4>
+                    <h4>${host.FirstName} - ${host.Email}</h4>
             </div>
         `
     )

@@ -70,21 +70,9 @@ namespace WebApplication1.Models.DAL
 
         }
 
-        private SqlCommand CreateGetHostByEmail(SqlConnection con, string email)
-        {
-            SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@email", email);
 
-            command.CommandText = "SP_GetHostByEmail";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
-
-        public Host GetHost(string email)
+        public Host GetHostByEmail(string email)
         {
             SqlConnection con = SqlConnect.Connect();
 
@@ -97,24 +85,29 @@ namespace WebApplication1.Models.DAL
             while (dr.Read())
             {
                 string hostEmail = dr["email"].ToString();
-                DateTime hostSince = Convert.ToDateTime(dr["hostSince"]);
-                string location = dr["location"].ToString();
-                string about = dr["about"].ToString();
-                string responseTime = dr["responseTime"].ToString();
-                string responseRate = dr["responseRate"].ToString();
-                bool isSuperHost = dr["responseRate"].ToString() == "t" ? true : false;
+                string firstName = dr["firstName"].ToString();
                 string img = dr["img"].ToString();
                 bool isVerified = dr["isVerified"].ToString() == "t" ? true : false;
-                h = new Host(hostEmail, null, null, null, null,
-            new DateTime(),new DateTime(), hostSince, location, about, responseTime, responseRate, isSuperHost, img, isVerified);
-  
-
+                bool isSuperHost = dr["isSuperHost"].ToString() == "t" ? true : false;
+                h = new Host(hostEmail, firstName, img, isSuperHost, isVerified);
             }
-
             con.Close();
 
             return h;
 
+        }
+        private SqlCommand CreateGetHostByEmail(SqlConnection con, string email)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@email", email);
+
+            command.CommandText = "SP_GetHostByEmail";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
         }
     }
 }

@@ -283,26 +283,22 @@ function expandAmeneties() {
 
 //make ajax call to get host details
 function getHostDetails(hostEmail) {
-
-    SCBGetHostDetails(hostData);
-
-    //let qs = "email=" + hostEmail;
-    //ajaxCall("GET", `../api/Hosts?${qs}`, "", SCBGetHostDetails, ECBGetHostDetails);
+    ajaxCall("GET", `../api/Hosts?email=${hostEmail}`, "", SCBGetHostDetails, ECBGetHostDetails);
 }
 
 //SCB of ajax call to bring host details
 //render host details to the page
 function SCBGetHostDetails(host) {
 
-    const isSuperHost = host[0].IsSuperHost != 0 ? '<img class="headerImg" src="../Pages/superHost.png" />' : ""
-    const isVerified = host[0].IsVerified != 0 ? '<img class="headerImg" src="../Pages/verified.jpg" />' : ""
+    const isSuperHost = host.IsSuperHost != false ? '<img class="headerImg" src="../Pages/superHost.png" />' : ""
+    const isVerified = host.IsVerified != false ? '<img class="headerImg" src="../Pages/verified.jpg" />' : ""
 
     $("#host").append(
         `
             <div class="col">
                 <div class="d-flex justify-content-between">
-                    <p><b>${apartment.RoomType} in ${apartment.Neighborhood} hosted by ${host[0].FirstName}</b></p>
-                    <img class="headerImg" src="${host[0].Img}" />
+                    <p><b>${apartment.RoomType} in ${apartment.Neighborhood} hosted by ${host.FirstName}</b></p>
+                    <img class="headerImg" src="${host.Img}" />
                     ${isSuperHost}
                     ${isVerified }
                 </div>

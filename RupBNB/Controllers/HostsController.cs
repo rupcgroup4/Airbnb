@@ -11,20 +11,23 @@ namespace RupBNB.Controllers
     public class HostsController : ApiController
     {
 
-        public HttpResponseMessage Get(string hostEmail)
+        [HttpGet]
+        [Route("api/Hosts")]
+        public HttpResponseMessage Get(string email)
         {
             Host h = new Host();
 
-            h = h.GetHost(hostEmail);
-           
-            return Request.CreateResponse(HttpStatusCode.OK, h);
-
+            h = h.GetHostByEmail(email);
+            if (h != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, h);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
         }
 
-        // POST api/<controller>
-        public void Post([FromBody] string value)
-        {
-        }
 
         // PUT api/<controller>/5
         public void Put(int id, [FromBody] string value)
