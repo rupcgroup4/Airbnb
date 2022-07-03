@@ -30,7 +30,6 @@ function formatDate(date) {
 //This function is called when "Apartment Details" button is clicked
 function seeApart(reservationId) {
     sessionStorage.setItem("CGroup4_reservationId", reservationId);
-    sessionStorage.setItem("CGroup4_blockReservation", true);
 
     window.location.href = "invoice.html";
 }
