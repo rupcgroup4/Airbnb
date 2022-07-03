@@ -11,13 +11,13 @@ namespace RupBNB.Models.DAL
         //this function create new reservation
         //get a Reservation object and execute stored procedure to save the reservation in the data base
         //return the true if added successfully, false otherwise 
-        public bool InsertReservation(Reservation res)
+        public int InsertReservation(Reservation res)
         {
             
             //check if apartement is already booked on dates
             if(IsApartmentBookedOnDates(res))
             {   
-                return false;
+                return 0;
             }
 
             SqlConnection con = SqlConnect.Connect();
@@ -26,12 +26,18 @@ namespace RupBNB.Models.DAL
             SqlCommand command = CreateInsertReservation(con, res);
 
             // Execute
-            command.ExecuteNonQuery();
+            SqlDataReader dr = command.ExecuteReader();
+
+            int num = 0;
+            while (dr.Read())
+            {
+                num = Convert.ToInt32(dr["id"]);
+            }
 
             // Close Connection
             con.Close();
 
-            return true; 
+            return num; 
 
         }
         //This function get Reservation and execute store procedure to insert new reservation

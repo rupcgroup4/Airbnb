@@ -1,7 +1,10 @@
-﻿
-var user; //global paramater
-var wasPastReservationsUsed = false; //boolean paramater that changes when the past reservation are shown (to prevent multiple ajax calls unneceserily to show the same thing)
+﻿var user; //global paramater
+//boolean paramater that changes when the past reservation are shown (to prevent multiple ajax calls unneceserily to show the same thing)
+var wasPastReservationsUsed = false; 
 
+//when document ready get the user from local storage
+//get the future reservations of the user
+//load the firebase chat
 $(document).ready(function () {
 
     user = JSON.parse(window.localStorage.getItem('CGroup4_user'))
@@ -24,12 +27,20 @@ function formatDate(date) {
     return day + "/" + month + "/" + year;
 }
 
+// //This function is called when "Apartment Details" button is clicked
+// function seeApart(apartmentId) {
+//     sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
+//     sessionStorage.setItem("CGroup4_blockReservation", true);
+
+//     window.location.href = "seeApart.html";
+// }
+
 //This function is called when "Apartment Details" button is clicked
-function seeApart(apartmentId) {
-    sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
+function seeApart(reservationId) {
+    sessionStorage.setItem("CGroup4_reservationId", reservationId);
     sessionStorage.setItem("CGroup4_blockReservation", true);
 
-    window.location.href = "seeApart.html";
+    window.location.href = "invoice.html";
 }
 
 //function gets a reservationId and canceles the reservation
@@ -94,7 +105,7 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
                             <div class="bottom">
                                
                                 <div class="d-flex justify-content-between">
-                                    <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary m-auto" value="Apartment Details">
+                                    <input type="button" onclick="seeApart(${reservationsData[i].ReservationId})" class="btn btn-primary m-auto" value="Apartment Details">
                                     ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-danger m-auto" value="Cancel">` : ""}
                                 </div>
                             </div>
@@ -102,7 +113,6 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
                 </div>
             </div> `)
     }
-    //<span style="color:red"> RESERVATION CANCELED</span>
 }
 
 function getMyFutureReservationsError(err) {

@@ -40,9 +40,11 @@ namespace RupBNB.Controllers
         {
             try
             {
-                if (res.InsertReservation())
+                int reservationId = res.InsertReservation();
+                //if id is 0, the resevation is failed to create
+                if (reservationId != 0)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, res.Id);
+                    return Request.CreateResponse(HttpStatusCode.Created, reservationId);
                 }
                 else
                 {

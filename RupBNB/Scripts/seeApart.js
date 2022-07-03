@@ -71,7 +71,7 @@ $(document).ready(function () {
 //and make the reservation
 function clickReserve() {
     //if user is not logged in
-    if (sessionStorage.getItem("CGroup4_user") == undefined) {
+    if (localStorage.getItem("CGroup4_user") == undefined) {
         userNotLogedIn();
         return;
     }
@@ -439,8 +439,8 @@ function makeReservation() {
 
 //SCB of make new reservation
 //save new reservation id in session storage and redirect the user to invoice.html
-function makeReservationSCB(res) {
-    sessionStorage.setItem("CGroup4_reservation", res.Id);
+function makeReservationSCB(reservationId) {
+    sessionStorage.setItem("CGroup4_reservationId", reservationId);
     window.location.replace("invoice.html");
 }
 

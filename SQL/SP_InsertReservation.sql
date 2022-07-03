@@ -33,6 +33,10 @@ BEGIN
 
     -- Insert statements for procedure here
 	INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
-	VALUES (@startDate, @endDate, @apartmentId, @userEmail, 0)
+	VALUES (@startDate, @endDate, @apartmentId, @userEmail, 0) 
+	select SCOPE_IDENTITY() as id
+ 
 END
 GO
+
+

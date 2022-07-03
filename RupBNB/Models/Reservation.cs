@@ -40,7 +40,7 @@ namespace RupBNB.Models
 
         //method to insert new reservation 
         //returns true if reservations was successfully added, false otherwise
-        public bool InsertReservation()
+        public int InsertReservation()
         {
             ReservationServices rs = new ReservationServices();
             return rs.InsertReservation(this);

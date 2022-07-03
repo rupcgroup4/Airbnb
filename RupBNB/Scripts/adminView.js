@@ -173,37 +173,27 @@ function SCBReadApartments(apartmentsData) {
                 {
                     extend: 'copy',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                   
                 },
                 {
                     extend: 'csv',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                   
                 },
                 {
                     extend: 'excel',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                   
                 },
                 {
                     extend: 'pdf',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                   
                 },
                 {
                     extend: 'print',
                     title: fileName,
-                    //exportOptions: {
-                    //    columns: 'th:not(:last-child)'
-                    //}
+                  
                 }
             ],
 
@@ -212,12 +202,7 @@ function SCBReadApartments(apartmentsData) {
                 { data: "Apartment_name" },
                 { data: "Total_rentals" },
                 { data: "Total_cancels" }
-                //{
-                //    render: function (data, type, row, meta) {
-                //        let dataApartmentId = "data-apartmentId='" + row.Apartment_id + "'";
-                //        return `<input type='button' ${dataApartmentId} class='apartmentIdView btn btn-outline-success' value="Watch">`;
-                //    },
-                //},
+             
             ],
 
         });
