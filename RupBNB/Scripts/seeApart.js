@@ -57,10 +57,6 @@ $(document).ready(function () {
     //when user press on confirm reservation
     $(document).on("click", "#makeReservation", clickReserve);
 
-    //set the minimun date of the date inputs to be today 
-    $("#checkInDatePicker").attr("min", new Date().toISOString().split('T')[0]);
-    $("#checkOutDatePicker").attr("min", new Date().toISOString().split('T')[0]);
-
     //trigger event each date one of the date input has changed
     $('input[type=date]').change(function() {
         checkDates();
@@ -128,9 +124,9 @@ function checkDates() {
 
     //check if check out is smaller than check in date
     if (checkOutDate <= checkInDate) {
-        //set check out date to be 1 day after check in
+        //set check out date to be minNight day after check in
         checkOutDate = new Date(checkInDate);
-        checkOutDate.setDate(checkOutDate.getDate() + 1);
+        checkOutDate.setDate(checkOutDate.getDate() + apartment.MinNight);
     }  
     
     //set date to the date input
@@ -169,9 +165,10 @@ function SCBGetApartment(returnApartment) {
         $("#more").css("display", "none");
         $("#readBTN").css("display", "none");
     }
-    
-    $("#price").prepend("$" + apartment.Price);
-    //resner apartments score to the page
+
+    //set the min dates for date pickers
+    setMinDates();
+    //render apartments score to the page
     renderApartmentScores();
     //set initial dates in modal for reservation
     setModalDates();
@@ -184,6 +181,17 @@ function SCBGetApartment(returnApartment) {
     getReviews(apartment.Id);
     //calculate total price of current dates with apartment price
     calculatePrice();
+}
+
+//this function set the min dates for checkIn to be today and for checkOut to be today + minNights of the apartment
+function setMinDates() {
+    //set the minimun date of the date inputs to be in difference like apartment minNights
+    let minCheckInDate = new Date();
+    let minCheckOutDate = new Date(minCheckInDate);
+    minCheckOutDate.setDate(minCheckOutDate.getDate() + apartment.MinNight);
+    $("#checkInDatePicker").attr("min", minCheckInDate.toISOString().split('T')[0]);
+    $("#checkOutDatePicker").attr("min", minCheckOutDate.toISOString().split('T')[0]);
+    $("#price").prepend("$" + apartment.Price);
 }
 
 //this function render apartment scores section in the page

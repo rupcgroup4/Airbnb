@@ -1,32 +1,38 @@
-﻿$(document).ready(function () {
-    
+﻿
+let flag_apartmentView = true;
+let flag_hostView = true;
+
+//render the users table when document ready
+$(document).ready(function () {
     renderUsersTables();
-
 });
-var flag_apartmentView = true;
-var flag_hostView = true;
 
+//create ajax call to get users details for the table
 function renderUsersTables() {
     let qs = "type=usersView";
-    ajaxCall("GET", `../api/Admin?${qs}`, "", SCBReadUsers, ECBReadUsers);
+    ajaxCall("GET", `../api/Admin?${qs}`, "", SCBReadUsers, ECBgeneral);
 }
+
+//create ajax call to get hosts details for the table
 function renderHostsTables() {
     if (flag_hostView) {
         $('#spinner').css('display', 'block');
 
         let qs = "type=hostsView";
-        ajaxCall("GET", `../api/Admin?${qs}`, "", SCBReadHosts, ECBReadHosts);
+        ajaxCall("GET", `../api/Admin?${qs}`, "", SCBReadHosts, ECBgeneral);
 
         flag_hostView = false;
         $("#nav-host-tab").prop('onclick', null);
     }
 }
+
+//create ajax call to get apartments details for the table
 function renderApartmentsTables() {
     if (flag_apartmentView) {
         $('#spinner').css('display', 'block');
 
         let qs = "type=apartmentsView";
-        ajaxCall("GET", `../api/Admin?${qs}`, "", SCBReadApartments, ECBReadApartments);
+        ajaxCall("GET", `../api/Admin?${qs}`, "", SCBReadApartments, ECBgeneral);
         flag_apartmentView = false;
 
         $("#nav-apartment-tab").prop('onclick', null);
@@ -38,7 +44,9 @@ function renderApartmentsTables() {
         });
     }
 }
+
 // Read users success call back
+//populate the table with the users details
 function SCBReadUsers(usersData) {
     let users = JSON.parse(usersData);
     const fileName = 'Users data export';
@@ -92,7 +100,9 @@ function SCBReadUsers(usersData) {
         alert(err);
     }
 }
+
 // Read hosts success call back
+//populate the table with the users details
 function SCBReadHosts(hostsData) {
     let hosts = JSON.parse(hostsData);
     const fileName = 'Hosts data export';
@@ -147,7 +157,9 @@ function SCBReadHosts(hostsData) {
         alert(err);
     }
 }
+
 // Read apartments success call back
+//populate the table with the users details
 function SCBReadApartments(apartmentsData) {
     let apartments = JSON.parse(apartmentsData);
     const fileName = 'Apartments data export';
@@ -215,39 +227,37 @@ function SCBReadApartments(apartmentsData) {
        alert(err);
     }
 }
-// Read users error call back
-function ECBReadUsers(err) {
-    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
-    window.location.replace("notFound.html");
-}
-// Read hosts error call back
-function ECBReadHosts(err) {
-    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
-    window.location.replace("notFound.html");
-}
-// Read apartments error call back
-function ECBReadApartments(err) {
-    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
-    window.location.replace("notFound.html");
+
+// error call back
+function ECBgeneral(err) {
+    if(err.status == 500) {
+        sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+        window.location.replace("notFound.html");
+    }
+    
 }
 
 
 
 //**********************Chat********************************
 
+//hold the current user that open in the chat
 let activeUserInChat;
 
 let chatArr = [];
 
+//this function send message from the manager to user
 function sendMessage() {
 
     let message = $("#newMessage").val();
     $("#newMessage").val("");
 
+    //check that there is active user in the chat
     if (activeUserInChat == undefined) {
         return;
     }
 
+    //add the message to data base under the specific user
     firebase.database().ref(activeUserInChat).push().set({
         "sender": "manager",
         "message": message
@@ -255,11 +265,11 @@ function sendMessage() {
 
 }
 
-//listen to DB for all users
+//listen for new users that was added to DB (in first loading this function automaticly return all the users)
 firebase.database().ref().on("child_added", snapshot => {
     const user = snapshot.key;
     chatArr[user] = new Array();
-    //create new line in the accordion for the user and render to the screen
+    //create new line in the chat for the user and render to the screen
     createListForEachUser(user);
     //listen to the user messages and render to the screen
     listenToUser(user);
@@ -267,15 +277,15 @@ firebase.database().ref().on("child_added", snapshot => {
 });
 
 
-//create new accordion line for user
+//add user as a line to the chat window
 function createListForEachUser(user) {
 
     $("#usersContainer").append(
 
         `
-             <li id="${user}" class="clearfix" onclick="renderUserMessages(this.id)">
-                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-                 <div class="about">
+            <li id="${user}" class="clearfix" onclick="renderUserMessages(this.id)">
+                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                <div class="about">
                     <div class="name">${user}</div>
                     <div class="status"> <i class="fa fa-circle offline"></i>Offline</div>                                            
                 </div>
@@ -285,7 +295,8 @@ function createListForEachUser(user) {
 
 }
 
-//listen to a specific user and add his mesages to the chat
+//listen to a specific user and add his mesages to the messages array
+//if the user is now active in the chat, add the message also to the chat
 function listenToUser(user) {
 
     firebase.database().ref(user).on("child_added", snapshot => {
@@ -304,33 +315,32 @@ function listenToUser(user) {
     });
 }
 
+//get user name and render is message to the chat window
 function renderUserMessages(user) {
-
+    //set this user to be the active user in the chat
     activeUserInChat = user;
 
     $(".chat-list li").removeClass("active");
 
     $(`#${user}`).addClass("active");
 
-
     $("#activeChat").html("");
     $("#activeUserChat").html(user);
 
     for (let i = 0; i < chatArr[user].length; i++) {
-
-
         addMessage(chatArr[user][i])
-
     }
 
 }
 
+//get a message and render the message to the chat 
 function addMessage(message) {
 
     let text_right = "";
     let float_right = "";
     let managerImg = "";
 
+    //give different properties to manager messages
     if (message.sender == "manager") {
         text_right = "text-right";
         float_right = "float-right";

@@ -1,7 +1,5 @@
 ﻿using RupBNB.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -11,6 +9,9 @@ namespace RupBNB.Controllers
 {
     public class AdminController : ApiController
     {
+        //get method to get details to admin view
+        //depends on the "type" get the requested details (users, apartments, hosts)
+        //return satus code and Json object as string with the details
         public HttpResponseMessage Get(string type)
         {
             string data = "";
