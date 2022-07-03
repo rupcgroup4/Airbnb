@@ -6,34 +6,11 @@ days = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursaday", 
 //Different Format
 months2 = {0: "January", 1: "February", 2: "March", 3: "April", 4: "May", 5: "June",
             6: "July", 7: "August", 8: "September", 9: "October", 10: "November", 11: "December"};
+
+//Global apartment to use when need to
 let apartment;
 
-data = [
-    {
-        Id: 1, 
-        PropertyType: "Private room in rental unit" , 
-        HostEmail: "Daniel1@gmail.com" , 
-        Name: "Quiet Garden View Room & Super Fast WiFi", 
-        Description: "Quiet Garden View Room & Super Fast WiFi<br /><br /><b>The space</b><br />I'm renting a bedroom (room overlooking the garden) in my apartment in Amsterdam <br /><br />The room is located to the east of the city centre in a quiet typical Amsterdam neighbourhood the Indische Buurt. Amsterdamâ€™s historic centre is less than 15 minutes away by bike or tram.<br /><br /><br />The features of the room are:<br /><br />- Twin beds (80 x 200 cm down quilts and pillows) <br />- 2 pure cotton towels for each guest <br />- reading lamps<br />- bedside table<br />- wardrobe<br />- table with chairs<br />- tea and coffee making facilities<br />- mini bar<br />- alarm clock<br />- Hi-Fi system with cd player connection for mp3 player / phone<br />- map of Amsterdam and public transport<br />- Wi-Fi Internet connection <br /><br />Extra services:<br /><br />- Bike rental<br /><br /><b>License number</b><br />0363 5F3A 5684 6750 D14D", 
-        Img: "https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg", 
-        Neighborhood: "Indische Buurt (Indies Neighborhood) is a neighbourhood in the eastern portion of the city of Amsterdam in the Dutch province of Noord-Holland. The name dates from the early 20th century and is derived from the fact that the neighbourhood's streets ar",
-        Latitude: 52.36575,
-        Longtitude: 4.94142,
-        RoomType: "Private room",
-        NumBathrooms: "1.5 shared baths",
-        NumBedrooms: 1,
-        NumBeds: 2,
-        Accommodates: 2,
-        Amenities: "Carbon monoxide alarm;Shampoo;Hot water;Wifi;Hair dryer;Extra pillows and blankets;Heating;Bed linens;Fire extinguisher;Long term stays allowed;Essentials;Iron;Smoke alarm;Paid parking on premises;Paid parking off premises;Hangers;Dedicated workspace;Coffe",
-        Price: 59,
-        MinNights: 3,
-        MaxNights: 28,
-        Rating: 4.88,
-        ReviewAccuracy: 4.93,
-        ReviewClean: 5,
-        ReviewLocation: 4.68
-    }
-]
+//need to delete after fixing host
 hostData = [
     {
         Email: "Abhishek72@gmail.com",
@@ -89,6 +66,11 @@ $(document).ready(function () {
 
 });
 
+
+//this function been called when press reserve inside modal (confirm reservation)
+//if user not logged in he dosent allow to make reservation
+//else check if the difference on date is make sense with the minimun nights of the apartments 
+//and make the reservation
 function clickReserve() {
     //if user is not logged in
     if (sessionStorage.getItem("CGroup4_user") == undefined) {
@@ -113,6 +95,8 @@ function clickReserve() {
     }
 }
 
+//this function get called when user try to reserve apartment, but he is not logged in
+//presnt messgae to the user and can redirect him to login/signup
 function userNotLogedIn() {
     Swal.fire({
         title: 'Must be logged in for make reservation',
@@ -169,10 +153,14 @@ function SCBGetApartment(returnApartment) {
     $("#image").attr("src", apartment.Img);
     $("#modalImage").attr("src", apartment.Img);
     $("#name").append(apartment.Name);
+    $("#underName").append(`${apartment.Accommodates} guests`);
+    $("#underName").append(`&nbsp<b>·</b>&nbsp${apartment.NumBedrooms} bedroom`);
+    $("#underName").append(`&nbsp<b>·</b>&nbsp${apartment.NumBeds} bed`);
+    $("#underName").append(`&nbsp<b>·</b>&nbsp${apartment.NumBathrooms}`);
 
     if(apartment.Description.length > 200) {
-        $("#description").prepend(apartment.Description.substring(0, 200));
-        $("#more").append(apartment.Description.substring(201));
+        $("#description").prepend(apartment.Description.substring(0, 300));
+        $("#more").append(apartment.Description.substring(301));
         $("#readBTN").css("display", "block");
     } else {
         $("#description").prepend(apartment.Description);
@@ -182,51 +170,45 @@ function SCBGetApartment(returnApartment) {
     }
     
     $("#price").prepend("$" + apartment.Price);
-
-    renderApartmentDetails();
-    
+    //resner apartments score to the page
+    renderApartmentScores();
+    //set initial dates in modal for reservation
     setModalDates();
-
+    //add amenties to page
     let amenities = JSON.parse(apartment.Amenities);
     renderAmenties(amenities);
-
     //get host img and more details
     getHostDetails(apartment.HostEmail);
-
     //get apartment reviews
     getReviews(apartment.Id);
-
     //calculate total price of current dates with apartment price
     calculatePrice();
 }
 
 //this function render apartment details section in the page
-function renderApartmentDetails() {
+function renderApartmentScores() {
     $("#details").append(
-        `
+        `   
             <div class="col text-center">
-                <i class="fas fa-bed fa-2x" title="Number of beds"></i>
-                <h4>${apartment.NumBeds}</h4>
+                <i class="fa-solid fa-star fa-2x" title="Rating"></i>
+                <p>Rating ${apartment.Rating}</p>
             </div>
 
             <div class="col text-center">
-                <i class="fa-solid fa-person fa-2x" title="Number of persons"></i>
-                <h4>${apartment.NumBeds}</h4>
+                <i class="fa-solid fa-broom fa-2x" title="Cleanliness"></i>
+                <p>Cleanliness ${apartment.ReviewsClean}</p>
             </div>
 
             <div class="col text-center">
-                <i class="fa-solid fa-star fa-2x" title="Rating score"></i>
-                <h4>${apartment.Rating}</h4>
+                <i class="fa-solid fa-location-pin fa-2x" title="Location"></i>
+                <p>Location ${apartment.ReviewLocation}</p>
             </div>
 
             <div class="col text-center">
-                <i class="fa-solid fa-broom fa-2x" title="Cleaning review"></i>
-                <h4>${apartment.ReviewsClean}</h4>
+                <i class="fa-solid fa-crosshairs fa-2x" title="Accuracy"></i>
+                <p>Accuracy ${apartment.ReviewLocation}</p>
             </div>
-            <div class="col text-center">
-                <i class="fa-solid fa-location-pin fa-2x" title="Location review"></i>
-                <h4>${apartment.ReviewLocation}</h4>
-            </div>
+
         `
     )
 }
@@ -322,8 +304,8 @@ function SCBGetHostDetails(host) {
         `
             <div class="col">
                 <div class="d-flex justify-content-between">
+                    <p><b>${apartment.RoomType} in ${apartment.Neighborhood} hosted by ${host[0].FirstName}</b></p>
                     <img class="headerImg" src="${host[0].Img}" />
-                    <h4>${host[0].FirstName}</h4>
                     ${isSuperHost}
                     ${isVerified }
                 </div>

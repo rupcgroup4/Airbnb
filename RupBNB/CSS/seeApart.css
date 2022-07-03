@@ -28,7 +28,9 @@ h4 {
     display: none;
 }
 
-
+.text-center {
+    padding: 0;
+}
 
 #reserve {
     background-color: white;
