@@ -61,17 +61,24 @@ function submitLoginFormError(err) {
 
 	//password not correct (Unauthrized)
 	if (err.status == 401) {
+
 		Swal.fire({
 			icon: 'error',
 			title: 'Oops...',
 			text: 'Password incorrect'
-		})
+		});
 	}
-	else {
+	else if (err.status == 404) {
+
 		Swal.fire({
 			icon: 'error',
 			title: 'Oops...',
 			text: 'user not found'
-		})
+		});
 	}
+	else
+	{
+		sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+		window.location.replace("notFound.html");
+    }
 }

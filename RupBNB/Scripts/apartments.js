@@ -1,5 +1,6 @@
 //hold apartments locations to show on the map
-let locations = []
+let locations = [];
+
 //indicate if the user make a query with distance parameter
 let isDistanceFilter = false;
 
@@ -238,6 +239,8 @@ function search() {
 
 }
 
+//success call back for apartmentSearch
+//method gets a list of appartments .........................
 function apartmentSearchSCB(apartments) {
 
     let isMobile = false; //initiate as false
