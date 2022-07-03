@@ -1,3 +1,4 @@
+//load header when page ready
 $(document).ready(function() {
 
     //Default header options
@@ -61,10 +62,10 @@ $(document).ready(function() {
         `
   )
 
-
-})
+});
 
 //User loged out
+//remove user / mangager from session storage and redirect to index.html
 function logOut() {
     localStorage.removeItem("CGroup4_user");
     localStorage.removeItem("CGroup4_manager");
