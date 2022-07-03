@@ -169,9 +169,16 @@ function sendMessage() {
 
     let message = $("#newMessage").val();
 
+    //create date for currrent message
+    currentDate = new Date();
+    currentDateStr = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+    currentTimeStr = `${currentDate.getHours()}:${currentDate.getMinutes()}`;
+
     firebase.database().ref(user.UserName).push().set({
         "sender": user.FirstName,
-        "message": message
+        "message": message,
+        "messageDate": currentDateStr,
+        "messageTime": currentTimeStr
     })
 
     //return false
@@ -183,6 +190,8 @@ function loadUserChat(user) {
         message = {
             sender: snapshot.val().sender,
             message: snapshot.val().message,
+            messageDate: snapshot.val().messageDate,
+            messageTime: snapshot.val().messageTime,
         }
 
 
@@ -200,7 +209,7 @@ function loadUserChat(user) {
             `
                     <li class="clearfix">
                             <div class="message-data ${text_right}">
-                                <span class="message-data-time">10:10 AM, Today</span>
+                                <span class="message-data-time">${message.messageTime}, ${message.messageDate}</span>
                                 ${managerImg}
                             </div>
                         <div class="message other-message ${float_right}">${message.message}</div>

@@ -247,6 +247,7 @@ function sendMessage() {
         return;
     }
 
+    //create date for currrent message
     currentDate = new Date();
     currentDateStr = `${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`;
     currentTimeStr = `${currentDate.getHours()}:${currentDate.getMinutes()}` ;
@@ -299,7 +300,7 @@ function listenToUser(user) {
             sender: snapshot.val().sender,
             message: snapshot.val().message,
             messageDate: snapshot.val().messageDate,
-            messageTime: snapshot.val().messageTime
+            messageTime: snapshot.val().messageTime,
 
         }
 
