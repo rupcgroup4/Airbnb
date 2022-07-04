@@ -16,13 +16,11 @@ GO
 -- =============================================
 -- Author:		CGroup4
 -- Create date: 4.7.22
--- Description:	SP get number of reviews by Apartment id and NumOfPages
+-- Description:	SP get total reviews by apartment id
 -- =============================================
-CREATE PROCEDURE SP_GetReviewsByApartmentId
+CREATE PROCEDURE SP_GetTotalReviewsByApartmentId
 	-- Add the parameters for the stored procedure here
-@apartmentId int,
-@NumOfPage int
-
+@apartmentId int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -30,18 +28,8 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-WITH result AS 
-(	
-SELECT ROW_NUMBER() OVER(ORDER BY R.reviewDate DESC) AS [row], 
-		R.id,R.apartmentId,R.userName,R.reviewDate,R.comments
-FROM Reviews as R 
-WHERE R.apartmentId = @apartmentId
-
-)
-SELECT RE.id,RE.apartmentId,RE.userName,RE.reviewDate,RE.comments
-FROM result as RE
-WHERE row between ((@NumOfPage*6)-5) and (@NumOfPage*6)
-ORDER BY RE.reviewDate DESC
-
+	select count(*) as totalReviews
+	from Reviews as R
+	where R.apartmentId = @apartmentId
 END
 GO
