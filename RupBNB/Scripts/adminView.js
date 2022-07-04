@@ -288,7 +288,7 @@ function createListForEachUser(user) {
     $("#usersContainer").append(
         `
             <li id="${user}" class="clearfix" onclick="renderUserMessages(this.id)">
-                <img src="https://bootdey.com/img/Content/avatar/avatar${avatarNum}.png" alt="avatar">
+                <img src="../images/user-avatar.png" alt="avatar">
                 <div class="about">
                     <div class="name">${user}</div>
                 </div>

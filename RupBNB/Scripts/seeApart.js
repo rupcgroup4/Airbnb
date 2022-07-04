@@ -348,8 +348,8 @@ function getHostDetails(hostEmail) {
 //render host details to the page
 function SCBGetHostDetails(host) {
 
-    const isSuperHost = host.IsSuperHost != false ? '<img class="headerImg" src="../Pages/superHost.png" />' : ""
-    const isVerified = host.IsVerified != false ? '<img class="headerImg" src="../Pages/verified.jpg" />' : ""
+    const isSuperHost = host.IsSuperHost != false ? '<img class="headerImg" src="../images/superHost.png" />' : ""
+    const isVerified = host.IsVerified != false ? '<img class="headerImg" src="../images/verified.jpg" />' : ""
 
     $("#host").append(`
             <div class="col">
@@ -436,7 +436,7 @@ function getReviewsSCB(reviews) {
                 <div class="col">
                     <div>
                         <div class="d-flex">
-                            <img src="user-avatar.png" class="reviewImg">
+                            <img src="../images/user-avatar.png" class="reviewImg">
                             <div class="d-flex flex-column ms-2">
                                 <h6 class="mt-1 mb-0">${reviews[i].UserName}</h6>
                                 <p class="reviewComment">${month + " " + year}</p>
