@@ -11,14 +11,36 @@ namespace RupBNB.Controllers
 {
     public class LikedApartmentsController : ApiController
     {
+        //Get request - get liked apartment by user email and apartment id
+        //return the apartment and status code 200 if success
+        //else return error code (no content if null or internal error if was and exception)
         [HttpGet]
         [Route("api/likedApartments")]
-        public bool Get(string email, int id)
+        public HttpResponseMessage Get(string email, int id)
         {
-            LikedApartment la = new LikedApartment(email, id);
-            return la.LikedApartmentProcedure("SP_Is_Liked_Apartments_Exist");
+            bool status = false;
+            try
+            {
+                LikedApartment la = new LikedApartment(email, id);
+                status = la.LikedApartmentProcedure("SP_Is_Liked_Apartments_Exist");
+
+                if (status)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, status);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Not Found"); //
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
-        //User profile gets liked apartments
+        //Get request - profilePage.html gets the liked apartments
+        //return the apartments list and status code 200 if success
+        //else return error code (no content if null or internal error if was and exception)
         [HttpGet]
         [Route("api/likedApartmentsByEmail")]
         public HttpResponseMessage Get(string email)
@@ -44,20 +66,46 @@ namespace RupBNB.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        //Post request to insert new liked apartment to database
+        //get LikedApartment object and create the object in the SQl table
+        //return status code 200 if success
+        //else return error code (internal error if was and exception)
         [HttpPost]
         [Route("api/likedApartments")]
-        public void Post([FromBody] LikedApartment la)
+        public HttpResponseMessage Post([FromBody] LikedApartment la)
         {
-            la.LikedApartmentProcedure("SP_Insert_Liked_Apartments");
+            try
+            {
+                la.LikedApartmentProcedure("SP_Insert_Liked_Apartments");
+                //
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+         
         }
 
-        
 
+        //Delete request to delete an existing apartment from database
+        //get LikedApartment object and delete the object from the SQl table
+        //return status code 200 if success
+        //else return error code (internal error if was and exception)
         [HttpDelete]
         [Route("api/deleteLikedApartment")]
-        public void Delete([FromBody] LikedApartment la)
+        public HttpResponseMessage Delete([FromBody] LikedApartment la)
         {
-            la.LikedApartmentProcedure("SP_DeleteLikedApartment");
+            try
+            {
+                la.LikedApartmentProcedure("SP_DeleteLikedApartment");
+                //
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }
