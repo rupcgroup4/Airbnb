@@ -28,6 +28,8 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	SELECT * from Hosts where email = @email
+	SELECT H.email, U.firstName, H.img, H.isSuperHost, H.isVerified 
+	FROM Hosts as H join UsersDB as U on H.email = U.email
+	WHERE H.email = @email
 END
 GO
