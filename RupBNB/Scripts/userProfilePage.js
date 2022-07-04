@@ -168,6 +168,7 @@ function getMyPastReservationsError(err) {
 function sendMessage() {
 
     let message = $("#newMessage").val();
+    $("#newMessage").val("");
 
     //create date for currrent message
     currentDate = new Date();
