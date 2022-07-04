@@ -14,19 +14,21 @@ namespace RupBNB.Models.DAL
             SqlConnection con = SqlConnect.Connect();
 
             SqlCommand command = CreateLikeApartmentCommand(con, la, storedProcedure);
-            
+
+            Boolean result = false;
             if (storedProcedure == "SP_Is_Liked_Apartments_Exist")
             {
                 SqlDataReader dr = command.ExecuteReader();
-                con.Close();
-                return dr.HasRows;
+                
+                result = dr.HasRows;
             }
             else{
                 command.ExecuteNonQuery();
+                result = true;
             }
 
             con.Close();
-            return true;
+            return result;
 
         }
 
