@@ -9,21 +9,21 @@ namespace RupBNB.Models
 {
     public class LikedApartment
     {
-        string UserEmail;
+        string userEmail;
         int apartmentId;
 
-        public LikedApartment(string userEmail, int apartmentId)
-        {
-            UserEmail1 = userEmail;
-            this.ApartmentId = apartmentId;
-        }
+        public string UserEmail { get => userEmail; set => userEmail = value; }
+        public int ApartmentId { get => apartmentId; set => apartmentId = value; }
 
         public LikedApartment()
         {
         }
 
-        public string UserEmail1 { get => UserEmail; set => UserEmail = value; }
-        public int ApartmentId { get => apartmentId; set => apartmentId = value; }
+        public LikedApartment(string userEmail, int apartmentId)
+        {
+            this.UserEmail = userEmail;
+            this.ApartmentId = apartmentId;
+        }
 
         public bool LikedApartmentProcedure(string stroredProcedure)
         {

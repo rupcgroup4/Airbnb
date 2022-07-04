@@ -198,6 +198,7 @@
     <Content Include="CSS\spinner.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="images\airbnb.png" />
     <Content Include="Pages\adminView.html" />
     <Content Include="Pages\index.html" />
     <Content Include="Pages\createDB.html" />
@@ -207,6 +208,9 @@
     <Content Include="Pages\profilePage.html" />
     <Content Include="Pages\seeApart.html" />
     <Content Include="Pages\signUp.html" />
+    <Content Include="Pages\superHost.png" />
+    <Content Include="Pages\user-avatar.png" />
+    <Content Include="Pages\verified.jpg" />
     <Content Include="Scripts\adminView.js" />
     <Content Include="Scripts\ajaxCalls.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

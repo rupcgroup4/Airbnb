@@ -37,7 +37,7 @@ namespace RupBNB.Models.DAL
         {
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@email", la.UserEmail1);
+            command.Parameters.AddWithValue("@email", la.UserEmail);
             command.Parameters.AddWithValue("@apartmentId", la.ApartmentId);
             
 
