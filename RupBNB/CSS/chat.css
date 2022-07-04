@@ -289,3 +289,9 @@
 .show {
     display: block;
 }
+/* For Mobile */
+@media only screen and (max-width: 960px) {
+    .chat .chat-history .other-message {
+        max-width: 260px;
+    }
+}
