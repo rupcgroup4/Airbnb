@@ -8,13 +8,22 @@ months2 = {0: "January", 1: "February", 2: "March", 3: "April", 4: "May", 5: "Ju
             6: "July", 7: "August", 8: "September", 9: "October", 10: "November", 11: "December"};
 
 //Global apartment to use when need to
-let apartment;
+var apartment;
+
+//Global paramater- each "page" has 6 reviews
+//when users preses "Next" button will add, when "Previous" button decrease
+var numOfPageReview;
+
+//Global variable- total number of reviews of apartment
+var totalReviews;
 
 //const global paramater for maximum amenities to display (if there are more- option to select see more ameneties)
 const MAX_AMENETIES_SIZE = 14;
 
 //when document ready
 $(document).ready(function () {
+
+    numOfPageReview = 1;
 
     //if no apartment id in session storage, redirect to index.html
     //can happen if the user change the url by himself
@@ -26,6 +35,9 @@ $(document).ready(function () {
     //bring apartment details
     ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
 
+    //get apartments total number of reviews 
+    ajaxCall("GET", `../api/Apartments/getTotalReviews/${apartmentId}`, "", SCBGetTotalReview, ECBGetTotalReview);
+
     //when user press on confirm reservation
     $(document).on("click", "#makeReservation", clickReserve);
 
@@ -34,29 +46,51 @@ $(document).ready(function () {
         checkDates();
     });
 
-    $("#saveIcon").click( clickedOnLikedApartmentIcon);
+    $("#saveIcon").click(clickedOnLikedApartmentIcon);
+
+
 
 });
+
+//success call back for GetTotalReview
+function SCBGetTotalReview(num) {
+    totalReviews = num;
+
+    updateReviewsButtons();
+}
+
+//error call back for GetTotalReview
+function ECBGetTotalReview(err) {
+    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+    window.location.replace("notFound.html");
+}
 
 //this function get called when user click on liked apartment icon
 //toggle the icon color and insert/delte the liked apartment accordingly
 function clickedOnLikedApartmentIcon() {
 
-    $("#saveIcon").toggleClass("fa-regular fa-solid");
-    let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
-    let apartmentId = apartment.Id;
-    let data = {
-        UserEmail: userEmail,
-        ApartmentId: apartmentId
+    //user is regestierd
+    if (localStorage.getItem("CGroup4_user")) {
+        $("#saveIcon").toggleClass("fa-regular fa-solid");
+        let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
+        let apartmentId = apartment.Id;
+        let data = {
+            UserEmail: userEmail,
+            ApartmentId: apartmentId
+        }
+
+        if ($("#saveIcon").hasClass("fa-solid")) {
+
+            ajaxCall("POST", "../api/likedApartments", JSON.stringify(data), scb, ecb)
+        }
+        else {
+            ajaxCall("DELETE", `../api/deleteLikedApartment`, JSON.stringify(data), scb, ecb)
+        }
     }
-    
-    if($("#saveIcon").hasClass("fa-solid")) {
-        
-        ajaxCall("POST", "../api/likedApartments", JSON.stringify(data), scb, ecb)
+    else {  //user is not registered
+        userNotLogedIn();
     }
-    else {
-        ajaxCall("DELETE", `../api/deleteLikedApartment`, JSON.stringify(data), scb, ecb)
-    }
+
 }
 
 function scb(res) {
@@ -160,10 +194,11 @@ function SCBGetApartment(returnApartment) {
     }
 
     //check if user liked this apartment
-    let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
-    let id = apartment.Id;
-    ajaxCall("GET", `../api/likedApartments?email=${userEmail}&id=${id}`, "", likedApartmentsExistSCB, ecb);
-
+    if (localStorage.getItem("CGroup4_user")){ //user is registered
+        let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
+        let id = apartment.Id;
+        ajaxCall("GET", `../api/likedApartments?email=${userEmail}&id=${id}`, "", likedApartmentsExistSCB, ecb);
+    }
     //set the min dates for date pickers
     setMinDates();
     //render apartments score to the page
@@ -176,7 +211,7 @@ function SCBGetApartment(returnApartment) {
     //get host img and more details
     getHostDetails(apartment.HostEmail);
     //get apartment reviews
-    getReviews(apartment.Id);
+    getReviews(apartment.Id, numOfPageReview);
     //calculate total price of current dates with apartment price
     calculatePrice();
 
@@ -334,15 +369,59 @@ function ECBGetHostDetails(error) {
     window.location.replace("notFound.html");
 }
 
-
+//?????????????????????????????????????????????????
 //ajax call to get the reviews of the apartment
-function getReviews(apartmentId) {
-    ajaxCall("GET", `../api/Reviews/${apartmentId}`, "", getReviewsSCB, getReviewsECB);
+function getReviews(apartmentId, numOfPageReview) {
+   // ajaxCall("GET", `../api/Reviews?apartmentId=${apartmentId}&numOfPageReview=${numOfPageReview}`, "", getReviewsSCB, getReviewsECB);
+    ajaxCall("GET", `../api/Reviews/apartmentId/${apartmentId}/numOfPageReview/${numOfPageReview}`, "", getReviewsSCB, getReviewsECB);
+
+}
+
+
+//function for when user presses "next" or "previous" review
+//function gets a sight indicated which button the user presses
+//function update numOfPageReview accordingly and displays the relavent reviews 
+function changeDisplayedReviews(sign) {
+
+    if (sign == "+") {
+        numOfPageReview++;
+    }
+    else { //sign == "-"
+        numOfPageReview--;
+    }
+    getReviews(apartment.Id, numOfPageReview);
+
+    updateReviewsButtons();
+ 
+}
+
+
+function updateReviewsButtons() {
+
+    //check if there or no previous reviews to display (we are on the first review "page")
+    if (numOfPageReview == 1) {
+        $("#previousBTN").attr('disabled', true); //disable
+    }
+    else {
+        $("#previousBTN").attr('disabled', false); 
+    }
+
+    //check if there are less that 6 comments ("page")
+    if (totalReviews <= (numOfPageReview * 6)) {
+        $("#nextBTN").attr('disabled', true); //disable
+    }
+    else {
+        $("#nextBTN").attr('disabled', false);
+    }
 }
 
 //SCB function of getReviews
 //render the reviews to the page
 function getReviewsSCB(reviews) {
+
+    $("#numReviews").html(`${apartment.Rating} · ${totalReviews} reviews`)
+
+    $("#reviews").html(""); //clean div that holds reviews
 
     for(let i = 0; i < reviews.length; i++) {
 
@@ -350,8 +429,6 @@ function getReviewsSCB(reviews) {
         const date = new Date(reviews[i].ReviewDate);
         const year = date.getFullYear();
         const month = months2[date.getMonth()];
-
-        $("#numReviews").html(`${apartment.Rating} · ${reviews.length} reviews`)
 
         const comment = checkIfReviewIsLong(reviews[i]);
            
@@ -368,7 +445,6 @@ function getReviewsSCB(reviews) {
                         ${comment}
                     </div>
                 </div>
-    
             `);
     }
     
@@ -545,3 +621,5 @@ function calculatePrice() {
     $("#priceXnight").html(`$${price} x ${diffDays} nights`);
     $("#totalprice").html(`$${price * diffDays}`);
 }
+
+

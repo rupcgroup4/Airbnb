@@ -81,12 +81,12 @@ namespace RupBNB.Models.DAL
             return command;
         }
         //method to get list of reviews by apartment id
-        public List<Review> GetReviewsByApartmentId(int id)
+        public List<Review> GetReviewsByApartmentId(int apartmentId, int numOfPageReview)
         {
             SqlConnection con = SqlConnect.Connect();
 
             // Create Command
-            SqlCommand command = CreateGetReviewsByApartmentId(con, id);
+            SqlCommand command = CreateGetReviewsByApartmentId(con, apartmentId, numOfPageReview);
 
             SqlDataReader dr = command.ExecuteReader();
 
@@ -94,26 +94,27 @@ namespace RupBNB.Models.DAL
             while(dr.Read())
             {
                 int reviewId = Convert.ToInt32(dr["id"]);
-                int apartmentId = Convert.ToInt32(dr["apartmentId"]);
+                int apartment_Id = Convert.ToInt32(dr["apartmentId"]);
                 string userName = Convert.ToString(dr["userName"]);
                 DateTime reviewDate = Convert.ToDateTime(dr["reviewDate"]);
                 string comment = Convert.ToString(dr["comments"]);
 
-                reviews.Add(new Review(reviewId, apartmentId, userName, reviewDate, comment));
+                reviews.Add(new Review(reviewId, apartment_Id, userName, reviewDate, comment));
             }
 
             con.Close();
 
             return reviews;
-
-
         }
+
         //This function get review id and execute store procedure to get list of reviews by apartment id
-        private SqlCommand CreateGetReviewsByApartmentId(SqlConnection con, int id)
+        private SqlCommand CreateGetReviewsByApartmentId(SqlConnection con, int apartmentId, int numOfPageReview)
         {
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@apartmentID", id);
+            command.Parameters.AddWithValue("@apartmentId", apartmentId);
+            command.Parameters.AddWithValue("@NumOfPage", numOfPageReview);
+
 
             command.CommandText = "SP_GetReviewsByApartmentId";
             command.Connection = con;
@@ -123,5 +124,40 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
+       //method gets apartment id and return the number of total reviews
+        public int getTotalReviews(int apartmentId)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateGetTotalReviews(con, apartmentId);
+
+            SqlDataReader dr = command.ExecuteReader();
+
+            int totalReviews = 0;
+            while (dr.Read())
+            {
+                totalReviews= Convert.ToInt32(dr["totalReviews"]); //totalReviews is the paramater name selected in the SP    
+            }
+
+            con.Close();
+
+            return totalReviews;
+        }
+
+        //CreateGetTotalReviews command
+        private SqlCommand CreateGetTotalReviews(SqlConnection con, int apartmentId)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@apartmentId", apartmentId);
+
+            command.CommandText = "SP_GetTotalReviewsByApartmentId‏";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
     }
 }

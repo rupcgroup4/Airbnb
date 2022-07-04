@@ -36,10 +36,17 @@ namespace RupBNB.Models
 
         //method to get list of reviews by apartment id
         //return list of reviews
-        public List<Review> GetReviewsByApartmentId(int id)
+        public List<Review> GetReviewsByApartmentId(int apartmentId, int numOfPageReview)
         {
             ReviewServices rs = new ReviewServices();
-            return rs.GetReviewsByApartmentId(id);
+            return rs.GetReviewsByApartmentId(apartmentId, numOfPageReview);
+        }
+
+        //method gets apartmentId and returns int with the apartments total reviews
+        public int getTotalReviews(int apartmentId)
+        {
+            ReviewServices rs = new ReviewServices();
+            return rs.getTotalReviews(apartmentId);
         }
     }
 }

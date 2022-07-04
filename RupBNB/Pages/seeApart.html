@@ -13,6 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+
 
     <link rel="stylesheet" href="../CSS/main.css">
     <link rel="stylesheet" href="../CSS/header.css">
@@ -74,6 +76,10 @@
                 <div class="d-flex">
                     <i id="scoreIconForReviewSection" class="fa-solid fa-star"></i>
                     <h5 id="numReviews"></h5>
+                    <ul id="reviewPreviousNext" class="pager">
+                        <li><button id="previousBTN" onclick="changeDisplayedReviews('-')">Previous</button></li>
+                        <li><button id="nextBTN" onclick="changeDisplayedReviews('+')">Next</button></li>
+                    </ul>
                 </div>
                 <div id="reviews" class="row row-cols-1 row-cols-md-2 mt-3"></div>
             </div>
