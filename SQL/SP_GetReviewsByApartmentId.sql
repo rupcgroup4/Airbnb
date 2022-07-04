@@ -14,13 +14,15 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
--- Author:		cgroup4
--- Create date: 20.5.22
--- Description:	SP get user by email
+-- Author:		CGroup4
+-- Create date: 4.7.22
+-- Description:	SP get number of reviews by Apartment id and NumOfPages
 -- =============================================
-CREATE PROCEDURE SP_GetUserByEmail
+CREATE PROCEDURE SP_GetReviewsByApartmentId
 	-- Add the parameters for the stored procedure here
-@email nvarchar(64)
+@apartmentId int,
+@NumOfPage int
+
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -28,6 +30,18 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	SELECT * FROM UsersDB WHERE [email] = @email
+WITH result AS 
+(	
+SELECT ROW_NUMBER() OVER(ORDER BY R.reviewDate DESC) AS [row], 
+		R.id,R.apartmentId,R.userName,R.reviewDate,R.comments
+FROM Reviews as R 
+WHERE R.apartmentId = @apartmentId
+
+)
+SELECT RE.id,RE.apartmentId,RE.userName,RE.reviewDate,RE.comments
+FROM result as RE
+WHERE row between ((@NumOfPage*8)-7) and (@NumOfPage*8)
+ORDER BY RE.reviewDate DESC
+
 END
 GO
