@@ -41,10 +41,17 @@
     width: 75%;
 }
 
-#nav-futureReservations-tab, #nav-pastReservations-tab, #nav-likedApartments-tab {
+#nav-futureReservations-tab, #nav-pastReservations-tab, 
+#nav-likedApartments-tab, #nav-chat-tab {
     border: 1px solid gray;
     border-radius: 25px;
     margin: 0 auto;
+    color: black;
+}
+
+#nav-tab .nav-link.active {
+    background-color: black;
+    color: white;
 }
 
 .nav-tabs {

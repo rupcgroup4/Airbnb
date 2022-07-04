@@ -73,14 +73,12 @@ function getMyFutureReservations() {
 }
 //SCB for get future reservations
 //get the reservations and render to the screen
-function getMyFutureReservationsSuccess(usersReservationsData) {
-    reservationsData = JSON.parse(usersReservationsData)
+function getMyFutureReservationsSuccess(reservationsData) {
+    
     console.log(reservationsData);
 
     let oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     let currentDate = new Date();
-    //currentDate.setHours(0, 0, 0, 0);
-    console.log("curent date: ", currentDate)
 
     $("#futureReservationsContainer").html(""); //empty the div from reservation- for when the method is called after info update (when a reservation is canceled)
 
@@ -91,22 +89,20 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
 
         const diffDays = Math.round(Math.abs((currentDate - startDate) / oneDay));
         let allowCancelReservation = (diffDays >= 2) && (reservationsData[i].IsCanceled==0);
-        //console.log(startDate.toLocaleDateString());
-        console.log("diff: ", diffDays);
-        console.log("app id: ", reservationsData[i].ApartmentId);
+       
         $("#futureReservationsContainer").append(`
             <div class="col mt-2">
                 <div class="card h-100">
                     ${reservationsData[i].IsCanceled ? '<span style="color:red"> RESERVATION CANCELED</span>' : '<span style="color:white">FILL THE BLANK</span>'}
-                    <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
+                    <img src="${reservationsData[i].Apartment.Img}" class="card-img-top">
                         <div class="card-body">
-                            <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
+                            <h5 class="card-title">${reservationsData[i].Apartment.Name}</h5>
                             <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
                             <div class="bottom">
                                
                                 <div class="d-flex justify-content-between">
-                                    <input type="button" onclick="seeInvoice(${reservationsData[i].ReservationId})" class="btn btn-primary m-auto" value="Order Details">
-                                    ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-danger m-auto" value="Cancel">` : ""}
+                                    <input type="button" onclick="seeInvoice(${reservationsData[i].Id})" class="btn btn-primary m-auto" value="Order Details">
+                                    ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].Id})" class="btn btn-danger m-auto" value="Cancel">` : ""}
                                 </div>
                             </div>
                         </div>
@@ -133,10 +129,7 @@ function getMyPastReservations() {
 }
 //get past reservation success call back
 //render past reservation to the page
-function getMyPastReservationsSuccess(usersReservationsData) {
-
-    let reservationsData = JSON.parse(usersReservationsData)
-    console.log(reservationsData);
+function getMyPastReservationsSuccess(reservationsData) {
 
     for (let i = 0; i < reservationsData.length; i++) {
 
@@ -146,12 +139,12 @@ function getMyPastReservationsSuccess(usersReservationsData) {
         $("#pastReservationsContainer").append(`
             <div class="col mt-2">
                 <div class="card h-100">
-                    <img src="${reservationsData[i].ApartmentImg}" class="card-img-top">
+                    <img src="${reservationsData[i].Apartment.Img}" class="card-img-top">
                     <div class="card-body">
-                        <h5 class="card-title">${reservationsData[i].ApartmentName}</h5>
+                        <h5 class="card-title">${reservationsData[i].Apartment.Name}</h5>
                         <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
                         <div class="bottom">
-                            <input type="button" onclick="seeApart(${reservationsData[i].ApartmentId})" class="btn btn-primary" value="Apartment Details">
+                            <input type="button" onclick="seeApart(${reservationsData[i].Apartment.Id})" class="btn btn-primary" value="Apartment Details">
                         </div>
                     </div>
                 </div>

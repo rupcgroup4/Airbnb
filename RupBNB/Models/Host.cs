@@ -16,6 +16,7 @@ namespace WebApplication1.Models
         string img;
         bool isVerified;
 
+
         //host constructor
         public Host(string email, string userName, string firstName, string lastName, string password,
             DateTime birthDate, DateTime userRegisteredSince, DateTime hostSince, string location, string about,
@@ -40,8 +41,18 @@ namespace WebApplication1.Models
             this.isSuperHost = isSuperHost;
             this.isVerified = isVerified;
         }
+
+        //host overloading constructor
+        public Host(string email) : base(email)
+        {
+        }
+
+
         //host default constructor
         public Host() { }
+
+
+
 
         //host getters and setters
         public DateTime HostSince { get => hostSince; set => hostSince = value; }

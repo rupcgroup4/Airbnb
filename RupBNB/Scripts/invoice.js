@@ -29,7 +29,7 @@ function SCBGetReservation(returnReservation) {
     //save reservation in global variable to be able to access to the detials again if needed
     reservation = returnReservation
 
-    let apartmentId = reservation.ApartmentId;
+    let apartmentId = reservation.Apartment.Id;
     ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
 }
 
@@ -111,7 +111,7 @@ function SCBGetApartment(returnApartment) {
     writeDate("checkIn", checkIn);
     writeDate("checkOut", checkOut);
     //get host img and more details
-    getHostDetails(apartment.HostEmail);
+    getHostDetails(apartment.Host.Email);
 }
 //This function get inOrOut = ["checkIn" or "checkOut"] and a date
 //then set the date in the modal accordingly to inOrOut

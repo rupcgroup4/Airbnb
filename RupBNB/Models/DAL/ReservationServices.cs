@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using WebApplication1.Models;
 
 namespace RupBNB.Models.DAL
 {
@@ -48,8 +49,8 @@ namespace RupBNB.Models.DAL
 
             command.Parameters.AddWithValue("@startDate", res.StartDate);
             command.Parameters.AddWithValue("@endDate", res.EndDate);
-            command.Parameters.AddWithValue("@apartmentId", res.ApartmentId);
-            command.Parameters.AddWithValue("@userEmail", res.UserEmail);
+            command.Parameters.AddWithValue("@apartmentId", res.Apartment.Id);
+            command.Parameters.AddWithValue("@userEmail", res.User.Email);
 
             command.CommandText = "SP_InsertReservation";
             command.Connection = con;
@@ -81,7 +82,7 @@ namespace RupBNB.Models.DAL
 
             command.Parameters.AddWithValue("@start", res.StartDate);
             command.Parameters.AddWithValue("@end", res.EndDate);
-            command.Parameters.AddWithValue("@apartmentId", res.ApartmentId);
+            command.Parameters.AddWithValue("@apartmentId", res.Apartment.Id);
 
 
             command.CommandText = "SP_IsApartmentBookedOnDates";
@@ -134,23 +135,25 @@ namespace RupBNB.Models.DAL
             // Execute
             SqlDataReader dr = command.ExecuteReader();
 
-            Reservation apartment = null;
+            Reservation reservation = null;
             while (dr.Read())
             {
     
                 int apartmentId = Convert.ToInt32(dr["apartmentId"]);
+                Apartment apartment = new Apartment(apartmentId);
                 DateTime startDate = Convert.ToDateTime(dr["startDate"]);
                 DateTime endDate = Convert.ToDateTime(dr["endDate"]);
                 string userEmail = dr["userEmail"].ToString();
+                User user = new User(userEmail);
                 bool isCanceled = Convert.ToBoolean(dr["isCanceled"]);
 
-                apartment = new Reservation(reservationId, startDate , endDate, apartmentId, userEmail, isCanceled);
+                reservation = new Reservation(reservationId, startDate , endDate, apartment, user, isCanceled);
 
             }
             // Close Connection
             con.Close();
 
-            return apartment;
+            return reservation;
 
         }
 
@@ -163,6 +166,61 @@ namespace RupBNB.Models.DAL
             command.Parameters.AddWithValue("@id", reservationId);
 
             command.CommandText = "SP_getReservationById";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+
+        }
+
+
+        //method gets a bool parameter isFutureReservations
+        //if isFutureReservations is true method returns a string with the data of 
+        //the users future reservations
+        //else method returns a string with the data of the users past reservations
+        public List<Reservation> getUsersReservations(string email, bool isFutureReservations)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateGetUsersReservations(con, email, isFutureReservations);
+
+            SqlDataReader dr = command.ExecuteReader();
+
+            List<Reservation> userReservations = new List<Reservation>();
+
+            while (dr.Read())
+            {
+                int reservationId = Convert.ToInt32(dr["reservationId"]);
+                int apartmentId = Convert.ToInt32(dr["apartmentId"]);
+                string apartmentImg = dr["apartmentImg"].ToString();
+                string apartmentName = dr["apartmentName"].ToString();
+                Apartment apartment = new Apartment(apartmentId, apartmentName, apartmentImg);
+                DateTime startDate = Convert.ToDateTime(dr["startDate"]);
+                DateTime endDate = Convert.ToDateTime(dr["endDate"]);
+                bool isCanceled = Convert.ToBoolean(dr["isCanceled"]);
+                User user = new User(email);
+
+                userReservations.Add(new Reservation(reservationId, startDate, endDate, apartment, user, isCanceled));
+            }
+
+            con.Close();
+
+            return userReservations;
+        }
+
+        //invoke SP_GetUsersFutureReservations or SP_GetUsersPastReservations stored procedure
+        //depends on the "isFutureReservations" boolean
+        private SqlCommand CreateGetUsersReservations(SqlConnection con, string email, bool isFutureReservations)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@email", email);
+            if (isFutureReservations)
+                command.CommandText = "SP_GetUsersFutureReservations";
+            else
+                command.CommandText = "SP_GetUsersPastReservations";
             command.Connection = con;
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandTimeout = 10; // in seconds

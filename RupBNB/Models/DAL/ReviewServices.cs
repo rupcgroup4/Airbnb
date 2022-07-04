@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+using WebApplication1.Models;
 
 namespace RupBNB.Models.DAL
 {
@@ -34,7 +33,7 @@ namespace RupBNB.Models.DAL
 
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@apartmentId", review.ApartmentId);
+            command.Parameters.AddWithValue("@apartmentId", review.Apartment.Id);
             command.Parameters.AddWithValue("@userName", review.UserName);
             command.Parameters.AddWithValue("@reviewDate", review.ReviewDate);
             command.Parameters.AddWithValue("@comments", review.Comments);
@@ -95,11 +94,12 @@ namespace RupBNB.Models.DAL
             {
                 int reviewId = Convert.ToInt32(dr["id"]);
                 int apartment_Id = Convert.ToInt32(dr["apartmentId"]);
+                Apartment apartment = new Apartment(apartment_Id);
                 string userName = Convert.ToString(dr["userName"]);
                 DateTime reviewDate = Convert.ToDateTime(dr["reviewDate"]);
                 string comment = Convert.ToString(dr["comments"]);
 
-                reviews.Add(new Review(reviewId, apartment_Id, userName, reviewDate, comment));
+                reviews.Add(new Review(reviewId, apartment, userName, reviewDate, comment));
             }
 
             con.Close();

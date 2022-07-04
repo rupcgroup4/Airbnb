@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using RupBNB.Models;
+using WebApplication1.Models;
 
 namespace RupBNB.Controllers
 {
@@ -19,7 +20,7 @@ namespace RupBNB.Controllers
         {
             try
             {
-                Review r = new Review();
+                Review r = new Review();    
                 List<Review> reviews = r.GetReviewsByApartmentId(apartmentId, numOfPageReview);
                 if (reviews.Count == 0)
                 {

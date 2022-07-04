@@ -30,7 +30,7 @@ namespace RupBNB.Controllers
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Not Found"); //
+                    return Request.CreateResponse(HttpStatusCode.NoContent, "Not Found"); //
                 }
             }
             catch (Exception ex)

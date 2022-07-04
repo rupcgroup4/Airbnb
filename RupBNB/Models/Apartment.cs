@@ -10,7 +10,7 @@ namespace WebApplication1.Models
         //fields
         int id;
         string propertyType;
-        string hostEmail;
+        Host host;
         string name;
         string description;
         string img;
@@ -35,37 +35,40 @@ namespace WebApplication1.Models
         //default constructor
         public Apartment() { }
 
+        //constructor only with id
+        public Apartment(int id) { Id = id; }
+
+       
         //constructor with all fields
-        public Apartment(int id, string propertyType, string hostEmail, string name,
-            string description, string img, string neighborhood, float latitude,
-            float longitude, float distanceToCenterKM, string roomType,
-            string numBathrooms, int numBedrooms, int numBeds, int accommodates,
-            string amenities, int price, int minNight, int maxNight, float rating,
-            float reviewAccuracy, float reviewsClean, float reviewLocation)
+        public Apartment(int id, string propertyType, Host host, string name, string description, string img,
+                string neighborhood, float latitude, float longitude, float distanceToCenterKM,
+                string roomType, string numBathrooms, int numBedrooms, int numBeds, int accommodates,
+                string amenities, int price, int minNight, int maxNight, float rating, float reviewAccuracy,
+                float reviewsClean, float reviewLocation)
         {
-            this.Id = id;
-            this.PropertyType = propertyType;
-            this.HostEmail = hostEmail;
-            this.Name = name;
-            this.Description = description;
-            this.Img = img;
-            this.Neighborhood = neighborhood;
-            this.Latitude = latitude;
-            this.Longitude = longitude;
-            this.DistanceToCenterKM = distanceToCenterKM;
-            this.RoomType = roomType;
-            this.NumBathrooms = numBathrooms;
-            this.NumBedrooms = numBedrooms;
-            this.NumBeds = numBeds;
-            this.Accommodates = accommodates;
-            this.Amenities = amenities;
-            this.Price = price;
-            this.MinNight = minNight;
-            this.MaxNight = maxNight;
-            this.Rating = rating;
-            this.ReviewAccuracy = reviewAccuracy;
-            this.ReviewsClean = reviewsClean;
-            this.ReviewLocation = reviewLocation;
+            this.id = id;
+            this.propertyType = propertyType;
+            this.host = host;
+            this.name = name;
+            this.description = description;
+            this.img = img;
+            this.neighborhood = neighborhood;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.distanceToCenterKM = distanceToCenterKM;
+            this.roomType = roomType;
+            this.numBathrooms = numBathrooms;
+            this.numBedrooms = numBedrooms;
+            this.numBeds = numBeds;
+            this.accommodates = accommodates;
+            this.amenities = amenities;
+            this.price = price;
+            this.minNight = minNight;
+            this.maxNight = maxNight;
+            this.rating = rating;
+            this.reviewAccuracy = reviewAccuracy;
+            this.reviewsClean = reviewsClean;
+            this.reviewLocation = reviewLocation;
         }
 
         //constructor for apartments view in index.html
@@ -90,10 +93,11 @@ namespace WebApplication1.Models
             this.Img = img;
         }
 
+        
+
         //properties
         public int Id { get => id; set => id = value; }
         public string PropertyType { get => propertyType; set => propertyType = value; }
-        public string HostEmail { get => hostEmail; set => hostEmail = value; }
         public string Name { get => name; set => name = value; }
         public string Description { get => description; set => description = value; }
         public string Img { get => img; set => img = value; }
@@ -114,6 +118,7 @@ namespace WebApplication1.Models
         public float ReviewAccuracy { get => reviewAccuracy; set => reviewAccuracy = value; }
         public float ReviewsClean { get => reviewsClean; set => reviewsClean = value; }
         public float ReviewLocation { get => reviewLocation; set => reviewLocation = value; }
+        public Host Host { get => host; set => host = value; }
 
 
         //return Apartments object order by rating (from high to low) from start row to end row

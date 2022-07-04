@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SqlClient;
 
 
@@ -69,7 +67,7 @@ namespace RupBNB.Models.DAL
         }
         //this function check if user name exsist in data base
         //get user name and return a boolean representing if user found
-        public bool userNameExists(String username)
+        public bool userNameExists(string username)
         {
             SqlConnection con = SqlConnect.Connect();
 
@@ -132,84 +130,6 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
-
-        //for user profile page
-        //struct that contains data from reservation and apartment
-        private struct reservationData
-        {
-            public reservationData(int reservationId, int apartmentId,string apartmentImg, 
-                string apartmentName, DateTime startDate, DateTime endDate, 
-                bool isCanceled)
-            {
-                ReservationId = reservationId;
-                ApartmentId = apartmentId;
-                ApartmentImg = apartmentImg;
-                ApartmentName = apartmentName;
-                StartDate = startDate;
-                EndDate = endDate;
-                IsCanceled = isCanceled;
-            }
-            public int ReservationId { get; private set; }
-            public int ApartmentId { get; private set; }
-            public string ApartmentImg { get; private set; }
-            public string ApartmentName { get; private set; }
-            public DateTime StartDate { get; private set; }
-            public DateTime EndDate { get; private set; }
-            public bool IsCanceled { get; private set; }
-
-        }
-
-        //method gets a bool parameter isFutureReservations
-        //if isFutureReservations is true method returns a string with the data of 
-        //the users future reservations
-        //else method returns a string with the data of the users past reservations
-        public string getUsersReservations(string email, bool isFutureReservations)
-        {
-            SqlConnection con = SqlConnect.Connect();
-
-            // Create Command
-            SqlCommand command = CreateGetUsersReservations(con, email, isFutureReservations);
-
-            SqlDataReader dr = command.ExecuteReader();
-
-            List<reservationData> reservationsData = new List<reservationData>();
-
-            while (dr.Read())
-            {
-                int reservationId = Convert.ToInt32(dr["reservationId"]);
-                int apartmentId = Convert.ToInt32(dr["apartmentId"]);
-                string apartmentImg = dr["apartmentImg"].ToString();
-                string apartmentName = dr["apartmentName"].ToString();
-                DateTime startDate = Convert.ToDateTime(dr["startDate"]);
-                DateTime endDate = Convert.ToDateTime(dr["endDate"]);
-                bool isCanceled = Convert.ToBoolean(dr["isCanceled"]);
-
-                reservationsData.Add(new reservationData(reservationId, apartmentId, apartmentImg, apartmentName, startDate, endDate, isCanceled));
-            }
-
-            con.Close();
-
-            return JsonConvert.SerializeObject(reservationsData);
-        }
-
-        //invoke SP_GetUsersFutureReservations or SP_GetUsersPastReservations stored procedure
-        //depends on the "isFutureReservations" boolean
-        private SqlCommand CreateGetUsersReservations(SqlConnection con, string email, bool isFutureReservations)
-        {
-            SqlCommand command = new SqlCommand();
-
-            command.Parameters.AddWithValue("@email", email);
-            if(isFutureReservations)
-                 command.CommandText = "SP_GetUsersFutureReservations";
-            else
-                command.CommandText = "SP_GetUsersPastReservations";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
-
 
     }
 }

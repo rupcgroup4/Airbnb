@@ -1,12 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using RupBNB.Models;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Configuration;
 using System.Web.Http;
 
 namespace RupBNB.Controllers
@@ -93,14 +89,13 @@ namespace RupBNB.Controllers
         [Route("api/Users/getUsersReservations")]
         public HttpResponseMessage getUsersReservations(string email, bool isFutureReservations)
         {
-            User u = new User();
+            User u = new User(email);
             try
             {   
-                //userReservationData is JObject (reservation and apartment fields)
-                string usersReservationsData = u.getUsersReservations(email, isFutureReservations);
-                if (usersReservationsData != null)
+                u.Reservations = u.UserReservations(isFutureReservations);
+                if (u.Reservations.Count != 0)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, usersReservationsData);
+                    return Request.CreateResponse(HttpStatusCode.OK, u.Reservations);
                 }
                 else
                 {

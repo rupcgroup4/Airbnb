@@ -72,10 +72,7 @@ namespace WebApplication1.Models.DAL
                         }
 
                     }
-                    else
-                    {
-
-                    }
+                  
 
                 }
             }
@@ -264,7 +261,7 @@ namespace WebApplication1.Models.DAL
                                 InsertAppartment(new Apartment(
                                     Convert.ToInt32(values[0]),
                                     values[1],
-                                    values[2],
+                                    new Host(values[2]),
                                     values[3],
                                     values[4],
                                     values[5],
@@ -333,7 +330,7 @@ namespace WebApplication1.Models.DAL
 
             command.Parameters.AddWithValue("@propertyType", apartment.PropertyType);
             command.Parameters.AddWithValue("@name", apartment.Name);
-            command.Parameters.AddWithValue("@hostEmail", apartment.HostEmail);
+            command.Parameters.AddWithValue("@hostEmail", apartment.Host.Email);
             command.Parameters.AddWithValue("@description", apartment.Description);
             command.Parameters.AddWithValue("@img", apartment.Img);
             command.Parameters.AddWithValue("@neighborhood", apartment.Neighborhood);
@@ -404,7 +401,7 @@ namespace WebApplication1.Models.DAL
 
                                     InsertReview(new Review(
                                         Convert.ToInt32(values[1]),
-                                        Convert.ToInt32(values[0]),
+                                        new Apartment(Convert.ToInt32(values[0])),
                                         values[3],
                                         reviewDate,
                                         values[5]
@@ -476,7 +473,7 @@ namespace WebApplication1.Models.DAL
 
                                 InsertReview(new Review(
                                     Convert.ToInt32(values[1]),
-                                    Convert.ToInt32(values[0]),
+                                    new Apartment(Convert.ToInt32(values[0])),
                                     values[3],
                                     reviewDate,
                                     values[4]
@@ -528,7 +525,7 @@ namespace WebApplication1.Models.DAL
 
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@apartmentId", review.ApartmentId);
+            command.Parameters.AddWithValue("@apartmentId", review.Apartment.Id);
             command.Parameters.AddWithValue("@userName", review.UserName);
             command.Parameters.AddWithValue("@reviewDate", review.ReviewDate);
             command.Parameters.AddWithValue("@comments", review.Comments);

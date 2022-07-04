@@ -17,9 +17,17 @@ namespace RupBNB.Models
         string lastName;
         DateTime birthDate;
         DateTime userRegisteredSince;
+        List<Reservation> reservations;
 
         //default constructor
         public User() { }
+
+        //consturctor with only email
+        public User(string email) 
+        { 
+            Email = email; 
+            Reservations = new List<Reservation>();
+        }
 
         //all fields constructor
         public User(string email, string userName,  string password, string firstName, string lastName, DateTime birthDate, DateTime userRegisteredSince)
@@ -41,6 +49,7 @@ namespace RupBNB.Models
         public string LastName { get => lastName; set => lastName = value; }
         public DateTime BirthDate { get => birthDate; set => birthDate = value; }
         public DateTime UserRegisteredSince { get => userRegisteredSince; set => userRegisteredSince = value; }
+        public List<Reservation> Reservations { get => reservations; set => reservations = value; }
 
         //Insert new user function
         //send the user details to inser user stored procedure
@@ -68,10 +77,10 @@ namespace RupBNB.Models
         //method gets a users email and bool that determends if method will get 
         //users future or past reservations.
         //returns a string with users reservations info to view
-        public string getUsersReservations(string email, bool isFutureReservations)
+        public List<Reservation> UserReservations(bool isFutureReservations)
         {
-            UserServices ds = new UserServices();
-            return ds.getUsersReservations(email, isFutureReservations);
+            this.reservations = new Reservation().getReservationsByUserEmail(this.email, isFutureReservations);
+            return this.reservations;
         }
 
 

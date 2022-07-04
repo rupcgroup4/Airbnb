@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using RupBNB.Models.DAL;
+using WebApplication1.Models;
 
 namespace RupBNB.Models
 {
     public class Review
     {
         int id;
-        int apartmentId;
+        Apartment apartment;
         string userName;
         DateTime reviewDate;
         string comments;
@@ -18,10 +17,10 @@ namespace RupBNB.Models
         public Review() { }
 
         //review constructor
-        public Review(int id, int apartmentId, string userName, DateTime reviewDate, string comments)
+        public Review(int id, Apartment apartment, string userName, DateTime reviewDate, string comments)
         {
             this.Id = id;
-            this.ApartmentId = apartmentId;
+            this.Apartment = apartment;
             this.UserName = userName;
             this.ReviewDate = reviewDate;
             this.Comments = comments;
@@ -29,10 +28,10 @@ namespace RupBNB.Models
 
         //reservation getters and setters
         public int Id { get => id; set => id = value; }
-        public int ApartmentId { get => apartmentId; set => apartmentId = value; }
         public string UserName { get => userName; set => userName = value; }
         public DateTime ReviewDate { get => reviewDate; set => reviewDate = value; }
         public string Comments { get => comments; set => comments = value; }
+        public Apartment Apartment { get => apartment; set => apartment = value; }
 
         //method to get list of reviews by apartment id
         //return list of reviews

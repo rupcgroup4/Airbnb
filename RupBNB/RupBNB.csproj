@@ -199,6 +199,9 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="images\airbnb.png" />
+    <Content Include="images\superHost.png" />
+    <Content Include="images\user-avatar.png" />
+    <Content Include="images\verified.jpg" />
     <Content Include="Pages\adminView.html" />
     <Content Include="Pages\index.html" />
     <Content Include="Pages\createDB.html" />

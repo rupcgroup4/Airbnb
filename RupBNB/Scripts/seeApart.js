@@ -145,7 +145,7 @@ function checkDates() {
     minCheckOutDate.setDate(minCheckOutDate.getDate() + apartment.MinNight);
     $("#checkOutDatePicker").attr("min", minCheckOutDate.toISOString().split('T')[0]);
 
-    const diffTime = Math.abs(checkOutDate - checkInDate);
+    const diffTime = checkOutDate - checkInDate;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
 
     //check if differance bewtween checkOutDate and checkInDate is less that the minimum nights for the apartment
@@ -209,7 +209,7 @@ function SCBGetApartment(returnApartment) {
     let amenities = JSON.parse(apartment.Amenities);
     renderAmenties(amenities);
     //get host img and more details
-    getHostDetails(apartment.HostEmail);
+    getHostDetails(apartment.Host.Email);
     //get apartment reviews
     getReviews(apartment.Id, numOfPageReview);
     //calculate total price of current dates with apartment price
@@ -511,8 +511,8 @@ function makeReservation() {
         Id: 0,
         StartDate: startDate,
         EndDate: endDate,
-        ApartmentId: apartmentId,
-        UserEmail: userEmail,
+        Apartment: {Id: apartmentId},
+        User: {Email: userEmail},
         IsCanceled: 0
     }
 

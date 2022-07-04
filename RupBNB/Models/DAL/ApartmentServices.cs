@@ -88,6 +88,7 @@ namespace WebApplication1.Models.DAL
                 int id = Convert.ToInt32(dr["id"]);
                 string propertyType = Convert.ToString(dr["propertyType"]);
                 string hostEmail = Convert.ToString(dr["hostEmail"]);
+                Host host = new Host(hostEmail);
                 string name = Convert.ToString(dr["name"]);
                 string description = Convert.ToString(dr["description"]);
                 string img = Convert.ToString(dr["img"]);
@@ -109,7 +110,7 @@ namespace WebApplication1.Models.DAL
                 float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); 
                 float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); 
 
-                apartments.Add(new Apartment(id, propertyType, hostEmail, name, description,
+                apartments.Add(new Apartment(id, propertyType, host, name, description,
                     img, neighborhood, latitude, longtitude, distanceToCenterKM, roomType, numBathrooms, numBedrooms,
                     numBeds, accommodates, amenities, price, minNight, maxNight, rating, reviewAccuracy,
                     reviewsClean, reviewLocation));
@@ -156,6 +157,7 @@ namespace WebApplication1.Models.DAL
                 int id = Convert.ToInt32(dr["id"]);
                 string propertyType = Convert.ToString(dr["propertyType"]);
                 string hostEmail = Convert.ToString(dr["hostEmail"]);
+                Host host = new Host(hostEmail);
                 string name = Convert.ToString(dr["name"]);
                 string description = Convert.ToString(dr["description"]);
                 string img = Convert.ToString(dr["img"]);
@@ -177,7 +179,7 @@ namespace WebApplication1.Models.DAL
                 float reviewsClean = Convert.ToSingle(dr["reviewsClean"]); ;
                 float reviewLocation = Convert.ToSingle(dr["reviewLocation"]); ;
 
-                apartment = new Apartment(id, propertyType, hostEmail, name, description,
+                apartment = new Apartment(id, propertyType, host, name, description,
                     img, neighborhood, latitude, longtitude, distanceToCenterKM, roomType, numBathrooms, numBedrooms,
                     numBeds, accommodates, amenities, price, minNight, maxNight, rating, reviewAccuracy,
                     reviewsClean, reviewLocation);
