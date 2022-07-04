@@ -4,6 +4,11 @@ let flag_hostView = true;
 
 //render the users table when document ready
 $(document).ready(function () {
+    let admin = localStorage.getItem("CGroup4_manager");
+    if (admin == undefined) {
+        window.location.replace("index.html"); //Ask Stav and Yoav
+        return;
+    }
     renderUsersTables();
 });
 

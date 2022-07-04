@@ -28,18 +28,24 @@ function formatDate(date) {
 }
 
 //This function is called when "Apartment Details" button is clicked
-function seeApart(reservationId) {
+function seeApart(apartmentId) {
+    sessionStorage.setItem("CGroup4_apartmentId", apartmentId);
+    window.location.href = "seeApart.html";
+}
+//This function is called when "Order Details" button is clicked
+function seeInvoice(reservationId) {
     sessionStorage.setItem("CGroup4_reservationId", reservationId);
-
     window.location.href = "invoice.html";
 }
+
 
 //function gets a reservationId and canceles the reservation
 function cancelReservation(reservationId) {
     ajaxCall("PUT", `../api/Reservations/cancelReservation`, JSON.stringify(reservationId), cancelReservationSuccess, cancelReservationError);
 
 }
-
+//cancel reservation SCB function
+//update the page with the canceled order
 function cancelReservationSuccess(result) {
     console.log(result);
 
@@ -51,7 +57,7 @@ function cancelReservationSuccess(result) {
         text: 'Reservation canceled'
     })
 }
-
+//cancel reservation error call back
 function cancelReservationError(err) {
     Swal.fire({
         icon: 'error',
@@ -59,11 +65,12 @@ function cancelReservationError(err) {
         text: "couldn't cancel reservation"
     })
 }
-
+//this function make ajax call to get future 
 function getMyFutureReservations() {
     ajaxCall("GET", `../api/Users/getUsersReservations?email=${user.Email}&isFutureReservations=true`, "", getMyFutureReservationsSuccess, getMyFutureReservationsError);
 }
-
+//SCB for get future reservations
+//get the reservations and render to the screen
 function getMyFutureReservationsSuccess(usersReservationsData) {
     reservationsData = JSON.parse(usersReservationsData)
     console.log(reservationsData);
@@ -96,7 +103,7 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
                             <div class="bottom">
                                
                                 <div class="d-flex justify-content-between">
-                                    <input type="button" onclick="seeApart(${reservationsData[i].ReservationId})" class="btn btn-primary m-auto" value="Order Details">
+                                    <input type="button" onclick="seeInvoice(${reservationsData[i].ReservationId})" class="btn btn-primary m-auto" value="Order Details">
                                     ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].ReservationId})" class="btn btn-danger m-auto" value="Cancel">` : ""}
                                 </div>
                             </div>
@@ -106,7 +113,7 @@ function getMyFutureReservationsSuccess(usersReservationsData) {
     }
     $('#spinner').css('display', 'none');
 }
-
+//error callback of future reservation 
 function getMyFutureReservationsError(err) {
     if(err.status == 500) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
@@ -114,14 +121,16 @@ function getMyFutureReservationsError(err) {
     } 
     console.log("no future reservation");
 }
-
+//this function get called when press on past reservation tab in the page
+//called only once
 function getMyPastReservations() {
     if (!wasPastReservationsUsed) {
         ajaxCall("GET", `../api/Users/getUsersReservations?email=${user.Email}&isFutureReservations=false`, "", getMyPastReservationsSuccess, getMyPastReservationsError);
         wasPastReservationsUsed = true;
     }
 }
-
+//get past reservation success call back
+//render past reservation to the page
 function getMyPastReservationsSuccess(usersReservationsData) {
 
     let reservationsData = JSON.parse(usersReservationsData)
@@ -148,7 +157,7 @@ function getMyPastReservationsSuccess(usersReservationsData) {
         `)
     }
 }
-
+//error callback of past reservation 
 function getMyPastReservationsError(err) {
     if(err.status == 500) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
@@ -158,13 +167,40 @@ function getMyPastReservationsError(err) {
 }
 
 
+function getMyLikedApartments() {
+    let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
+    ajaxCall("GET", `../api/likedApartmentsByEmail?email=${userEmail}`, "", SCBGetLikedApartmentsByEmail, ECBGetLikedApartmentsByEmail);
+}
+function SCBGetLikedApartmentsByEmail(LikedApartments) {
+    for (let i = 0; i < LikedApartments.length; i++) {
+        $("#likedApartmentsContainer").append(`
+            <div class="col mt-2">
+                <div class="card h-100">
+                    <img src="${LikedApartments[i].Img}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">${LikedApartments[i].Name}</h5>
+                        <div class="bottom">
+                            <input type="button" onclick="seeApart(${LikedApartments[i].Id})" class="btn btn-primary" value="Apartment Details">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `)
+    }
+}
 
-
-
+function ECBGetLikedApartmentsByEmail(err) {
+    if (err.status == 500) {
+        sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+        window.location.replace("notFound.html");
+    }
+    console.log("no liked apartments");
+}
 
 //**********************Chat***************************
 
-
+//this function get called when press on send message button
+//get the the text from the input and push it to firebase
 function sendMessage() {
 
     let message = $("#newMessage").val();
@@ -184,7 +220,10 @@ function sendMessage() {
 
     //return false
 }
-
+//this function get called when document is ready
+//listen to the user message data base in fire base
+//and render new message to the screen
+//(on the frst load return all the user messages)
 function loadUserChat(user) {
     
     firebase.database().ref(user.UserName).on("child_added", snapshot => {

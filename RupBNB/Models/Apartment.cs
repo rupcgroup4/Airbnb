@@ -82,6 +82,13 @@ namespace WebApplication1.Models
             this.MinNight = minNight;
             this.Rating = rating;
         }
+        //constructor for apartments view in profiePage.html
+        public Apartment(int id, string name, string img)
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Img = img;
+        }
 
         //properties
         public int Id { get => id; set => id = value; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using RupBNB.Models.DAL;
+using WebApplication1.Models;
 
 namespace RupBNB.Models
 {
@@ -17,6 +18,10 @@ namespace RupBNB.Models
             this.ApartmentId = apartmentId;
         }
 
+        public LikedApartment()
+        {
+        }
+
         public string UserEmail1 { get => UserEmail; set => UserEmail = value; }
         public int ApartmentId { get => apartmentId; set => apartmentId = value; }
 
@@ -24,6 +29,11 @@ namespace RupBNB.Models
         {
             LikedApartmentsServices lAS = new LikedApartmentsServices();
             return lAS.LikedApartmentProcedure(this, stroredProcedure);
+        }
+        public List<Apartment> GetLikedApartmentsByEmail(string email)
+        {
+            LikedApartmentsServices lAS = new LikedApartmentsServices();
+            return lAS.GetLikedApartmentsByEmail(email);
         }
 
     }

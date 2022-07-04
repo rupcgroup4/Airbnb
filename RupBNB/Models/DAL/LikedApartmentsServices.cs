@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using WebApplication1.Models;
 
 namespace RupBNB.Models.DAL
 {
@@ -50,6 +51,47 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
+        //method gets user email and returns an liked apartment list, else null
+        public List<Apartment> GetLikedApartmentsByEmail(string email)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateGetLikedApartmentsByEmail(con, email);
+
+            SqlDataReader dr = command.ExecuteReader();
+
+            List<Apartment> la = null;
+            if (dr.HasRows)
+                la = new List<Apartment>();
+            while (dr.Read())
+            {
+                int apartmentId = Convert.ToInt32(dr["apartmentId"]);
+                string apartmentName = dr["apartmentName"].ToString();
+                string apartmentImg = dr["apartmentImg"].ToString();
+  
+                la.Add(new Apartment(apartmentId, apartmentName, apartmentImg));
+
+            }
+            con.Close();
+
+            return la;
+
+        }
+        //This function get user email and execute store procedure to get all liked apartments
+        private SqlCommand CreateGetLikedApartmentsByEmail(SqlConnection con, string email)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@email", email);
+
+            command.CommandText = "SP_GetLikedApartmentsByUserEmail";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
 
     }
 }
