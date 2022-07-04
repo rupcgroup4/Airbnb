@@ -1,6 +1,8 @@
 ﻿var user; //global paramater
 //boolean paramater that changes when the past reservation are shown (to prevent multiple ajax calls unneceserily to show the same thing)
 var wasPastReservationsUsed = false; 
+//boolean paramater that changes when the liked apartments are shown (to prevent multiple ajax calls unneceserily to show the same thing)
+var wasLikedApartmentsUsed = false; 
 
 //when document ready get the user from local storage
 //get the future reservations of the user
@@ -166,11 +168,17 @@ function getMyPastReservationsError(err) {
     console.log("no past reservation");
 }
 
-
+//this function get called when press on liked apartments tab in the page
+//called only once
 function getMyLikedApartments() {
-    let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
-    ajaxCall("GET", `../api/likedApartmentsByEmail?email=${userEmail}`, "", SCBGetLikedApartmentsByEmail, ECBGetLikedApartmentsByEmail);
+    if (!wasPastReservationsUsed) {
+        let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
+        ajaxCall("GET", `../api/likedApartmentsByEmail?email=${userEmail}`, "", SCBGetLikedApartmentsByEmail, ECBGetLikedApartmentsByEmail);
+        wasPastReservationsUsed = true
+    }
 }
+//get liked apartments success call back
+//render liked apartments to the page
 function SCBGetLikedApartmentsByEmail(LikedApartments) {
     for (let i = 0; i < LikedApartments.length; i++) {
         $("#likedApartmentsContainer").append(`
@@ -188,7 +196,7 @@ function SCBGetLikedApartmentsByEmail(LikedApartments) {
         `)
     }
 }
-
+//error callback of liked apartments 
 function ECBGetLikedApartmentsByEmail(err) {
     if (err.status == 500) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
