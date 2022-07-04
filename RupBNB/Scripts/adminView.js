@@ -6,8 +6,9 @@ let flag_hostView = true;
 $(document).ready(function () {
     let admin = localStorage.getItem("CGroup4_manager");
     if (admin == undefined) {
-        window.location.replace("index.html"); //Ask Stav and Yoav
-        return;
+
+        sessionStorage.setItem("CGroup4_errorMessage", "405 Not Allowed"); //Ask Stav and Yoav
+        window.location.replace("notFound.html"); 
     }
     renderUsersTables();
 });
@@ -231,6 +232,7 @@ function ECBgeneral(err) {
 
 //**********************Chat********************************
 
+
 //hold the current user that open in the chat
 let activeUserInChat;
 
@@ -281,11 +283,13 @@ firebase.database().ref().on("child_added", snapshot => {
 //add user as a line to the chat window with the users chat seen on the left
 function createListForEachUser(user) {
 
+    //random avatar to each user
+    let avatarNum = Math.floor(Math.random() * 8) + 1;
     $("#usersContainer").append(
 
         `
             <li id="${user}" class="clearfix" onclick="renderUserMessages(this.id)">
-                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                <img src="https://bootdey.com/img/Content/avatar/avatar${avatarNum}.png" alt="avatar">
                 <div class="about">
                     <div class="name">${user}</div>
                 </div>
@@ -310,6 +314,7 @@ function listenToUser(user) {
         }
 
         chatArr[user].push(message);
+
 
         //if a message from the user currently open on screen has arrived update the chat
         //view to to display the message- purpose is to show real time change in open chat 

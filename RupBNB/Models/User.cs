@@ -44,7 +44,7 @@ namespace RupBNB.Models
 
         //Insert new user function
         //send the user details to inser user stored procedure
-        public User Insert()
+        public int Insert()
         {
             UserServices ds = new UserServices();
             return ds.InsertUser(this); 
@@ -55,7 +55,7 @@ namespace RupBNB.Models
         public User getUserByEmail(String email)
         {
             UserServices ds = new UserServices();
-            return ds.userExists(email);
+            return ds.userEmailExists(email); //userEmailExists return matching the inputed email
         }
 
         //Admin view users information

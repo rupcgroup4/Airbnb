@@ -1,4 +1,7 @@
-﻿//on document activate submit function to the signUp form
+﻿//hold global user for sign up - to enable uniqe check email ,username in insert new user
+let newUser;
+
+//on document activate submit function to the signUp form
 $(document).ready(function() {
 	$("#signUpForm").submit(submitSignUpForm);
 });
@@ -13,8 +16,9 @@ function submitSignUpForm() {
 	let firstName = $("#firstName").val();
 	let lastName = $("#lastName").val();
 	let birthDate = $("#birthDate").val();
+
 	
-	let newUser = {
+	newUser = {
 		Email: email,
 		UserName: userName,
 		Password: password,
@@ -72,9 +76,10 @@ function check18Age() {
 
 //sign up SCB, save the user details to local storage
 //redirect to index.html
-function submitSignUpFormSuccess(user)
-{
-	localStorage.setItem("CGroup4_user", JSON.stringify(user));
+function submitSignUpFormSuccess(status) {
+	//status == 0 user doesnt exists, add was added to Database
+	localStorage.setItem("CGroup4_user", JSON.stringify(newUser));
+	newUser = null;
 	window.location.replace("index.html");
 }
 
@@ -83,14 +88,28 @@ function submitSignUpFormSuccess(user)
 //else the user was already in the system and was not created
 function submitSignUpFormError(err) {
 
+	console.log(err.responseText)
 	if (err.status == 500) {
 		sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
 		window.location.replace("notFound.html");
 	}
+	//err.responseText == 1 user email is already exists
+	else if (err.responseText == 1) {
+		newUser = null;
+		Swal.fire({
+			icon: 'error',
+			title: 'Oops...',
+			text: 'Email already in our system'
+		})
+	}
+	//err.responseText == 2 username is already exists
+	else {
+		newUser = null;
+		Swal.fire({
+			icon: 'error',
+			title: 'Oops...',
+			text: 'Username already in our system'
+		})
+	}
 
-	Swal.fire({
-		icon: 'error',
-		title: 'Oops...',
-		text: 'Email already in our system'
-	})
 }

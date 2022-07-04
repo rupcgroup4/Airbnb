@@ -23,15 +23,22 @@ namespace RupBNB.Controllers
         {
             try
             {
-                User signedUser = user.Insert();
+                int status = user.Insert();
 
-                if (signedUser != null)
+                //status == 0 user doesnt exists, add was added to Database
+                if (status == 0)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, signedUser);
+                    return Request.CreateResponse(HttpStatusCode.OK, "");
                 }
+                //status == 1 user email is already exists
+                else if (status == 1)
+                {
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, 1);
+                }
+                //status == 2 username is already exists
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.Unauthorized);
+                    return Request.CreateResponse(HttpStatusCode.Unauthorized, 2);
                 }
 
             } catch (Exception ex)

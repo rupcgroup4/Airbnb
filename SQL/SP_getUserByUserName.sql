@@ -14,13 +14,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
--- Author:		cgroup4
--- Create date: 20.5.22
--- Description:	SP get user by email
+-- Author:		CGroup4
+-- Create date: 4.7.22
+-- Description:	SP get users username
 -- =============================================
-CREATE PROCEDURE SP_GetUserByEmail
+CREATE PROCEDURE SP_getUserByUserName
 	-- Add the parameters for the stored procedure here
-@email nvarchar(64)
+@username nvarchar(30)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -28,6 +28,6 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	SELECT email FROM UsersDB WHERE [email] = @email
+	SELECT userName FROM UsersDB WHERE userName = @username
 END
 GO
