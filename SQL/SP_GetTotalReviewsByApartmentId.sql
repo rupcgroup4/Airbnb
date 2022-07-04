@@ -14,13 +14,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
--- Author:		cgroup4
--- Create date: 20.5.22
--- Description:	SP get user by email
+-- Author:		CGroup4
+-- Create date: 4.7.22
+-- Description:	SP get total reviews by apartment id
 -- =============================================
-CREATE PROCEDURE SP_GetUserByEmail
+CREATE PROCEDURE SP_GetTotalReviewsByApartmentId
 	-- Add the parameters for the stored procedure here
-@email nvarchar(64)
+@apartmentId int
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -28,6 +28,8 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	SELECT * FROM UsersDB WHERE [email] = @email
+	select count(*) as totalReviews
+	from Reviews as R
+	where R.apartmentId = @apartmentId
 END
 GO

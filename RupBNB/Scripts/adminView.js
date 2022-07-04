@@ -286,7 +286,6 @@ function createListForEachUser(user) {
     //random avatar to each user
     let avatarNum = Math.floor(Math.random() * 8) + 1;
     $("#usersContainer").append(
-
         `
             <li id="${user}" class="clearfix" onclick="renderUserMessages(this.id)">
                 <img src="https://bootdey.com/img/Content/avatar/avatar${avatarNum}.png" alt="avatar">
