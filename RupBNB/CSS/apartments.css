@@ -75,7 +75,6 @@
 
 #serachFilter{
     height: 40px;
-    overflow-y: auto;
 }
 
 
@@ -89,6 +88,9 @@
 }
 
 
+
+
+
 @media only screen and (max-width: 600px) {
     #cards {
         max-height: none;
@@ -98,6 +100,12 @@
     }
     #searchFilterContainer {
         width: 100%;
+    }
+    .buttonText {
+        display: none;
+    }
+    .icon_class {
+        font-size: 1.5rem;
     }
 }
 
