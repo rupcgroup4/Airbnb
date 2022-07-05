@@ -1,6 +1,14 @@
-﻿//on document load activate submit to login form
+﻿
+//if user is loged in and tries to go to login.html from url
+if (window.localStorage.getItem('CGroup4_user') != null) {
+	window.location.replace("index.html");
+}
+
+//on document load activate submit to login form
 //and add on click to signup button to redirect to signUp page
 $(document).ready(function () {
+
+	
 
 	$("#loginForm").submit(submitLoginForm);
 	$("#signUpBTN").click(function () {
@@ -42,9 +50,7 @@ function adminLogIn(password) {
 		});
 	}
 
-	let isAdmin = true;
-
-	localStorage.setItem("CGroup4_manager", JSON.stringify(isAdmin));
+	localStorage.setItem("CGroup4_user", JSON.stringify({ Email: "admin@gmail.com" }));
 	window.location.replace("adminView.html");
 
 }

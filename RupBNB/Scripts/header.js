@@ -6,24 +6,28 @@ $(document).ready(function() {
     let isLogin = '<li><a class="dropdown-item" href="login.html">Log In</a></li>'
     let userLink = '<li><a class="dropdown-item" href="signUp.html">Sign Up</a></li>'
 
-    //Header options when user log in
+    
     if (localStorage["CGroup4_user"] != undefined) {
-        userLink = '<li><a class="dropdown-item" href="profilePage.html">Profile</a></li>'
-        isLogin = '<li><a onclick="logOut()" class="dropdown-item" href="#">Log Out</a></li>'
-    }
-
-    //Header options when manager logIn
-    if (localStorage["CGroup4_manager"] != undefined) { 
-        manager =
-            `
+        user = JSON.parse(localStorage["CGroup4_user"]);
+        //Header options when user log in
+        if (user.Email != "admin@gmail.com") {
+            userLink = '<li><a class="dropdown-item" href="profilePage.html">Profile</a></li>'
+            isLogin = '<li><a onclick="logOut()" class="dropdown-item" href="#">Log Out</a></li>'
+        }
+        //Header options when manager logIn
+        else{
+            manager =
+                `
                 <li class="nav-item">
                     <a class="nav-link" href="adminView.html">Manager</a>
                 </li>
             `;
 
-        isLogin = '<li><a onclick="logOut()" class="dropdown-item" href="#">Log Out</a></li>';
-        userLink = '';
+            isLogin = '<li><a onclick="logOut()" class="dropdown-item" href="#">Log Out</a></li>';
+            userLink = '';
+        }
     }
+    
 
     $("#MainHeader")
     .append(
@@ -63,6 +67,5 @@ $(document).ready(function() {
 //remove user / mangager from session storage and redirect to index.html
 function logOut() {
     localStorage.removeItem("CGroup4_user");
-    localStorage.removeItem("CGroup4_manager");
     window.location.replace("index.html");
 }
