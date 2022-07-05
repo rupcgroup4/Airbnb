@@ -418,6 +418,10 @@ function updateReviewsButtons() {
 //SCB function of getReviews
 //render the reviews to the page
 function getReviewsSCB(reviews) {
+    if (reviews == undefined) {
+        $("#reviewDiv").hide();
+        return;
+    }
 
     $("#numReviews").html(`${apartment.Rating} · ${totalReviews} reviews`)
 
