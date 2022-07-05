@@ -295,3 +295,7 @@
         max-width: 260px;
     }
 }
+
+.users {
+    display: list-item;
+}

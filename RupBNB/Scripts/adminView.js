@@ -311,7 +311,7 @@ function createListForEachUser(user) {
     //let avatarNum = Math.floor(Math.random() * 8) + 1;
     $("#usersContainer").append(
         `
-            <li id="${user}" class="clearfix" onclick="renderUserMessages(this.id)">
+            <li id="${user}" class="clearfix users" onclick="renderUserMessages(this.id)">
                 <div id="${user}Notification" class="position-relative">
                     <img src="../images/user-avatar.png" alt="avatar">
                 </div>
@@ -416,5 +416,20 @@ function changeAllUserMessagesToseen(username) {
     
     for (let i = 0; i < chatArr[username].messages.length; i++) {
         firebase.database().ref(username).child(chatArr[username].messages[i].messageKey).update({ isRead: true });
+    }
+}
+//Search user by username
+function searchUser() {
+    let input = document.getElementById('searchText').value
+    input = input.toLowerCase();
+    let x = document.getElementsByClassName('users');
+
+    for (i = 0; i < x.length; i++) {
+        if (!x[i].innerHTML.toLowerCase().includes(input)) {
+            x[i].style.display = "none";
+        }
+        else {
+            x[i].style.display = "list-item";
+        }
     }
 }
