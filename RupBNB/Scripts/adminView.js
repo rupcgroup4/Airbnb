@@ -59,6 +59,7 @@ function SCBReadUsers(usersData) {
     try {
         tbl = $('#UserTable').DataTable({
             data: users,
+            order: [[4, 'desc']],
             pageLength: 10,
             responsive: true,
             dom: 'Bfrtip',
@@ -115,6 +116,7 @@ function SCBReadHosts(hostsData) {
     try {
         tbl = $('#HostTable').DataTable({
             data: hosts,
+            order: [[4, 'desc']],
             pageLength: 10,
             responsive: true,
             dom: 'Bfrtip',
@@ -172,6 +174,7 @@ function SCBReadApartments(apartmentsData) {
     try {
         tbl = $('#ApartmentTable').DataTable({
             data: apartments,
+            order: [[2, 'desc']],
             pageLength: 10,
             responsive: true,
             dom: 'Bfrtip',
