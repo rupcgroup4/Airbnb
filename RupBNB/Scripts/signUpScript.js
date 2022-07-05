@@ -1,8 +1,16 @@
 ﻿//hold global user for sign up - to enable uniqe check email ,username in insert new user
 let newUser;
 
+//if user is loged in and tries to go to signUp.html from url
+if (window.localStorage.getItem('CGroup4_user') != null) {
+	window.location.replace("index.html");
+}
+
 //on document activate submit function to the signUp form
-$(document).ready(function() {
+$(document).ready(function () {
+
+	
+
 	$("#signUpForm").submit(submitSignUpForm);
 });
 

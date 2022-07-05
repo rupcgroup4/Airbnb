@@ -2,14 +2,20 @@
 let flag_apartmentView = true;
 let flag_hostView = true;
 
-//render the users table when document ready
-$(document).ready(function () {
-    let admin = localStorage.getItem("CGroup4_manager");
-    if (admin == undefined) {
+//if a user that is not the admin tries to see adminView.html
+if (localStorage.getItem("CGroup4_user") != undefined) {
+    admin = JSON.parse(localStorage.getItem("CGroup4_user"));
+    if (admin.Email != "admin@gmail.com") {
 
         sessionStorage.setItem("CGroup4_errorMessage", "405 Not Allowed"); //Ask Stav and Yoav
-        window.location.replace("notFound.html"); 
+        window.location.replace("notFound.html");
     }
+}
+
+//render the users table when document ready
+$(document).ready(function () {
+
+    
     renderUsersTables();
 });
 

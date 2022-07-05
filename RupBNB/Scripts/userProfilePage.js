@@ -4,15 +4,23 @@ var wasPastReservationsUsed = false;
 //boolean paramater that changes when the liked apartments are shown (to prevent multiple ajax calls unneceserily to show the same thing)
 var wasLikedApartmentsUsed = false; 
 
+//check if user is undefined or manager-redirect
+user = JSON.parse(localStorage.getItem('CGroup4_user'));
+if (user == undefined) {
+    window.location.replace("index.html");
+}
+if (user.Email == "admin@gmail.com") {
+    window.location.replace("adminView.html");
+}
+
 //when document ready get the user from local storage
 //get the future reservations of the user
 //load the firebase chat
 $(document).ready(function () {
+
     $('#spinner').css('display', 'block');
-    user = JSON.parse(window.localStorage.getItem('CGroup4_user'))
-    if (user == undefined) {
-        window.location.replace("index.html");
-    }
+
+
     $("#username").html(user.UserName);
     getMyFutureReservations();
 
