@@ -37,15 +37,15 @@ h4 {
     height: 60px;
     width: 20%;
     margin: 0 auto;
-    text-align: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
-#price {
+#price, #minNight {
     margin-left: 1rem;
     margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
 }
 
 #bookBTN {

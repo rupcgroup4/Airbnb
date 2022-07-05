@@ -242,6 +242,9 @@ function setMinDates() {
     $("#checkInDatePicker").attr("min", minCheckInDate.toISOString().split('T')[0]);
     $("#checkOutDatePicker").attr("min", minCheckOutDate.toISOString().split('T')[0]);
     $("#price").prepend("$" + apartment.Price);
+    if(apartment.MinNight > 1) {
+        $("#minNight").prepend(`${apartment.MinNight}<span style="font-weight: 300;"> - Nights minimum</span>`);
+    }
 }
 
 //this function render apartment scores ratings section in the page
