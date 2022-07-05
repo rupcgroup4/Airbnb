@@ -121,13 +121,6 @@ namespace WebApplication1.Models
         public Host Host { get => host; set => host = value; }
 
 
-        //return Apartments object order by rating (from high to low) from start row to end row
-        public List<Apartment> getXNumberOfApartmentsSortedByRating(int rowStart, int rowEnd)
-        {
-            ApartmentServices ds = new ApartmentServices();
-            return ds.getXNumberOfApartmentsSortedByRating(rowStart, rowEnd);
-        }
-
         //method gets apartments id and returns an apartment matching the id if found, else null
         public Apartment getApartmentById(int id)
         {
