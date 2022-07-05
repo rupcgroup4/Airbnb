@@ -7,7 +7,6 @@ namespace RupBNB.Models
 {
     public class Reservation
     {
-        //fields
         int id;
         DateTime startDate;
         DateTime endDate;
@@ -18,6 +17,7 @@ namespace RupBNB.Models
 
         //reservation default constructor
         public Reservation() { }
+
 
         //reservation constructor
         public Reservation(int id, DateTime startDate, DateTime endDate, Apartment apartment, User user, bool isCanceled, bool hasReview)
@@ -30,6 +30,7 @@ namespace RupBNB.Models
             this.isCanceled = isCanceled;
             this.hasReview = hasReview;
         }
+
 
         //reservation getters and setters
         public int Id { get => id; set => id = value; }
@@ -62,9 +63,6 @@ namespace RupBNB.Models
             return ds.getReservationById(id);
         }
 
-        //method gets a users email and bool that determends if method will get 
-        //users future or past reservations.
-        //returns a string with users reservations info to view
         public List<Reservation> getReservationsByUserEmail(string email, bool isFutureReservations)
         {
             ReservationServices rs = new ReservationServices();

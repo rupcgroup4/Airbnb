@@ -38,6 +38,7 @@ namespace RupBNB.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+       
         //Post request to insert new liked apartment to database
         //get LikedApartment object and create the object in the SQl table
         //return status code 200 if success
@@ -58,6 +59,8 @@ namespace RupBNB.Controllers
             }
          
         }
+
+
         //Delete request to delete an existing apartment from database
         //get LikedApartment object and delete the object from the SQl table
         //return status code 200 if success

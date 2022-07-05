@@ -11,7 +11,7 @@ namespace RupBNB.Controllers
 {
     public class ApartmentsController : ApiController
     {
-        //GET method- gets apartment id and return HttpResponseMessage accordingly,
+        //GET method- gets apartmentd id and return HttpResponseMessage accordingly,
         //when apartment matching the id found, returns also the apartment
         [HttpGet]
         [Route("api/Apartments/{id}")] //Route to get an apartment by id
@@ -26,14 +26,17 @@ namespace RupBNB.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotFound);
                 else
                     return Request.CreateResponse(HttpStatusCode.OK, a); //return status code 200 and apartment
+
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
+
         }
-        //POST method- gets list of apartments return HttpResponseMessage accordingly,
-        //List of apartments that have passed the filter
+
+     
+        
         [HttpPost]
         [Route("api/apartmentsSearch")] //Route to get apartment by query
         public HttpResponseMessage Post([FromBody] JObject data)
@@ -42,6 +45,7 @@ namespace RupBNB.Controllers
             try
             {
                 List<Apartment> apartments = a.getApartmentsBySearchFilter(data);
+
                 if (apartments.Count == 0)
                 {
                     return Request.CreateResponse(HttpStatusCode.NoContent);
@@ -50,11 +54,17 @@ namespace RupBNB.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, apartments);
                 }
+
             } 
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
+           
         }
+
+
+
+
     }
 }

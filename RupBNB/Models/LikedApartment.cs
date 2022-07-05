@@ -6,10 +6,10 @@ namespace RupBNB.Models
 {
     public class LikedApartment
     {
-        //fields
         User user;
         Apartment apartment;
 
+        
         //deafult constructor
         public LikedApartment()
         {

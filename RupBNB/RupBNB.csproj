@@ -159,6 +159,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ApartmentsController.cs" />
+    <Compile Include="Controllers\DBController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\LikedApartmentsController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
@@ -203,6 +204,7 @@
     <Content Include="images\verified.jpg" />
     <Content Include="Pages\adminView.html" />
     <Content Include="Pages\index.html" />
+    <Content Include="Pages\createDB.html" />
     <Content Include="Pages\invoice.html" />
     <Content Include="Pages\login.html" />
     <Content Include="Pages\notFound.html" />

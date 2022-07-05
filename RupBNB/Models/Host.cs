@@ -7,7 +7,6 @@ namespace WebApplication1.Models
 {
     public class Host : User
     {
-        //fields
         DateTime hostSince;
         string location;
         string about;
@@ -48,8 +47,12 @@ namespace WebApplication1.Models
         {
         }
 
+
         //host default constructor
         public Host() { }
+
+
+
 
         //host getters and setters
         public DateTime HostSince { get => hostSince; set => hostSince = value; }

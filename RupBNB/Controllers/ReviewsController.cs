@@ -11,11 +11,11 @@ namespace RupBNB.Controllers
 {
     public class ReviewsController : ApiController
     {
-        //GET method - gets apartment id and numOfPageReview,
-        //numOfPageReview represent an indication of which pagination page we are on,
-        //and makes a SQL query for the amount of 6 reviews
+        // [Route("Employee/Gender/{Gender}/City/{CityId}"
+
+        //Route to get an reviews by apartment by id
         [HttpGet]
-        [Route("api/Reviews/apartmentId/{apartmentId}/numOfPageReview/{numOfPageReview}")] //Route to get an reviews by apartment by id
+        [Route("api/Reviews/apartmentId/{apartmentId}/numOfPageReview/{numOfPageReview}")]
         public HttpResponseMessage Get(int apartmentId, int numOfPageReview)
         {
             try
@@ -29,15 +29,17 @@ namespace RupBNB.Controllers
                 else
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, reviews);
+
                 }
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+
             }
         }
 
-        //GET - method gets apartmentId and returns the number of reviews it has
+        //GEt- method gets apartmentId and returns the number of reviews it has
         [HttpGet]
         [Route("api/Apartments/getTotalReviews/{apartmentId}")]
         public HttpResponseMessage getTotalReviews(int apartmentId)
@@ -53,13 +55,16 @@ namespace RupBNB.Controllers
                 else
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, totalReviews);
+
                 }
             }
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+
             }
         }
+
         //Post request to insert new review to database
         //get review object and create the object in the SQl table
         //return true and status code 201 if success
@@ -69,6 +74,7 @@ namespace RupBNB.Controllers
             try
             {
                 bool status = rev.InsertReview();
+
                 if (status)
                 {
                     return Request.CreateResponse(HttpStatusCode.Created, status);

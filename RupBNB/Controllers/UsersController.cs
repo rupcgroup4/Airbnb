@@ -21,6 +21,7 @@ namespace RupBNB.Controllers
             try
             {
                 int status = user.Insert();
+
                 //status == 0 user doesnt exists, add was added to Database
                 if (status == 0)
                 {
@@ -36,11 +37,14 @@ namespace RupBNB.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.Unauthorized, 2);
                 }
+
             } catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
+
         }
+
         //post request when user login
         //get email and password of the user
         //get the user from the data base and check if the passwords are match
@@ -79,7 +83,8 @@ namespace RupBNB.Controllers
             }
             
         }
-        //GET request to get user reservations
+
+        //get request to get user reservations
         //return future/past reservation depending on the boolean "isFutureReservations"
         [HttpGet]
         [Route("api/Users/getUsersReservations")]
@@ -102,8 +107,10 @@ namespace RupBNB.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
 
             }
+
         }
-        //GET request - profilePage.html gets the liked apartments
+
+        //Get request - profilePage.html gets the liked apartments
         //return the apartments list and status code 200 if success
         //else return error code (no content if null or internal error if was and exception)
         [HttpGet]

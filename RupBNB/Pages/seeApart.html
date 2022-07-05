@@ -34,11 +34,14 @@
         <div id="apartmentDetails" class="row m-auto mt-3 mt-md-5">
             <div class="col-12 col-md-7">
                 <div class="card mb-3">
+                  
                     <img id="image" src="" class="card-img-top" alt="...">   
+                        
                     <div class="card-body">
                         <div class="row">
                             <div class="col-10 col-md-11">
                                 <h5 id="name" class="card-title"></h5>
+                                
                             </div>
                             <div class="col-2 col-md-1">
                                 <i id="saveIcon" class="fa-regular fa-bookmark fa-2x" ></i>
@@ -47,6 +50,7 @@
                                 <p id="underName" class="d-flex"></p>
                             </div>
                         </div>
+                        
                         <hr>
                         <p id="description" class="card-text">
                             <span id="dots">...</span>
@@ -80,6 +84,7 @@
                 <div id="reviews" class="row row-cols-1 row-cols-md-2 mt-3"></div>
             </div>
         </div>
+
         <!-- Reserve Footer -->
         <div id="reserve" class="fixed-bottom d-flex justify-content-between">
             <div>
@@ -89,6 +94,8 @@
             <!-- Button trigger modal -->
             <button id="bookBTN" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reserveModal">Reserve</button>
         </div>
+        
+
         <!-- Reserve Modal -->
         <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -106,9 +113,11 @@
                                 <input type="date" class="form-control" id="checkOutDatePicker">
                             </div>
                         </div>
+
                         <div class="mt-3 text-center">
                             <img src="#" id="modalImage">
                         </div>
+
                         <div class="bg-white p-2 px-3 mt-3 border-bottom">
 
                             <div class="row">
@@ -127,6 +136,8 @@
                                                 <span>Anytime after 3PM</span>
                                             </div>
                                         </div>
+
+
                                         <div class="check-out">
                                             <div class="d-flex flex-row align-items-center">
                                                 <h1 id="checkOutDate">25</h1>
@@ -139,14 +150,19 @@
                                                 <span>Check out</span>
                                                 <span>11AM</span>
                                             </div>
+
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="bg-white p-2 px-3 border-bottom">
+
                         <div class="row">
+
                             <div class="col">
                                 <h2>Price details</h2>
                                 <div class="d-flex justify-content-between">
@@ -156,6 +172,8 @@
                             </div>
                         </div>
                     </div>
+
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-danger" id="makeReservation">Reserve</button>
@@ -163,6 +181,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAFo09_zZh1zxvdJJrnwYzJBTIBCqgmsk&callback=initMap&v=weekly"

@@ -78,17 +78,16 @@ namespace RupBNB.Models
             return ds.GetUsersInfo();
         }
 
-        //method gets a bool that determends if method will get 
+        //method gets a users email and bool that determends if method will get 
         //users future or past reservations.
-        //returns a list of reservation
+        //returns a string with users reservations info to view
         public List<Reservation> UserReservations(bool isFutureReservations)
         {
             this.reservations = new Reservation().getReservationsByUserEmail(this.email, isFutureReservations);
             return this.reservations;
         }
 
-        //method to get apartments that a user liked
-        //returns a list of liked apartment object
+
         public List<LikedApartment> getUserLikedApartments()
         {
             LikedApartment la = new LikedApartment();

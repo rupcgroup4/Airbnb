@@ -28,6 +28,7 @@
         <div id="MainHeader">
 
         </div>
+
         <div id="formContainer">
             <form id="signUpForm">
                 <div class="mb-3">
@@ -44,7 +45,7 @@
                 <div class="mb-3">
                     <label for="forUserName" class="form-label"> UserName</label>
                     <input type="text" id="userName"
-                           pattern="[a-zA-Z0-9]{3,30}"
+                           pattern="[A-Za-z]{3,30}"
                            oninvalid="this.setCustomValidity('User Name must be Minimun 3 characters - only letters')"
                            oninput="this.setCustomValidity('')"
                            class="form-control"

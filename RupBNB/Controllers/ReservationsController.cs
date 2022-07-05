@@ -10,10 +10,9 @@ namespace RupBNB.Controllers
 {
     public class ReservationsController : ApiController
     {
-        //GET method- gets reservation id and return HttpResponseMessage accordingly,
-        //when reservation matching the id found, returns also the reservation
+        //Route to get an reservation by id
         [HttpGet]
-        [Route("api/Reservations/{id}")] //Route to get an reservation by id
+        [Route("api/Reservations/{id}")]
         public HttpResponseMessage Get(int id)
         {
             try
@@ -29,7 +28,10 @@ namespace RupBNB.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
+          
         }
+
+
         //Post request to insert new reservation to database
         //get reservation object and create the object in the SQl table
         //return the reservation and status code 201 if success
@@ -52,13 +54,12 @@ namespace RupBNB.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
+            
         }
-        //PUT request to cancel an existing reservation from database
-        //get reservation id and delete the object from the SQl table
-        //return status code 200 if success
-        //else return error code (internal error if was and exception)
+
+        //Route to cancel reservstion
         [HttpPut]
-        [Route("api/Reservations/cancelReservation")] //Route to cancel reservstion
+        [Route("api/Reservations/cancelReservation")]
         public HttpResponseMessage Put([FromBody] int reservationId)
         {
             try
@@ -79,11 +80,9 @@ namespace RupBNB.Controllers
             }
         }
 
-        //PUT request - get leave review to apartment by reservation id
-        //return status code 200 if success
-        //else return error code (no found if null or internal error if was and exception)
+        //Route to apartment has review by user
         [HttpPut]
-        [Route("api/Reservations/ApartmentHasReview")] //Route to apartment has review by user
+        [Route("api/Reservations/ApartmentHasReview")]
         public HttpResponseMessage PutReview([FromBody] int reservationId)
         {
             try
