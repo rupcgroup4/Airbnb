@@ -7,12 +7,17 @@ namespace RupBNB.Models.DAL
 {
     public class LikedApartmentsServices
     {
-        //Insert Liked Apartment
-        public bool LikedApartmentProcedure(LikedApartment la, string storedProcedure)
+        //general procedure for likedApartments
+        //method gets a likedApartment and a string representing a stored procedure name to execute
+        //the stored procedure options are:
+        //SP_DeleteLikedApartment : delete an already liked apartment
+        //SP_Insert_Liked_Apartments : like an apartments
+        //SP_Is_Liked_Apartments_Exist : check if an apartment is liked (used in users profilePrage when rendering likedApartment)
+        public bool LikedApartmentGeneralProcedure(LikedApartment la, string storedProcedure)
         {
             SqlConnection con = SqlConnect.Connect();
 
-            SqlCommand command = CreateLikeApartmentCommand(con, la, storedProcedure);
+            SqlCommand command = CreateLikedApartmentGeneralProcedure(con, la, storedProcedure);
 
             Boolean result = false;
             if (storedProcedure == "SP_Is_Liked_Apartments_Exist")
@@ -32,8 +37,9 @@ namespace RupBNB.Models.DAL
         }
 
 
-        //invoke store procedure SP_Insert_Liked_Apartments
-        private SqlCommand CreateLikeApartmentCommand(SqlConnection con, LikedApartment la, string storedProcedure)
+        //invoke store procedure according to the storedProcedure string inputed 
+        //(SP_DeleteLikedApartment / SP_Insert_Liked_Apartments / SP_Is_Liked_Apartments_Exist)
+        private SqlCommand CreateLikedApartmentGeneralProcedure(SqlConnection con, LikedApartment la, string storedProcedure)
         {
             SqlCommand command = new SqlCommand();
 

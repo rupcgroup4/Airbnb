@@ -26,12 +26,12 @@ namespace RupBNB.Models
         public User User { get => user; set => user = value; }
         public Apartment Apartment { get => apartment; set => apartment = value; }
 
-        //Method to add or remove likeApartment 
-        //get string - "stroredProcedure" that represents a storedprocedure (insert or delete)
-        public bool LikedApartmentProcedure(string stroredProcedure)
+        //Method to add or remove likeApartment or check if an apartment is liked
+        //get string - "stroredProcedure" that represents a storedprocedure (insert or delete or select)
+        public bool LikedApartmentGeneralProcedure(string stroredProcedure)
         {
             LikedApartmentsServices lAS = new LikedApartmentsServices();
-            return lAS.LikedApartmentProcedure(this, stroredProcedure);
+            return lAS.LikedApartmentGeneralProcedure(this, stroredProcedure);
         }
 
         //this method get user email and return a list with all his likeApartment

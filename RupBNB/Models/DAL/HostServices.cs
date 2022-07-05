@@ -59,8 +59,7 @@ namespace WebApplication1.Models.DAL
         }
 
         //this function check if host exsist in data base
-        //get host email and return a host if host is found
-        //else return null
+        //get host email and return a boolean representing if host is found
         public bool HostExists(string email)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -76,7 +75,7 @@ namespace WebApplication1.Models.DAL
             return flag;
         }
 
-        //method gets host email and return back host
+        //method gets host email and return host matching the inputed email, else return null
         public Host GetHostByEmail(string email)
         {
             SqlConnection con = SqlConnect.Connect();
