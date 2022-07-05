@@ -18,6 +18,7 @@ namespace RupBNB.Models
         DateTime birthDate;
         DateTime userRegisteredSince;
         List<Reservation> reservations;
+        List<LikedApartment> likedApartments;
 
         //default constructor
         public User() { }
@@ -27,6 +28,7 @@ namespace RupBNB.Models
         { 
             Email = email; 
             Reservations = new List<Reservation>();
+            likedApartments = new List<LikedApartment>();
         }
 
         //all fields constructor
@@ -39,6 +41,8 @@ namespace RupBNB.Models
             this.lastName = lastName;
             this.birthDate = birthDate;
             this.UserRegisteredSince = userRegisteredSince;
+            Reservations = new List<Reservation>();
+            likedApartments = new List<LikedApartment>();
         }
 
         //Getters ans Setters
@@ -81,6 +85,13 @@ namespace RupBNB.Models
         {
             this.reservations = new Reservation().getReservationsByUserEmail(this.email, isFutureReservations);
             return this.reservations;
+        }
+
+
+        public List<LikedApartment> getUserLikedApartments()
+        {
+            LikedApartment la = new LikedApartment();
+            return la.GetLikedApartmentsByEmail(this.email);
         }
 
 

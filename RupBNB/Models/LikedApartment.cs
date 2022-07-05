@@ -6,28 +6,36 @@ namespace RupBNB.Models
 {
     public class LikedApartment
     {
-        string userEmail;
-        int apartmentId;
+        User user;
+        Apartment apartment;
 
-        public string UserEmail { get => userEmail; set => userEmail = value; }
-        public int ApartmentId { get => apartmentId; set => apartmentId = value; }
-
+        
+        //deafult constructor
         public LikedApartment()
         {
         }
 
-        public LikedApartment(string userEmail, int apartmentId)
+        //Constructor
+        public LikedApartment(User user, Apartment apartment)
         {
-            this.UserEmail = userEmail;
-            this.ApartmentId = apartmentId;
+            User = user;
+            Apartment = apartment;
         }
 
+        //Getters and Setters
+        public User User { get => user; set => user = value; }
+        public Apartment Apartment { get => apartment; set => apartment = value; }
+
+        //Method to add or remove likeApartment 
+        //get string - "stroredProcedure" that represents a storedprocedure (insert or delete)
         public bool LikedApartmentProcedure(string stroredProcedure)
         {
             LikedApartmentsServices lAS = new LikedApartmentsServices();
             return lAS.LikedApartmentProcedure(this, stroredProcedure);
         }
-        public List<Apartment> GetLikedApartmentsByEmail(string email)
+
+        //this method get user email and return a list with all his likeApartment
+        public List<LikedApartment> GetLikedApartmentsByEmail(string email)
         {
             LikedApartmentsServices lAS = new LikedApartmentsServices();
             return lAS.GetLikedApartmentsByEmail(email);

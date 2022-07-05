@@ -75,9 +75,9 @@ function clickedOnLikedApartmentIcon() {
         let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
         let apartmentId = apartment.Id;
         let data = {
-            UserEmail: userEmail,
-            ApartmentId: apartmentId
-        }
+            User: {Email: userEmail},
+            Apartment: {Id: apartmentId}
+        };
 
         if ($("#saveIcon").hasClass("fa-solid")) {
 

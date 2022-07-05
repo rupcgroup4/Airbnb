@@ -21,7 +21,7 @@ namespace RupBNB.Controllers
             bool status = false;
             try
             {
-                LikedApartment la = new LikedApartment(email, id);
+                LikedApartment la = new LikedApartment(new User(email), new Apartment(id));
                 status = la.LikedApartmentProcedure("SP_Is_Liked_Apartments_Exist");
 
                 if (status)
@@ -38,34 +38,7 @@ namespace RupBNB.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-        //Get request - profilePage.html gets the liked apartments
-        //return the apartments list and status code 200 if success
-        //else return error code (no content if null or internal error if was and exception)
-        [HttpGet]
-        [Route("api/likedApartmentsByEmail")]
-        public HttpResponseMessage Get(string email)
-        {
-            try
-            {
-                LikedApartment la = new LikedApartment();
-                List<Apartment> l = new List<Apartment>();
-
-                l = la.GetLikedApartmentsByEmail(email);
-
-                if (l != null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.OK, l);
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.NoContent);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
+       
         //Post request to insert new liked apartment to database
         //get LikedApartment object and create the object in the SQl table
         //return status code 200 if success

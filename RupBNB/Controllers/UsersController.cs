@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using RupBNB.Models;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -107,6 +108,33 @@ namespace RupBNB.Controllers
 
             }
 
+        }
+
+        //Get request - profilePage.html gets the liked apartments
+        //return the apartments list and status code 200 if success
+        //else return error code (no content if null or internal error if was and exception)
+        [HttpGet]
+        [Route("api/likedApartmentsByEmail")]
+        public HttpResponseMessage Get(string email)
+        {
+            try
+            {
+                User user = new User(email);
+                List<LikedApartment> l = user.getUserLikedApartments();
+
+                if (l != null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, l);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
     }

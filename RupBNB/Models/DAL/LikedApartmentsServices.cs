@@ -37,8 +37,8 @@ namespace RupBNB.Models.DAL
         {
             SqlCommand command = new SqlCommand();
 
-            command.Parameters.AddWithValue("@email", la.UserEmail);
-            command.Parameters.AddWithValue("@apartmentId", la.ApartmentId);
+            command.Parameters.AddWithValue("@email", la.User.Email);
+            command.Parameters.AddWithValue("@apartmentId", la.Apartment.Id);
             
 
             command.CommandText = storedProcedure;
@@ -50,7 +50,7 @@ namespace RupBNB.Models.DAL
         }
 
         //method gets user email and returns an liked apartment list, else null
-        public List<Apartment> GetLikedApartmentsByEmail(string email)
+        public List<LikedApartment> GetLikedApartmentsByEmail(string email)
         {
             SqlConnection con = SqlConnect.Connect();
 
@@ -59,16 +59,18 @@ namespace RupBNB.Models.DAL
 
             SqlDataReader dr = command.ExecuteReader();
 
-            List<Apartment> la = null;
+            List<LikedApartment> la = null;
             if (dr.HasRows)
-                la = new List<Apartment>();
+                la = new List<LikedApartment>();
+                User user = new User(email);
             while (dr.Read())
             {
                 int apartmentId = Convert.ToInt32(dr["apartmentId"]);
                 string apartmentName = dr["apartmentName"].ToString();
                 string apartmentImg = dr["apartmentImg"].ToString();
-  
-                la.Add(new Apartment(apartmentId, apartmentName, apartmentImg));
+                Apartment apartment = new Apartment(apartmentId, apartmentName, apartmentImg);
+
+                la.Add(new LikedApartment(user, apartment));
 
             }
             con.Close();
