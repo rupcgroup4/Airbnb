@@ -28,7 +28,7 @@ $(document).ready(function() {
         }
     }
     
-
+    //render the navbar
     $("#MainHeader")
     .append(
         `

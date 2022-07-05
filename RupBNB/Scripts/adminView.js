@@ -14,8 +14,6 @@ if (localStorage.getItem("CGroup4_user") != undefined) {
 
 //render the users table when document ready
 $(document).ready(function () {
-
-    
     renderUsersTables();
 });
 
@@ -234,7 +232,6 @@ function ECBgeneral(err) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
         window.location.replace("notFound.html");
     }
-    
 }
 
 
@@ -250,12 +247,12 @@ let activeUserInChat;
 //  {userName1: {unReadMessagesCounter: unReadMessagesCounter, 
 //               messages: [{ messagesObject1 }, { messagesObject2 }] }
 //  }
-//  {userName2: [{messagesObject1},{messagesObject2}]}
+//  {userName2: {unReadMessagesCounter: unReadMessagesCounter, 
+//               messages: [{ messagesObject1 }, { messagesObject2 }] }
+//  }
 //]
 let chatArr = [];
 
-//save the number of unread messages of a specific user
-let unReadMessagesCounter;
 
 //this function send message from the manager to user (by activeUserInChat)
 function sendMessage() {
@@ -285,6 +282,7 @@ function sendMessage() {
 
 //listen for new users that was added to DB (in first loading this function automaticly return all the users)
 firebase.database().ref().on("child_added", snapshot => {
+    //populate the chat array the array
     const user = snapshot.key;
     chatArr[user]=new Object()
     chatArr[user].unReadMessagesCounter = 0;
@@ -299,16 +297,21 @@ firebase.database().ref().on("child_added", snapshot => {
 
 });
 
+//this function update the amount of unread messages each user have
+//been called everytime a new message arrive (unread: true)
 function updateUserUnreadNotification(user) {
 
+    //clear user notifications
     $(`#${user}NotificationSpan`).remove(); //clear users notifications
 
     if (chatArr[user].unReadMessagesCounter > 0) { //unread messages of the specific user
-        $(`#${user}Notification`).append(`
-                    <span id="${user}NotificationSpan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        ${chatArr[user].unReadMessagesCounter}
-                        <span class="visually-hidden">unread messages</span>
-                    </span>`);
+        $(`#${user}Notification`).append(
+            `
+                <span id="${user}NotificationSpan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    ${chatArr[user].unReadMessagesCounter}
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            `);
     }
 }
 
@@ -371,8 +374,6 @@ function renderUserMessages(user) {
 
     $("#activeUserChatDetails").removeClass("hide");
     $("#adminMessageBox").removeClass("hide");
-
-
 
     $(".chat-list li").removeClass("active"); //remove class that colors currently active user from all users
 

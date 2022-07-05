@@ -1,13 +1,16 @@
-﻿
+﻿//used to get the name of month from date variable
 months = {
     0: "Jan", 1: "Feb", 2: "Mar", 3: "Apr", 4: "May", 5: "Jun",
     6: "Jul", 7: "Aug", 8: "Sep", 9: "Oct", 10: "Nov", 11: "Dec"
 };
-
+////used to get the name of days from date variable
 days = { 0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursaday", 5: "Friday", 6: "Saturday" };
 
+//Global Parameter
 let apartment;
 
+//check if has reservationId in local storage
+//make ajax call to get reservation details
 $(document).ready(function () {
 
     let reservationId = sessionStorage.getItem("CGroup4_reservationId");
@@ -17,9 +20,9 @@ $(document).ready(function () {
 
     $('#spinner').css('display', 'block');
 
-    ajaxCall("GET", `../api/Reservations/${reservationId}`, "", SCBGetReservation, ECBGetReservation);
+    ajaxCall("GET", `../api/Reservations/${reservationId}`, "", SCBGetReservation, ECB);
 
-    document.getElementById("apartmentView").addEventListener("click", function () {
+    $("#apartmentView").click( () => {
         window.location.replace("seeApart.html");
     });
 });
@@ -30,7 +33,7 @@ function SCBGetReservation(returnReservation) {
     reservation = returnReservation
 
     let apartmentId = reservation.Apartment.Id;
-    ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
+    ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECB);
 }
 
 
@@ -60,6 +63,8 @@ function SCBGetApartment(returnApartment) {
         <small>CONFIRMATION NUMBER: #${reservation.Id}</small>
 
     `);
+
+    //calculate differnce in day and the price of the reservation
     let difference = checkOut - checkIn;
     const TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
     $("#TotalNights").append(TotalDays);
@@ -70,48 +75,42 @@ function SCBGetApartment(returnApartment) {
         `
             
              <div class="col">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="check-in">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <h1 id="checkInDate">24</h1>
-                                                <div class="d-flex flex-column ml-2 date">
-                                                    <span id="checkInMonthAndYear">July 20</span>
-                                                    <span id="checkInDay">Friday</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-column ml-2 date">
-                                                <span>Check in</span>
-                                                <span>Anytime after 3PM</span>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="check-out">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <h1 id="checkOutDate">25</h1>
-                                                <div class="d-flex flex-column ml-2 date">
-                                                    <span id="checkOutMonthAndYear">July 20</span>
-                                                    <span id="checkOutDay">Friday</span>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-column ml-2 date">
-                                                <span>Check out</span>
-                                                <span>11AM</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="check-in">
+                        <div class="d-flex flex-row align-items-center">
+                            <h1 id="checkInDate">24</h1>
+                            <div class="d-flex flex-column ml-2 date">
+                                <span id="checkInMonthAndYear">July 20</span>
+                                <span id="checkInDay">Friday</span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column ml-2 date">
+                            <span>Check in</span>
+                            <span>Anytime after 3PM</span>
+                        </div>
+                    </
+                    <div class="check-out">
+                        <div class="d-flex flex-row align-items-center">
+                            <h1 id="checkOutDate">25</h1>
+                            <div class="d-flex flex-column ml-2 date">
+                                <span id="checkOutMonthAndYear">July 20</span>
+                                <span id="checkOutDay">Friday</span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column ml-2 date">
+                            <span>Check out</span>
+                            <span>11AM</span>
+                        </
+                    </div>
+                </div>
+            </div>
         `
     )
     //render date to Modal
     writeDate("checkIn", checkIn);
     writeDate("checkOut", checkOut);
     //get host img and more details
-    getHostDetails(apartment.Host.Email);
+    ajaxCall("GET", `../api/Hosts?email=${hostEmail}`, "", SCBGetHostDetails, ECB);
 }
 //This function get inOrOut = ["checkIn" or "checkOut"] and a date
 //then set the date in the modal accordingly to inOrOut
@@ -125,10 +124,6 @@ function writeDate(inOrOut, date) {
     $(`#${inOrOut}MonthAndYear`).html(month + " " + year);
     $(`#${inOrOut}Day`).html(day);
 }
-
-function getHostDetails(hostEmail) {
-    ajaxCall("GET", `../api/Hosts?email=${hostEmail}`, "", SCBGetHostDetails, ECBGetHostDetails);
-}
 //this function is the success call back of getHostDetails
 //the response is host details that will be render to the screen
 function SCBGetHostDetails(host) {
@@ -137,26 +132,18 @@ function SCBGetHostDetails(host) {
             <hr>
             <div class="col">
                 <h4 id="hostInfo">Contact info</h4>
-                  <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
                     <h5>${host.FirstName} </h5>
                     <h5>${host.Email}</h5>
-                 </div>
+                </div>
             </div>
             <hr>
         `
     )
 }
 
-function ECBGetHostDetails(error) {
-    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
-    window.location.replace("notFound.html");
-}
-
-function ECBGetApartment(error) {
-    sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
-    window.location.replace("notFound.html");
-}
-function ECBGetReservation(error) {
+//general error callback functions
+function ECB(error) {
     sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
     window.location.replace("notFound.html");
 }

@@ -372,7 +372,6 @@ function ECBGetHostDetails(error) {
     window.location.replace("notFound.html");
 }
 
-//?????????????????????????????????????????????????
 //ajax call to get the reviews of the apartment
 function getReviews(apartmentId, numOfPageReview) {
    // ajaxCall("GET", `../api/Reviews?apartmentId=${apartmentId}&numOfPageReview=${numOfPageReview}`, "", getReviewsSCB, getReviewsECB);
@@ -499,6 +498,8 @@ function expandReview(reviewId) {
     }
 }
 
+//get review error call back
+//redirect to not found
 function getReviewsECB(error) {
     sessionStorage.setItem("CGroup4_errorMessage", error.responseText);
     window.location.replace("notFound.html");
