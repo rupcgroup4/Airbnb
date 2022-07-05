@@ -13,8 +13,7 @@ namespace RupBNB.Models
         Apartment apartment;
         User user;
         bool isCanceled;
-
-       
+        //bool hasReview;
 
         //reservation default constructor
         public Reservation() { }
