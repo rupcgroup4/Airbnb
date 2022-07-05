@@ -238,7 +238,9 @@ let activeUserInChat;
 
 //asscoiative array of users and their messages
 //[
-//  {userName1: [{messagesObject1},{messagesObject2}]}]
+//  {userName1: {unReadMessagesCounter: unReadMessagesCounter, 
+//               messages: [{ messagesObject1 }, { messagesObject2 }] }
+//  }
 //  {userName2: [{messagesObject1},{messagesObject2}]}
 //]
 let chatArr = [];
@@ -275,20 +277,31 @@ function sendMessage() {
 //listen for new users that was added to DB (in first loading this function automaticly return all the users)
 firebase.database().ref().on("child_added", snapshot => {
     const user = snapshot.key;
-    chatArr[user] = new Array();
+    chatArr[user]=new Object()
+    chatArr[user].unReadMessagesCounter = 0;
+    chatArr[user].messages = new Array();
     //create new line in the chat for the user and render to the screen 
     createListForEachUser(user);
     //listen to the user messages and render to the screen
     listenToUser(user);
-    if (unReadMessagesCounter > 0) { //unread messages of the specific user
-        $(`${user}Notification`).append(`
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        ${unReadMessagesCounter}
-                        <span class="visually-hidden">unread messages</span>
-                    </span>`);
+    if (chatArr[user].unReadMessagesCounter > 0) { //unread messages of the specific user
+        updateUserUnreadNotification(user);
     }
 
 });
+
+function updateUserUnreadNotification(user) {
+
+    $(`#${user}NotificationSpan`).remove(); //clear users notifications
+
+    if (chatArr[user].unReadMessagesCounter > 0) { //unread messages of the specific user
+        $(`#${user}Notification`).append(`
+                    <span id="${user}NotificationSpan" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        ${chatArr[user].unReadMessagesCounter}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>`);
+    }
+}
 
 
 //add user as a line to the chat window with the users chat seen on the left
@@ -316,6 +329,7 @@ function createListForEachUser(user) {
 function listenToUser(user) {
     unReadMessagesCounter = 0;
     firebase.database().ref(user).on("child_added", snapshot => {
+
         const message = {
             messageKey: snapshot.key, 
             sender: snapshot.val().sender,
@@ -325,9 +339,7 @@ function listenToUser(user) {
             isRead: snapshot.val().isRead,
         }
 
-        
-
-        chatArr[user].push(message);
+        chatArr[user].messages.push(message);
         console.log(chatArr[user]);
 
         //if a message from the user currently open on screen has arrived update the chat
@@ -336,7 +348,8 @@ function listenToUser(user) {
             addMessage(message);
         }
         else if (message.sender != "manager" && !message.isRead) {
-            unReadMessagesCounter++;
+            chatArr[user].unReadMessagesCounter++;
+            updateUserUnreadNotification(user);
         }
 
     });
@@ -360,11 +373,14 @@ function renderUserMessages(user) {
     $("#activeUserChat").html(user); //display users name in #activeUserChat div
 
     //render all users messages to screen
-    for (let i = 0; i < chatArr[user].length; i++) {
-        addMessage(chatArr[user][i])
+    for (let i = 0; i < chatArr[user].messages.length; i++) {
+        addMessage(chatArr[user].messages[i])
     }
 
-    changeAllUserMessagesToseen(user); //??????????/
+    changeAllUserMessagesToseen(user);
+
+    chatArr[user].unReadMessagesCounter = 0; //update users number of unread messages
+    updateUserUnreadNotification(user);
 
 }
 
@@ -398,7 +414,7 @@ function addMessage(message) {
 //function gets a username and changes the isRead field of all the users messgaes to true
 function changeAllUserMessagesToseen(username) {
     
-    for (let i = 0; i < chatArr[username].length; i++) {
-        firebase.database().ref(username).child(chatArr[username][i].messageKey).update({ isRead: true });
+    for (let i = 0; i < chatArr[username].messages.length; i++) {
+        firebase.database().ref(username).child(chatArr[username].messages[i].messageKey).update({ isRead: true });
     }
 }
