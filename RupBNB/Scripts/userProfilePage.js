@@ -282,7 +282,7 @@ function sendMessage() {
         "message": message,
         "messageDate": currentDateStr,
         "messageTime": currentTimeStr,
-        "isRead": "F", 
+        "isRead": false, 
     })
 
     //return false

@@ -243,6 +243,9 @@ let activeUserInChat;
 //]
 let chatArr = [];
 
+//save the number of unread messages of a specific user
+let unReadMessagesCounter;
+
 //this function send message from the manager to user (by activeUserInChat)
 function sendMessage() {
 
@@ -263,7 +266,8 @@ function sendMessage() {
         "sender": "manager",
         "message": message,
         "messageDate": currentDateStr, 
-        "messageTime": currentTimeStr
+        "messageTime": currentTimeStr,
+        "isRead": false,  //???
     })
 
 }
@@ -276,6 +280,13 @@ firebase.database().ref().on("child_added", snapshot => {
     createListForEachUser(user);
     //listen to the user messages and render to the screen
     listenToUser(user);
+    if (unReadMessagesCounter > 0) { //unread messages of the specific user
+        $(`${user}Notification`).append(`
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        ${unReadMessagesCounter}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>`);
+    }
 
 });
 
@@ -284,11 +295,13 @@ firebase.database().ref().on("child_added", snapshot => {
 function createListForEachUser(user) {
 
     //random avatar to each user
-    let avatarNum = Math.floor(Math.random() * 8) + 1;
+    //let avatarNum = Math.floor(Math.random() * 8) + 1;
     $("#usersContainer").append(
         `
             <li id="${user}" class="clearfix" onclick="renderUserMessages(this.id)">
-                <img src="../images/user-avatar.png" alt="avatar">
+                <div id="${user}Notification" class="position-relative">
+                    <img src="../images/user-avatar.png" alt="avatar">
+                </div>
                 <div class="about">
                     <div class="name">${user}</div>
                 </div>
@@ -301,24 +314,29 @@ function createListForEachUser(user) {
 //listen to a specific user and add his messages to the messages array
 //if the user is now active in the chat, add the message also to the chat
 function listenToUser(user) {
-
+    unReadMessagesCounter = 0;
     firebase.database().ref(user).on("child_added", snapshot => {
-
         const message = {
+            messageKey: snapshot.key, 
             sender: snapshot.val().sender,
             message: snapshot.val().message,
             messageDate: snapshot.val().messageDate,
             messageTime: snapshot.val().messageTime,
-
+            isRead: snapshot.val().isRead,
         }
 
-        chatArr[user].push(message);
+        
 
+        chatArr[user].push(message);
+        console.log(chatArr[user]);
 
         //if a message from the user currently open on screen has arrived update the chat
         //view to to display the message- purpose is to show real time change in open chat 
         if ($("#activeUserChat").text() == user) {
             addMessage(message);
+        }
+        else if (message.sender != "manager" && !message.isRead) {
+            unReadMessagesCounter++;
         }
 
     });
@@ -345,6 +363,8 @@ function renderUserMessages(user) {
     for (let i = 0; i < chatArr[user].length; i++) {
         addMessage(chatArr[user][i])
     }
+
+    changeAllUserMessagesToseen(user); //??????????/
 
 }
 
@@ -373,4 +393,12 @@ function addMessage(message) {
             </li>
         `
     );
+}
+
+//function gets a username and changes the isRead field of all the users messgaes to true
+function changeAllUserMessagesToseen(username) {
+    
+    for (let i = 0; i < chatArr[username].length; i++) {
+        firebase.database().ref(username).child(chatArr[username][i].messageKey).update({ isRead: true });
+    }
 }
