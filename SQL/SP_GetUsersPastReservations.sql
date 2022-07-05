@@ -29,7 +29,7 @@ BEGIN
 
     -- Insert statements for procedure here
 	select R.id as reservationId, A.id as apartmentId, A.img as apartmentImg,
-	   A.name as apartmentName,R.startDate, R.endDate, R.isCanceled   
+	   A.name as apartmentName,R.startDate, R.endDate, R.isCanceled, hasReview   
 	from Reservations as R inner join
 		 Apartments as A on R.apartmentId=A.id
 	where R.userEmail=@email and
