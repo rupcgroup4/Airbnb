@@ -36,8 +36,8 @@ namespace RupBNB.Models.DAL
 
         }
 
-        //this function check if user exsist in data base
-        //get user email and return a user if usere found
+        //this function check if user exist in data base
+        //get user email and return a user if user found
         //else return null
         public User userEmailExists(String email)
         {
@@ -65,8 +65,9 @@ namespace RupBNB.Models.DAL
             return u;
 
         }
-        //this function check if user name exsist in data base
-        //get user name and return a boolean representing if user found
+
+        //this function check if user name exist in data base
+        //get username and return a boolean representing if user found- username is unique (becuase of key in chat)
         public bool userNameExists(string username)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -96,6 +97,7 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
+
         //invoke stored procedure SP_getUserByUserName
         private SqlCommand CreateGetUserByUserName(SqlConnection con, string username)
         {

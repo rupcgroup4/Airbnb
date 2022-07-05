@@ -27,6 +27,7 @@ namespace RupBNB.Models.DAL
             return numAffected == 1 ? true : false;
 
         }
+
         //This function get Review and execute store procedure to insert new review
         private SqlCommand CreateInsertReview(SqlConnection con, Review review)
         {
@@ -46,40 +47,8 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
-        //this function check if review exsist in data base
-        //get review id and return a review if review is found
-        //else return null
-        public bool ReviewExists(int id)
-        {
-            SqlConnection con = SqlConnect.Connect();
-
-            // Create Command
-            SqlCommand command = CreateReviewExists(con, id);
-
-            SqlDataReader dr = command.ExecuteReader();
-
-            bool flag = dr.HasRows;
-            con.Close();
-
-            return flag;
-
-
-        }
-        //This function get review id and execute store procedure to get review
-        private SqlCommand CreateReviewExists(SqlConnection con, int id)
-        {
-            SqlCommand command = new SqlCommand();
-
-            command.Parameters.AddWithValue("@id", id);
-
-            command.CommandText = "SP_GetReviewById";
-            command.Connection = con;
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandTimeout = 10; // in seconds
-
-            return command;
-        }
-        //method to get list of reviews by apartment id
+        //method returns a list of reviews by apartmentId (number of reviews is 6- will 
+        //get relavent reviews according to numOfPageReview, currently to display)
         public List<Review> GetReviewsByApartmentId(int apartmentId, int numOfPageReview)
         {
             SqlConnection con = SqlConnect.Connect();
