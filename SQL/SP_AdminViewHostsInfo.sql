@@ -44,6 +44,7 @@ ISNULL(MT.NumOfApartments,0) as TotalRents,
 ISNULL(MT.TotalCanceled,0) AS TotalCanceled,
 ISNULL(MT.TotalPrice,0) as TotalPrice
 from MyTable AS MT right join Hosts AS H on MT.email = H.email 
+order by H.hostSince DESC
 
 END
 GO

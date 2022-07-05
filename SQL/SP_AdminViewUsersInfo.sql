@@ -46,6 +46,7 @@ ISNULL(MT.TotalRents,0) as TotalRents,
 ISNULL(MT.TotalCanceled,0) AS TotalCanceled,
 ISNULL(MT.TotalPrice,0) as TotalPrice
 from MyTable AS MT right join UsersDB AS UD on MT.email = UD.email 
+order by UD.userRegisteredSince DESC
 
 END
 GO
