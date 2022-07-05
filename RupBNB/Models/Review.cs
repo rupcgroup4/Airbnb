@@ -7,13 +7,14 @@ namespace RupBNB.Models
 {
     public class Review
     {
+        //fields
         int id;
         Apartment apartment;
         string userName;
         DateTime reviewDate;
         string comments;
 
-        //host default constructor
+        //review default constructor
         public Review() { }
 
         //review constructor
@@ -26,14 +27,14 @@ namespace RupBNB.Models
             this.Comments = comments;
         }
 
-        //reservation getters and setters
+        //review getters and setters
         public int Id { get => id; set => id = value; }
         public string UserName { get => userName; set => userName = value; }
         public DateTime ReviewDate { get => reviewDate; set => reviewDate = value; }
         public string Comments { get => comments; set => comments = value; }
         public Apartment Apartment { get => apartment; set => apartment = value; }
 
-        //method to get list of reviews by apartment id
+        //method to get reviews of apartment by apartment id
         //return list of reviews
         public List<Review> GetReviewsByApartmentId(int apartmentId, int numOfPageReview)
         {
