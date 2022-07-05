@@ -164,10 +164,10 @@ function getMyPastReservationsError(err) {
 //this function get called when press on liked apartments tab in the page
 //called only once
 function getMyLikedApartments() {
-    if (!wasPastReservationsUsed) {
+    if (!wasLikedApartmentsUsed) {
         let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
         ajaxCall("GET", `../api/likedApartmentsByEmail?email=${userEmail}`, "", SCBGetLikedApartmentsByEmail, ECBGetLikedApartmentsByEmail);
-        wasPastReservationsUsed = true
+        wasLikedApartmentsUsed = true;
     }
 }
 //get liked apartments success call back

@@ -35,6 +35,6 @@ BEGIN
     -- Insert statements for procedure here
 	INSERT INTO UsersDB ([email],[username],[password], [firstName],[lastName], [birthDate],[userRegisteredSince])
 
-	VALUES(@email,@username, @password, @firstName, @lastName, @birthDate, getDate())
+	VALUES(@email,@username, @password, @firstName, @lastName, @birthDate, getdate())
 END
 GO
