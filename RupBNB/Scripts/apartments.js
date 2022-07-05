@@ -93,36 +93,39 @@ $(document).ready(function () {
     //this function create the date range in the search filter
     createCalander();
 
-    $("#searchTitle").click(()=>{
-        if (!searchIsOpen) {
-
-            $("#serachFilter").animate({height:"100%"},500);
-            $("#searchFilterContainer").animate({width:"100%"},500);
-            $("#searchTitle").toggleClass("d-block d-none");
-            $("#serachFilterContainer").toggleClass("d-flex d-none")
-            searchIsOpen = true;
-
-        }
-        
-    })
-
-    $("#closeSearch").click(()=> {
-        if(searchIsOpen) {
-            $("#serachFilter").animate({height:40},200);
-
-            if(isMobile) {
-                $("#searchFilterContainer").animate({width:"100%"},200);
-
-            } else {
-                $("#searchFilterContainer").animate({width:"40%"},200);
-            }
-            $("#searchTitle").toggleClass("d-block d-none");
-            $("#serachFilterContainer").toggleClass("d-flex d-none")
-            searchIsOpen = false;
-
-        }
-    })
+    //add clickEvent to the searchBar Header (only when in close mode) to open the search
+    $("#searchTitle").click(openSearchBar);
+    //add clickEvent to the button that close the search
+    $("#closeSearch").click(closeSearchBar);
 });
+
+//open the search bar
+function openSearchBar() {
+    if (!searchIsOpen) {
+        $("#serachFilter").animate({height:"100%"},500);
+        $("#searchFilterContainer").animate({width:"100%"},500);
+        $("#searchTitle").toggleClass("d-block d-none");
+        $("#serachFilterContainer").toggleClass("d-flex d-none")
+        searchIsOpen = true;
+    }
+}
+
+//close the search bar
+function closeSearchBar() {
+    if(searchIsOpen) {
+        $("#serachFilter").animate({height:40},200);
+
+        if(isMobile) {
+            $("#searchFilterContainer").animate({width:"100%"},200);
+
+        } else {
+            $("#searchFilterContainer").animate({width:"40%"},200);
+        }
+        $("#searchTitle").toggleClass("d-block d-none");
+        $("#serachFilterContainer").toggleClass("d-flex d-none")
+        searchIsOpen = false;
+    }
+}
 
 //Error callback for apartmentsSearch
 //failed to get apartment from server
@@ -161,39 +164,34 @@ function renderApartments(apartments) {
     }
     //found apartments
     firstLoadApartments = false;
-    console.log(apartments);
-        for (let i = 0; i < apartments.length; i++) {
-
-            //round the DistanceToCenterKM to one digit after the dot
-            let distanceRounded = Math.round(apartments[i].DistanceToCenterKM * 10) / 10
-
-            $("#cardContainer")
-                .append(`
-                <div class="col mt-3">
-                    <div onclick="seeApart(${apartments[i].Id}, ${apartments[i].MinNight})" class="card h-100">
-                        <div>
-                            <img src="${apartments[i].Img}" class="card-img-top img-apartment">
+    for (let i = 0; i < apartments.length; i++) {
+        //round the DistanceToCenterKM to one digit after the dot
+        let distanceRounded = Math.round(apartments[i].DistanceToCenterKM * 10) / 10
+        $("#cardContainer")
+            .append(`
+            <div class="col mt-3">
+                <div onclick="seeApart(${apartments[i].Id}, ${apartments[i].MinNight})" class="card h-100">
+                    <div>
+                        <img src="${apartments[i].Img}" class="card-img-top img-apartment">
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span><b><i class="fa-solid fa-star"></i> </b> ${apartments[i].Rating} </span>  
+                            <span><b>$</b>${apartments[i].Price}<span style="font-weight: 300;"> night</span></span>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <span><b><i class="fa-solid fa-star"></i> </b> ${apartments[i].Rating} </span>  
-                                <span><b>$</b>${apartments[i].Price}<span style="font-weight: 300;"> night</span></span>
-                            </div>
-                            <div class="apartName">
-                                <span>${ isDistanceFilter ? "Center: " + distanceRounded + "Km" : ""}</span>
-                                <h6 class="card-title">${apartments[i].Name}</h6>
-                            </div>
-                           
+                        <div class="apartName">
+                            <span>${ isDistanceFilter ? "Center: " + distanceRounded + "Km" : ""}</span>
+                            <h6 class="card-title">${apartments[i].Name}</h6>
                         </div>
                     </div>
                 </div>
-            `)
-
-            //pushe the apartments latitude and logtitude to apartments location array
-            locations.push({ lat: apartments[i].Latitude, lon: apartments[i].Longitude });
-        }
-        //diaplay all apartments locations on map
-        myMap(locations);
+            </div>
+        `)
+    //pushe the apartments latitude and logtitude to apartments location array
+        locations.push({ lat: apartments[i].Latitude, lon: apartments[i].Longitude });
+    }
+    //diaplay all apartments locations on map
+    myMap(locations);
 }
 
 
@@ -264,6 +262,7 @@ function search() {
         ToRow: 8,
     }
 
+    //ajax to get the apartment by the search query
     ajaxCall("POST", "../api/apartmentsSearch", JSON.stringify(serachQuery), apartmentsSearchSCB, getApartmentsECB);
     //clean all apartments cards
     $("#cardContainer").html("");

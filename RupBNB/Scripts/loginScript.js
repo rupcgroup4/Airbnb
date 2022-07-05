@@ -8,8 +8,6 @@ if (window.localStorage.getItem('CGroup4_user') != null) {
 //and add on click to signup button to redirect to signUp page
 $(document).ready(function () {
 
-	
-
 	$("#loginForm").submit(submitLoginForm);
 	$("#signUpBTN").click(function () {
 		window.location.replace('signUp.html');
@@ -34,6 +32,7 @@ function submitLoginForm() {
 		Password: password,
 	}
 
+	//ajax call for user login
 	ajaxCall("POST", "../api/Users/userlogin", JSON.stringify(emailAndPassword), submitLoginFormSuccess, submitLoginFormError);
 	return false;
 
@@ -48,10 +47,10 @@ function adminLogIn(password) {
 			title: 'Admin Log In',
 			text: 'Password incorrect'
 		});
+	} else {
+		localStorage.setItem("CGroup4_user", JSON.stringify({ Email: "admin@gmail.com" }));
+		window.location.replace("adminView.html");
 	}
-
-	localStorage.setItem("CGroup4_user", JSON.stringify({ Email: "admin@gmail.com" }));
-	window.location.replace("adminView.html");
 
 }
 

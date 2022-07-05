@@ -22,7 +22,7 @@ namespace RupBNB.Controllers
             try
             {
                 LikedApartment la = new LikedApartment(new User(email), new Apartment(id));
-                status = la.LikedApartmentProcedure("SP_Is_Liked_Apartments_Exist");
+                status = la.LikedApartmentGeneralProcedure("SP_Is_Liked_Apartments_Exist");
 
                 if (status)
                 {
@@ -48,7 +48,7 @@ namespace RupBNB.Controllers
         {
             try
             {
-                la.LikedApartmentProcedure("SP_Insert_Liked_Apartments");
+                la.LikedApartmentGeneralProcedure("SP_Insert_Liked_Apartments");
                 //
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
@@ -68,7 +68,7 @@ namespace RupBNB.Controllers
         {
             try
             {
-                la.LikedApartmentProcedure("SP_DeleteLikedApartment");
+                la.LikedApartmentGeneralProcedure("SP_DeleteLikedApartment");
                 //
                 return Request.CreateResponse(HttpStatusCode.OK);
             }

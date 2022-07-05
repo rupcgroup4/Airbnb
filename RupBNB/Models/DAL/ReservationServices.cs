@@ -41,6 +41,7 @@ namespace RupBNB.Models.DAL
             return num; 
 
         }
+
         //This function get Reservation and execute store procedure to insert new reservation
         private SqlCommand CreateInsertReservation(SqlConnection con, Reservation res)
         {
@@ -75,6 +76,7 @@ namespace RupBNB.Models.DAL
 
             return flag;
         }
+
         //This function get Reservation Id and execute store procedure to check if apartement is already booked on dates
         private SqlCommand CreateIsApartmentBookedOnDates(SqlConnection con, Reservation res)
         {
@@ -110,6 +112,7 @@ namespace RupBNB.Models.DAL
 
             return numAffected == 1 ? true : false;
         }
+
         //This function get Reservation Id and execute store procedure to cancel the reservation
         private SqlCommand CreateCancelReservation(SqlConnection con, int reservationId)
         {
@@ -124,7 +127,9 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
-        //method gets reservationId and return back reservation
+
+        //method gets reservationId and return back reservation matching the inputed reservation id
+        //if not found return null
         public Reservation getReservationById(int reservationId)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -177,7 +182,7 @@ namespace RupBNB.Models.DAL
         }
 
 
-        //method gets a bool parameter isFutureReservations
+        //method gets user email and a bool parameter isFutureReservations
         //if isFutureReservations is true method returns a string with the data of 
         //the users future reservations
         //else method returns a string with the data of the users past reservations
@@ -230,8 +235,9 @@ namespace RupBNB.Models.DAL
             return command;
         }
 
-        //method gets reservationId and review the reservation
-        //returns true if reservation has was successfully, false otherwise
+        //method gets reservationId and updates the DB that a review was made to this reservation,
+        //(updates reservation field "hasReview" to 1 (true))
+        //returns true if successfully, false otherwise
         public bool apartmentHasReview(int reservationId)
         {
             SqlConnection con = SqlConnect.Connect();
@@ -247,7 +253,9 @@ namespace RupBNB.Models.DAL
 
             return numAffected == 1 ? true : false;
         }
-        //This function get Reservation Id and execute store procedure to review the reservation
+
+        //This function get Reservation Id and execute store procedure update bool field
+        //representing tha reservation has a review
         private SqlCommand CreateApartmentHasReview(SqlConnection con, int reservationId)
         {
             SqlCommand command = new SqlCommand();
