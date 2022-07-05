@@ -98,7 +98,8 @@ $(document).ready(function () {
 
             $("#serachFilter").animate({height:"100%"},500);
             $("#searchFilterContainer").animate({width:"100%"},500);
-            $("#searchTitle").toggleClass("block d-none");
+            $("#searchTitle").toggleClass("d-block d-none");
+            $("#serachFilterContainer").toggleClass("d-flex d-none")
             searchIsOpen = true;
 
         }
@@ -116,6 +117,7 @@ $(document).ready(function () {
                 $("#searchFilterContainer").animate({width:"40%"},200);
             }
             $("#searchTitle").toggleClass("d-block d-none");
+            $("#serachFilterContainer").toggleClass("d-flex d-none")
             searchIsOpen = false;
 
         }

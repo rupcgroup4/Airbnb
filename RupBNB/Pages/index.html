@@ -36,63 +36,68 @@
                 <div id="searchTitle" class="col-12 d-block" style="text-align: center;">
                     <h2>Search <i class="fa-solid fa-magnifying-glass"></i></h2>
                 </div>
-                <div class="col">
-                    <div class="d-flex justify-content-between">
-                        <label for="maxUSD" class="form-label">Max USD</label>
-                        <span id="maxUSD">No Max</span>
+                <div class="col-12">
+                    <div id="serachFilterContainer" class="row row-cols-2 row-cols-md-4 d-none">
+                        <div class="col">
+                            <div class="d-flex justify-content-between">
+                                <label for="maxUSD" class="form-label">Max USD</label>
+                                <span id="maxUSD">No Max</span>
+                            </div>
+                            <input type="range" min="0" max="1000" value="0" step="10" class="form-range" id="priceRange">
+                        </div>
+                        <div class="col">
+                            <label for="rating" class="form-label">Min Rating</label>
+                            <select id="minRating" class="form-select" aria-label="Default select example">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="rooms" class="form-label">Min Rooms</label>
+                            <select id="minRoom" class="form-select" aria-label="Default select example">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5+</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex justify-content-between">
+                                <label for="distance" class="form-label">KM to center:</label>
+                                <span id="maxDistance">No Max</span>
+                            </div>
+                            <input type="range" min="0" max="50" value="0" step="0.5" class="form-range" id="distanceRange">
+                        </div>
+                        <div class="col">
+                            <label for="rooms" class="form-label">Accommodates</label>
+                            <input id="accomodate" type="number" class="form-control" min="1" value="1">
+                        </div>
+                        <div class="col">
+                            <label for="checkIn" class="form-label">CheckIn - CheckOut</label>
+                            <input id="datepicker" class="form-control" />
+                        </div>
+                        <div class="col">
+                            <label for="rooms" class="form-label">Sort By</label>
+                            <select id="sortBy" class="form-select" aria-label="Default select example">
+                                <option value="rating_D">Rating: Max</option>
+                                <option value="rating_A">Rating: Min</option>
+                                <option value="price_D">Price: Max</option>
+                                <option value="price_A">Price: Min</option>
+                                <option value="distanceToCenterKM_D">Km to center: Max</option>
+                                <option value="distanceToCenterKM_A">Km to center: Min</option>
+                            </select>
+                        </div>
+                        <div class="col d-flex align-items-end justify-content-evenly">
+                            <button onclick="search()" class="btn btn-primary bottom"><span class="buttonText">Search&nbsp</span><i class="fa-brands fa-searchengin icon_class"></i></button>
+                            <button id="closeSearch" class="btn btn-danger bottom"><span class="buttonText">Close&nbsp</span><i class="fa-solid fa-xmark icon_class"></i></button>
+                        </div>
                     </div>
-                    <input type="range" min="0" max="1000" value="0" step="10" class="form-range" id="priceRange">
                 </div>
-                <div class="col">
-                    <label for="rating" class="form-label">Min Rating</label>
-                    <select id="minRating" class="form-select" aria-label="Default select example">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <label for="rooms" class="form-label">Min Rooms</label>
-                    <select id="minRoom" class="form-select" aria-label="Default select example">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5+</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <div class="d-flex justify-content-between">
-                        <label for="distance" class="form-label">KM to center:</label>
-                        <span id="maxDistance">No Max</span>
-                    </div>
-                    <input type="range" min="0" max="50" value="0" step="0.5" class="form-range" id="distanceRange">
-                </div>
-                <div class="col">
-                    <label for="rooms" class="form-label">Accommodates</label>
-                    <input id="accomodate" type="number" class="form-control" min="1" value="1">
-                </div>
-                <div class="col">
-                    <label for="checkIn" class="form-label">CheckIn - CheckOut</label>
-                    <input id="datepicker" class="form-control" />
-                </div>
-                <div class="col">
-                    <label for="rooms" class="form-label">Sort By</label>
-                    <select id="sortBy" class="form-select" aria-label="Default select example">
-                        <option value="rating_D">Rating: Max</option>
-                        <option value="rating_A">Rating: Min</option>
-                        <option value="price_D">Price: Max</option>
-                        <option value="price_A">Price: Min</option>
-                        <option value="distanceToCenterKM_D">Km to center: Max</option>
-                        <option value="distanceToCenterKM_A">Km to center: Min</option>
-                    </select>
-                </div>
-                <div class="col d-flex align-items-end justify-content-between">
-                    <button onclick="search()" class="btn btn-primary bottom">Search&nbsp<i class="fa-brands fa-searchengin"></i></button>
-                    <!-- <button id="closeSearch" class="btn btn-danger bottom">Close&nbsp<i class="fa-solid fa-xmark"></i></button> -->
-                </div>
+
             </div>
         </div>
 
