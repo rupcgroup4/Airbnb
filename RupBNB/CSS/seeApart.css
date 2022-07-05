@@ -97,10 +97,6 @@ h4 {
 }
 
 
-/*.pager button {
-    width
-}*/
-
 /* Swall Buttons */
 .swal2-styled.swal2-deny {
     background-color: blueviolet;
@@ -142,10 +138,17 @@ h4 {
     border-radius: 100%;
 }
 
+
+/* Review Div */
 #reviewPreviousNext {
-    margin: 0 0 0 40px;
+    margin: 0 0 0 1rem;
 }
 
+
+.reviewsbuttons {
+    width:40px;
+    border: 1px solid black;
+}
 
 
 
