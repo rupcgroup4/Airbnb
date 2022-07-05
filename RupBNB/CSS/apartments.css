@@ -72,11 +72,36 @@
     flex-grow: 1;
 }
 
+
+#serachFilter{
+    height: 40px;
+    overflow-y: auto;
+}
+
+
+#searchFilterContainer {
+    width: 40%;
+}
+
+#searchTitle {
+    margin: 5px 0;
+    z-index:100;
+}
+
+
 @media only screen and (max-width: 600px) {
     #cards {
         max-height: none;
     }
+    #serachFilter{
+        height: 30px;
+    }
+    #searchFilterContainer {
+        width: 100%;
+    }
 }
+
+
 
 
 .spinner {

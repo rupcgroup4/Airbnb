@@ -33,7 +33,9 @@
         <!-- Search Filter -->
         <div id="searchFilterContainer">
             <div id="serachFilter" class="row row-cols-2 row-cols-md-4">
-
+                <div id="searchTitle" class="col-12 d-block" style="text-align: center;">
+                    <h2>Search <i class="fa-solid fa-magnifying-glass"></i></h2>
+                </div>
                 <div class="col">
                     <div class="d-flex justify-content-between">
                         <label for="maxUSD" class="form-label">Max USD</label>
@@ -87,8 +89,9 @@
                         <option value="distanceToCenterKM_A">Km to center: Min</option>
                     </select>
                 </div>
-                <div class="col d-flex align-items-end">
-                    <button onclick="search()" class="btn btn-primary bottom">Search&nbsp<i class="fa-brands fa-searchengin"></i></i></button>
+                <div class="col d-flex align-items-end justify-content-between">
+                    <button onclick="search()" class="btn btn-primary bottom">Search&nbsp<i class="fa-brands fa-searchengin"></i></button>
+                    <!-- <button id="closeSearch" class="btn btn-danger bottom">Close&nbsp<i class="fa-solid fa-xmark"></i></button> -->
                 </div>
             </div>
         </div>
