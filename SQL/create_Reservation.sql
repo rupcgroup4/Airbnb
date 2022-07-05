@@ -4,7 +4,8 @@ create table Reservations (
 	endDate date not null check(datediff(day, getDate(), endDate) > 0),
 	apartmentId int foreign key References Apartments(id) not null,
 	userEmail nvarchar(64) foreign key References UsersDB(email) not null,
-	isCanceled bit not null, 
+	isCanceled bit not null,
+	hasReview bit not null,
 	check(startDate <= endDate),
 )
 

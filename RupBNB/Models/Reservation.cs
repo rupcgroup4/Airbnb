@@ -13,14 +13,14 @@ namespace RupBNB.Models
         Apartment apartment;
         User user;
         bool isCanceled;
-        //bool hasReview;
+        bool hasReview;
 
         //reservation default constructor
         public Reservation() { }
 
 
         //reservation constructor
-        public Reservation(int id, DateTime startDate, DateTime endDate, Apartment apartment, User user, bool isCanceled)
+        public Reservation(int id, DateTime startDate, DateTime endDate, Apartment apartment, User user, bool isCanceled, bool hasReview)
         {
             this.id = id;
             this.startDate = startDate;
@@ -28,7 +28,9 @@ namespace RupBNB.Models
             this.apartment = apartment;
             this.user = user;
             this.isCanceled = isCanceled;
+            this.hasReview = hasReview;
         }
+
 
         //reservation getters and setters
         public int Id { get => id; set => id = value; }
@@ -37,6 +39,7 @@ namespace RupBNB.Models
         public Apartment Apartment { get => apartment; set => apartment = value; }
         public User User { get => user; set => user = value; }
         public bool IsCanceled { get => isCanceled; set => isCanceled = value; }
+        public bool HasReview { get => hasReview; set => hasReview = value; }
 
         //method to insert new reservation 
         //returns true if reservations was successfully added, false otherwise

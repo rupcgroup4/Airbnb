@@ -146,8 +146,10 @@ namespace RupBNB.Models.DAL
                 string userEmail = dr["userEmail"].ToString();
                 User user = new User(userEmail);
                 bool isCanceled = Convert.ToBoolean(dr["isCanceled"]);
+                bool hasReview = Convert.ToBoolean(dr["hasReview"]);
 
-                reservation = new Reservation(reservationId, startDate , endDate, apartment, user, isCanceled);
+
+                reservation = new Reservation(reservationId, startDate , endDate, apartment, user, isCanceled, hasReview);
 
             }
             // Close Connection
@@ -189,7 +191,7 @@ namespace RupBNB.Models.DAL
             SqlDataReader dr = command.ExecuteReader();
 
             List<Reservation> userReservations = new List<Reservation>();
-
+            User user = new User(email);
             while (dr.Read())
             {
                 int reservationId = Convert.ToInt32(dr["reservationId"]);
@@ -200,9 +202,9 @@ namespace RupBNB.Models.DAL
                 DateTime startDate = Convert.ToDateTime(dr["startDate"]);
                 DateTime endDate = Convert.ToDateTime(dr["endDate"]);
                 bool isCanceled = Convert.ToBoolean(dr["isCanceled"]);
-                User user = new User(email);
+                bool hasReview = Convert.ToBoolean(dr["hasReview"]);
 
-                userReservations.Add(new Reservation(reservationId, startDate, endDate, apartment, user, isCanceled));
+                userReservations.Add(new Reservation(reservationId, startDate, endDate, apartment, user, isCanceled, hasReview));
             }
 
             con.Close();

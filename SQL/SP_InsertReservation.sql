@@ -32,8 +32,8 @@ BEGIN
 	SET NOCOUNT OFF;
 
     -- Insert statements for procedure here
-	INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled) 
-	VALUES (@startDate, @endDate, @apartmentId, @userEmail, 0) 
+	INSERT INTO Reservations (startDate, endDate, apartmentId, userEmail, isCanceled, hasReview) 
+	VALUES (@startDate, @endDate, @apartmentId, @userEmail, 0, 0) 
 	select SCOPE_IDENTITY() as id
  
 END
