@@ -68,5 +68,12 @@ namespace RupBNB.Models
             ReservationServices rs = new ReservationServices();
             return rs.getUsersReservations(email, isFutureReservations);
         }
+        //method to change hasReview boolean status 
+        //returns true if hasReview was changed successfully, false otherwise
+        public bool apartmentHasReview(int reservationId)
+        {
+            ReservationServices rs = new ReservationServices();
+            return rs.apartmentHasReview(reservationId);
+        }
     }
 }

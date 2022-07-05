@@ -79,5 +79,28 @@ namespace RupBNB.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        //Route to apartment has review by user
+        [HttpPut]
+        [Route("api/Reservations/ApartmentHasReview")]
+        public HttpResponseMessage PutReview([FromBody] int reservationId)
+        {
+            try
+            {
+                Reservation r = new Reservation();
+                if (r.apartmentHasReview(reservationId))
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

@@ -229,5 +229,37 @@ namespace RupBNB.Models.DAL
 
             return command;
         }
+
+        //method gets reservationId and review the reservation
+        //returns true if reservation has was successfully, false otherwise
+        public bool apartmentHasReview(int reservationId)
+        {
+            SqlConnection con = SqlConnect.Connect();
+
+            // Create Command
+            SqlCommand command = CreateApartmentHasReview(con, reservationId);
+
+            // Execute
+            int numAffected = command.ExecuteNonQuery();
+
+            // Close Connection
+            con.Close();
+
+            return numAffected == 1 ? true : false;
+        }
+        //This function get Reservation Id and execute store procedure to review the reservation
+        private SqlCommand CreateApartmentHasReview(SqlConnection con, int reservationId)
+        {
+            SqlCommand command = new SqlCommand();
+
+            command.Parameters.AddWithValue("@reservationId", reservationId);
+
+            command.CommandText = "SP_ApartmentHasReview";
+            command.Connection = con;
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandTimeout = 10; // in seconds
+
+            return command;
+        }
     }
 }

@@ -47,5 +47,12 @@ namespace RupBNB.Models
             ReviewServices rs = new ReviewServices();
             return rs.getTotalReviews(apartmentId);
         }
+        //method to insert new review 
+        //returns true if review was successfully added, false otherwise
+        public bool InsertReview()
+        {
+            ReviewServices rs = new ReviewServices();
+            return rs.InsertReview(this);
+        }
     }
 }

@@ -64,6 +64,32 @@ namespace RupBNB.Controllers
 
             }
         }
+
+        //Post request to insert new review to database
+        //get review object and create the object in the SQl table
+        //return true and status code 201 if success
+        //else return error code
+        public HttpResponseMessage Post([FromBody] Review rev)
+        {
+            try
+            {
+                bool status = rev.InsertReview();
+
+                if (status)
+                {
+                    return Request.CreateResponse(HttpStatusCode.Created, status);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+
+        }
     }
   
 }

@@ -18,6 +18,9 @@ $(document).ready(function () {
 
     loadUserChat(user);
 
+    //when user press on add review
+    $(document).on("click", "#addReview", addReview);
+
 })
 
 //function gets a date and return a string representing the date in 'dd/mm/yyyy' format
@@ -117,7 +120,8 @@ function getMyFutureReservationsError(err) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
         window.location.replace("notFound.html");
     } 
-    console.log("no future reservation");
+    $('#spinner').css('display', 'none');
+    $("#futureReservationsContainer").append(`<h3 class='center'>There are no future reservation</h3>`);;
 }
 //this function get called when press on past reservation tab in the page
 //called only once
@@ -130,7 +134,7 @@ function getMyPastReservations() {
 //get past reservation success call back
 //render past reservation to the page
 function getMyPastReservationsSuccess(reservationsData) {
-
+    $("#pastReservationsContainer").html("");
     for (let i = 0; i < reservationsData.length; i++) {
 
         let startDate = new Date(reservationsData[i].StartDate);
@@ -145,6 +149,7 @@ function getMyPastReservationsSuccess(reservationsData) {
                         <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
                         <div class="bottom">
                             <input type="button" onclick="seeApart(${reservationsData[i].Apartment.Id})" class="btn btn-primary" value="Apartment Details">
+                            ${ !(reservationsData[i].HasReview) ? `<input type="button" class="btn btn-info" id="reviewBTN_${reservationsData[i].Id}" onclick="saveApart(${reservationsData[i].Apartment.Id},${reservationsData[i].Id})" data-bs-toggle="modal" data-bs-target="#reviewModal" value="Add review">` : "" }
                         </div>
                     </div>
                 </div>
@@ -158,7 +163,8 @@ function getMyPastReservationsError(err) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
         window.location.replace("notFound.html");
     } 
-    console.log("no past reservation");
+    $('#spinner').css('display', 'none');
+    $("#pastReservationsContainer").append(`<h3 class='center'>There are no past reservation</h3>`);
 }
 
 //this function get called when press on liked apartments tab in the page
@@ -173,15 +179,19 @@ function getMyLikedApartments() {
 //get liked apartments success call back
 //render liked apartments to the page
 function SCBGetLikedApartmentsByEmail(LikedApartments) {
+    if (LikedApartments == undefined) {
+        ECBGetLikedApartmentsByEmail(`<h3 class='center'>There are no apartments you liked</h3>`);
+        return;
+    }
     for (let i = 0; i < LikedApartments.length; i++) {
         $("#likedApartmentsContainer").append(`
             <div class="col mt-2">
                 <div class="card h-100">
-                    <img src="${LikedApartments[i].Img}" class="card-img-top">
+                    <img src="${LikedApartments[i].Apartment.Img}" class="card-img-top">
                     <div class="card-body">
-                        <h5 class="card-title">${LikedApartments[i].Name}</h5>
+                        <h5 class="card-title">${LikedApartments[i].Apartment.Name}</h5>
                         <div class="bottom">
-                            <input type="button" onclick="seeApart(${LikedApartments[i].Id})" class="btn btn-primary" value="Apartment Details">
+                            <input type="button" onclick="seeApart(${LikedApartments[i].Apartment.Id})" class="btn btn-primary" value="Apartment Details">
                         </div>
                     </div>
                 </div>
@@ -195,8 +205,63 @@ function ECBGetLikedApartmentsByEmail(err) {
         sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
         window.location.replace("notFound.html");
     }
-    console.log("no liked apartments");
+    $('#spinner').css('display', 'none');
+    $("#likedApartmentsContainer").append(err);
 }
+//hold apartment id and reservation id
+function saveApart(apartmentId,reservationId) {
+    reviewToApart = apartmentId;
+    reviewToReser = reservationId;
+}
+//add new review to apartment
+function addReview() {
+    const comment = $("#reviewText").val();
+    if (comment == "") {
+        return;
+    }
+    const apartmentId = reviewToApart;
+    const userName = JSON.parse(localStorage.getItem("CGroup4_user")).UserName;
+    const reviewDate = new Date();
+
+    //new review that will be sent to backend
+    //review id is Identity in sql
+    const review = {
+        Id: 0,
+        Apartment: { Id: apartmentId },
+        UserName: userName,
+        ReviewDate: reviewDate,
+        Comments: comment
+    }
+
+    //ajax call to create new review 
+    ajaxCall("POST", "../api/Reviews", JSON.stringify(review), SCBMakedReview, ECBMakedReview);
+
+}
+//review added successfully
+function SCBMakedReview(status) {
+    ajaxCall("PUT", `../api/Reservations/ApartmentHasReview`, JSON.stringify(reviewToReser), SCBHasReview, ECBHasReview);
+}
+//review added successfully (hasReview boolean change value to true)
+function SCBHasReview() {
+    $(`#reviewBTN_${reviewToReser}`).remove();
+    $('#reviewModal').modal('hide');
+    Swal.fire(
+        'The review added successfully',
+        'You clicked the button!',
+        'success'
+    )
+}
+//error callback, review not added
+function ECBHasReview(error) {
+    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+    window.location.replace("notFound.html");
+}
+//error callback, review not added
+function ECBMakedReview(err) {
+    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+    window.location.replace("notFound.html");
+}
+
 
 //**********************Chat***************************
 
