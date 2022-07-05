@@ -76,4 +76,8 @@
         max-width: 450px;
         margin:0 auto;
     }
+    .invoice-price .invoice-price-left .sub-price {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 }
