@@ -202,6 +202,7 @@
     <Content Include="images\superHost.png" />
     <Content Include="images\user-avatar.png" />
     <Content Include="images\verified.jpg" />
+    <Content Include="Pages\additions.html" />
     <Content Include="Pages\adminView.html" />
     <Content Include="Pages\index.html" />
     <Content Include="Pages\invoice.html" />
