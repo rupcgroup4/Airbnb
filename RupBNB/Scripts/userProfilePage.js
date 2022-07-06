@@ -225,6 +225,7 @@ function SCBGetLikedApartmentsByEmail(LikedApartments) {
         $("#likedApartmentsContainer").append(`
             <div class="col mt-2">
                 <div class="card h-100">
+                     <span style="color: white">For emptyLine</span>
                     <img src="${LikedApartments[i].Apartment.Img}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">${LikedApartments[i].Apartment.Name}</h5>
