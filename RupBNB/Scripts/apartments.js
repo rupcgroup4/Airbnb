@@ -155,7 +155,13 @@ function renderApartments(apartments) {
     if (!apartments && firstLoadApartments) {
         console.log("no apartments");
         $("#cardContainer")
-            .append("<h3> NO APARTMENTS FOUND </h3>");
+            .append(
+                `
+                    <div class="col-12 mt-3">
+                        <h3> NO APARTMENTS FOUND </h3>
+                    </div>
+                `
+            );
         return;
     }
     //no more apartments found after scroll
@@ -296,13 +302,7 @@ function apartmentsSearchSCB(apartments) {
     locations = []; //clean apartments location array- gets filled in renderApartments
 
     renderApartments(apartments);
-    //$("#mapContainer").css("display", "block");
-
-    ////no apartments matching the search filters
-    //if (!apartments) {
-    //    $("#mapContainer").css("display", "none");
-    //}
-
+   
     //check if year is the default year
     if(serachQuery.StartDate.substring(0,4) != '9999') {
         const reservationDates = {
