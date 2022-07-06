@@ -50,7 +50,7 @@ namespace RupBNB.Controllers
             {
                 la.LikedApartmentGeneralProcedure("SP_Insert_Liked_Apartments");
                 //
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace RupBNB.Controllers
             {
                 la.LikedApartmentGeneralProcedure("SP_DeleteLikedApartment");
                 //
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {

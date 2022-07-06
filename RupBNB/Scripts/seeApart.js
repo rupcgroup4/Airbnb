@@ -31,6 +31,14 @@ $(document).ready(function () {
     if (apartmentId == undefined) {
         window.location.replace("index.html");
     }
+    //An adminis is currently in the system
+    admin = localStorage.getItem("CGroup4_user");
+    if (admin != undefined) {
+        admin = JSON.parse(admin);
+        if (admin.Email == "admin@gmail.com") {
+            $('#reserve').css('visibility', 'hidden');
+        }
+    }
 
     //bring apartment details
     ajaxCall("GET", `../api/Apartments/${apartmentId}`, "", SCBGetApartment, ECBGetApartment);
@@ -47,9 +55,6 @@ $(document).ready(function () {
     });
 
     $("#saveIcon").click(clickedOnLikedApartmentIcon);
-
-
-
 });
 
 //success call back for GetTotalReview
@@ -68,37 +73,42 @@ function ECBGetTotalReview(err) {
 //this function get called when user click on liked apartment icon
 //toggle the icon color and insert/delte the liked apartment accordingly
 function clickedOnLikedApartmentIcon() {
-
+    if (admin != undefined) {
+        if (admin.Email == "admin@gmail.com") {
+            return;
+        }
+    }
     //user is regestierd
     if (localStorage.getItem("CGroup4_user")) {
         $("#saveIcon").toggleClass("fa-regular fa-solid");
         let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
         let apartmentId = apartment.Id;
         let data = {
-            User: {Email: userEmail},
-            Apartment: {Id: apartmentId}
+            User: { Email: userEmail },
+            Apartment: { Id: apartmentId }
         };
 
         if ($("#saveIcon").hasClass("fa-solid")) {
 
-            ajaxCall("POST", "../api/likedApartments", JSON.stringify(data), scb, ecb)
+            ajaxCall("POST", "../api/likedApartments", JSON.stringify(data), SCBLikedApartment, ECBLikedApartment)
         }
         else {
-            ajaxCall("DELETE", `../api/deleteLikedApartment`, JSON.stringify(data), scb, ecb)
+            ajaxCall("DELETE", `../api/deleteLikedApartment`, JSON.stringify(data), SCBLikedApartment, ECBLikedApartment)
         }
     }
     else {  //user is not registered
-        userNotLogedIn();
+        userNotLogedIn("like");
     }
-
+    
 }
-
-function scb(res) {
+//gets status code 200 if success
+function SCBLikedApartment(res) {
     console.log(res);
 }
-
-function ecb(err) {
-    console.log(err);
+//gets error code (internal error if was and exception)
+function ECBLikedApartment(err) {
+    sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+    window.location.replace("notFound.html");
 }
 
 
@@ -109,7 +119,7 @@ function clickReserve() {
 
     //if user is not logged in
     if (localStorage.getItem("CGroup4_user") == undefined) {
-        userNotLogedIn();
+        userNotLogedIn("reservation");
         return;
     }
 
@@ -118,9 +128,9 @@ function clickReserve() {
 
 //this function get called when user try to reserve apartment, but he is not logged in
 //presnt message to the user and can redirect him to login/signup
-function userNotLogedIn() {
+function userNotLogedIn(title) {
     Swal.fire({
-        title: 'Must be logged in for make reservation',
+        title: `Must be logged in for make ${title}`,
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: 'Log In',
@@ -194,10 +204,12 @@ function SCBGetApartment(returnApartment) {
     }
 
     //check if user liked this apartment
-    if (localStorage.getItem("CGroup4_user")){ //user is registered
-        let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
-        let id = apartment.Id;
-        ajaxCall("GET", `../api/likedApartments?email=${userEmail}&id=${id}`, "", likedApartmentsExistSCB, ecb);
+    if (localStorage.getItem("CGroup4_user")) { //user is registered
+        if (localStorage.getItem("CGroup4_user").Email != "admin@gmail.com") {
+            let userEmail = JSON.parse(localStorage.getItem("CGroup4_user")).Email;
+            let id = apartment.Id;
+            ajaxCall("GET", `../api/likedApartments?email=${userEmail}&id=${id}`, "", likedApartmentsExistSCB, ECBLikedApartment);
+        }
     }
     //set the min dates for date pickers
     setMinDates();

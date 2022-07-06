@@ -95,7 +95,7 @@ namespace RupBNB.Controllers
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
             } catch(Exception ex)
             {

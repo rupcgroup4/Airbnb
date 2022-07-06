@@ -101,8 +101,11 @@ function getMyFutureReservations() {
 //SCB for get future reservations
 //get the reservations and render to the screen
 function getMyFutureReservationsSuccess(reservationsData) {
-    
-    console.log(reservationsData);
+
+    if (reservationsData == undefined) {
+        getMyFutureReservationsError("No content");
+        return;
+    }
 
     let oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     let currentDate = new Date();
@@ -158,6 +161,11 @@ function getMyPastReservations() {
 //get past reservation success call back
 //render past reservation to the page
 function getMyPastReservationsSuccess(reservationsData) {
+    if (reservationsData == undefined) {
+        getMyPastReservationsError("No content");
+        return;
+    }
+
     $("#pastReservationsContainer").html("");
     for (let i = 0; i < reservationsData.length; i++) {
 
