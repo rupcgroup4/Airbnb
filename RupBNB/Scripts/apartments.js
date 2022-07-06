@@ -42,7 +42,7 @@ let serachQuery = {
     MinBedrooms: 0,
     MaxDistanceToCenter: 50,
     StartDate: "9999-1-1",
-    EndDate: "9999-1-2", //default
+    EndDate: "9999-5-30", //default
     OrderByColumn: randomOrderBy,
     FromRow: 1,
     ToRow: 12,
