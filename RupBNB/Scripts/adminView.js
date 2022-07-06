@@ -108,7 +108,8 @@ function SCBReadUsers(usersData) {
         $('#spinner').css('display', 'none');
     }
     catch (err) {
-        alert(err);
+        sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+        window.location.replace("notFound.html");
     }
 }
 
@@ -166,7 +167,8 @@ function SCBReadHosts(hostsData) {
         $('#spinner').css('display', 'none');
     }
     catch (err) {
-        alert(err);
+        sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+        window.location.replace("notFound.html");
     }
 }
 
@@ -178,7 +180,7 @@ function SCBReadApartments(apartmentsData) {
     try {
         tbl = $('#ApartmentTable').DataTable({
             data: apartments,
-            order: [[2, 'desc']],
+            order: [[2, 'desc']], 
             pageLength: 10,
             responsive: true,
             dom: 'Bfrtip',
@@ -222,7 +224,8 @@ function SCBReadApartments(apartmentsData) {
         $('#spinner').css('display', 'none');
     }
     catch (err) {
-       alert(err);
+        sessionStorage.setItem("CGroup4_errorMessage", err.responseText);
+        window.location.replace("notFound.html");
     }
 }
 
@@ -420,25 +423,29 @@ function addMessage(message) {
     );
 }
 
-//function gets a username and changes the isRead field of all the users messgaes to true
+//function gets a username and changes the isRead field of all the users 
+//messgaes to true
 function changeAllUserMessagesToseen(username) {
     
     for (let i = 0; i < chatArr[username].messages.length; i++) {
         firebase.database().ref(username).child(chatArr[username].messages[i].messageKey).update({ isRead: true });
     }
 }
+
 //Search user by username
 function searchUser() {
     let input = document.getElementById('searchText').value
     input = input.toLowerCase();
-    let x = document.getElementsByClassName('users');
+    let chatUsers = document.getElementsByClassName('users');
 
-    for (i = 0; i < x.length; i++) {
-        if (!(x[i].id.toLowerCase().substring(0, input.length) == input)) {
-            x[i].style.display = "none";
+    for (i = 0; i < chatUsers.length; i++) {
+
+        //the inputed substring does not match user-hide user
+        if (!(chatUsers[i].id.toLowerCase().substring(0, input.length) == input)) {
+            chatUsers[i].style.display = "none";
         }
-        else {
-            x[i].style.display = "list-item";
+        else { //show user
+            chatUsers[i].style.display = "list-item";
         }
     }
 }
