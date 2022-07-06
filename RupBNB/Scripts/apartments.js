@@ -279,23 +279,29 @@ function apartmentsSearchSCB(apartments) {
 
     // if its mobile device, the layout wont change after change
     //no show the map on search in mobile devices
-    if (!isMobile) {
+    if (!isMobile && apartments) {
         //Change Layout
         $("#cardContainer").removeClass("row-cols-lg-4");
         $("#cardContainer").removeClass("row-cols-md-3");
         $("#cardContainer").addClass("row-cols-md-2");
         $("#mapContainer").css("display", "block");
     }
+    else {
+        $("#cardContainer").addClass("row-cols-lg-4");
+        $("#cardContainer").addClass("row-cols-md-3");
+        $("#cardContainer").removeClass("row-cols-md-2");
+        $("#mapContainer").css("display", "none");
+    }
 
     locations = []; //clean apartments location array- gets filled in renderApartments
 
     renderApartments(apartments);
-    $("#mapContainer").css("display", "block");
+    //$("#mapContainer").css("display", "block");
 
-    //no apartments matching the search filters
-    if (!apartments) {
-        $("#mapContainer").css("display", "none");
-    }
+    ////no apartments matching the search filters
+    //if (!apartments) {
+    //    $("#mapContainer").css("display", "none");
+    //}
 
     //check if year is the default year
     if(serachQuery.StartDate.substring(0,4) != '9999') {
