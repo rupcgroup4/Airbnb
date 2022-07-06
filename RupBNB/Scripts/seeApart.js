@@ -363,6 +363,9 @@ function getHostDetails(hostEmail) {
 //render host details to the page
 function SCBGetHostDetails(host) {
 
+    if (host == null)
+        return;
+
     const isSuperHost = host.IsSuperHost != false ? '<img class="headerImg" src="../images/superHost.png" />' : ""
     const isVerified = host.IsVerified != false ? '<img class="headerImg" src="../images/verified.jpg" />' : ""
 

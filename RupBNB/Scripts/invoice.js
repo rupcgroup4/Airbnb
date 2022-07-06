@@ -75,7 +75,7 @@ function SCBGetApartment(returnApartment) {
     writeDate("checkIn", checkIn);
     writeDate("checkOut", checkOut);
     //get host img and more details
-    ajaxCall("GET", `../api/Hosts?email=${hostEmail}`, "", SCBGetHostDetails, ECB);
+    ajaxCall("GET", `../api/Hosts?email=${apartment.Host.Email}`, "", SCBGetHostDetails, ECB);
 }
 //This function get inOrOut = ["checkIn" or "checkOut"] and a date
 //then set the date in the modal accordingly to inOrOut
@@ -92,11 +92,16 @@ function writeDate(inOrOut, date) {
 //this function is the success call back of getHostDetails
 //the response is host details that will be render to the screen
 function SCBGetHostDetails(host) {
+
+    if (host == null)
+        return;
+
     $("#host").append(
         `
+                  <h4>Contact Information - </h4>
                   <div class="row">
-                    <div class="col-12"><h5>${host.FirstName} </h5></div>
-                    <div class="col-12 overflow-auto" ><h5>${host.Email}</h5></div>
+                    <div class="col-12"><h6>${host.FirstName} </h6></div>
+                    <div class="col-12 overflow-auto" ><h6>${host.Email}</h6></div>
                  </div>
         `
     )
