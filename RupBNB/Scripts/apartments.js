@@ -288,7 +288,14 @@ function apartmentsSearchSCB(apartments) {
     }
 
     locations = []; //clean apartments location array- gets filled in renderApartments
+
     renderApartments(apartments);
+    $("#mapContainer").css("display", "block");
+
+    //no apartments matching the search filters
+    if (!apartments) {
+        $("#mapContainer").css("display", "none");
+    }
 
     //check if year is the default year
     if(serachQuery.StartDate.substring(0,4) != '9999') {
