@@ -18,16 +18,6 @@ if (user.Email == "admin@gmail.com") {
 //load the firebase chat
 $(document).ready(function () {
 
-    $("#nav-tab").find(".nav-link").click((e)=> {
-        if(e.target.innerHTML == "Chat") {
-            $("#chatInputDiv").css("display", "block");
-
-        } else {
-            $("#chatInputDiv").css("display", "none");
-
-        }
-    })
-
     $('#spinner').css('display', 'block');
 
 
@@ -39,7 +29,23 @@ $(document).ready(function () {
     //when user press on add review
     $(document).on("click", "#addReview", addReview);
 
+    //listen for click on the navigation tab buttons
+    $("#nav-tab .nav-link").click((e) => showInputTextForChat(e));
+
 })
+
+//this function called when user press on one of the navigation tab buttons
+//if button "Chat" button was clicked it show the input text to send a message
+//if any other tab button clicked its hide the input text
+function showInputTextForChat(e)  {
+    if(e.target.innerHTML == "Chat") {
+        $("#chatInputDiv").css("display", "block");
+
+    } else {
+        $("#chatInputDiv").css("display", "none");
+
+    }
+}
 
 //function gets a date and return a string representing the date in 'dd/mm/yyyy' format
 function formatDate(date) {
