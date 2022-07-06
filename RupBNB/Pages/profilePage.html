@@ -19,8 +19,8 @@
 
 
     <!-- This Page Start Here -->
-    <link rel="stylesheet" href="../CSS/profilePage.css">
     <link rel="stylesheet" href="../CSS/chat.css">
+    <link rel="stylesheet" href="../CSS/profilePage.css">
     <link href="../CSS/spinner.css" rel="stylesheet" />
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../Scripts/config.js"></script>
@@ -102,18 +102,20 @@
                                     <div class="chat-history overflow-auto">
                                         <ul id="activeChat" class="m-b-0"></ul>
                                     </div>
-                                    <div class="chat-message clearfix mt-auto">
-                                        <div class="input-group mb-0">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i onclick="sendMessage()" class="fa fa-send"></i></span>
-                                            </div>
-                                            <input id="newMessage" type="text" class="form-control" placeholder="Enter text here...">
-                                        </div>
-                                    </div>
+                                   
                                 </div>
 
                             </div>
+                            
                         </div>
+                    </div>
+                </div>
+                <div id="chatInputDiv" class="chat-message clearfix mt-auto">
+                    <div class="input-group mb-0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i onclick="sendMessage()" class="fa fa-send"></i></span>
+                        </div>
+                        <input id="newMessage" type="text" class="form-control" placeholder="Enter text here...">
                     </div>
                 </div>
             </div>

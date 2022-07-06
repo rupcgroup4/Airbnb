@@ -18,6 +18,16 @@ if (user.Email == "admin@gmail.com") {
 //load the firebase chat
 $(document).ready(function () {
 
+    $("#nav-tab").find(".nav-link").click((e)=> {
+        if(e.target.innerHTML == "Chat") {
+            $("#chatInputDiv").css("display", "block");
+
+        } else {
+            $("#chatInputDiv").css("display", "none");
+
+        }
+    })
+
     $('#spinner').css('display', 'block');
 
 
@@ -111,7 +121,7 @@ function getMyFutureReservationsSuccess(reservationsData) {
                             <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
                             <div class="bottom">
                                
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-evenly">
                                     <input type="button" onclick="seeInvoice(${reservationsData[i].Id})" class="btn btn-primary m-auto" value="Order Details">
                                     ${allowCancelReservation ? `<input type="button" onclick="cancelReservation(${reservationsData[i].Id})" class="btn btn-danger m-auto" value="Cancel">` : ""}
                                 </div>
@@ -151,13 +161,19 @@ function getMyPastReservationsSuccess(reservationsData) {
         $("#pastReservationsContainer").append(`
             <div class="col mt-2">
                 <div class="card h-100">
+                    <span style="color: white">For emptyLine</span>
                     <img src="${reservationsData[i].Apartment.Img}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">${reservationsData[i].Apartment.Name}</h5>
                         <p class="card-text">${formatDate(startDate)} - ${formatDate(endDate)}</p>
                         <div class="bottom">
+                            <div class="d-flex justify-content-evenly">
                             <input type="button" onclick="seeApart(${reservationsData[i].Apartment.Id})" class="btn btn-primary" value="Apartment Details">
-                            ${ !(reservationsData[i].HasReview) ? `<input type="button" class="btn btn-info" id="reviewBTN_${reservationsData[i].Id}" onclick="saveApart(${reservationsData[i].Apartment.Id},${reservationsData[i].Id})" data-bs-toggle="modal" data-bs-target="#reviewModal" value="Add review">` : "" }
+                            ${ !(reservationsData[i].HasReview) ? 
+                                `<input type="button" class="btn btn-info" id="reviewBTN_${reservationsData[i].Id}" onclick="saveApart(${reservationsData[i].Apartment.Id},${reservationsData[i].Id})" data-bs-toggle="modal" data-bs-target="#reviewModal" value="Add review">` 
+                                : "" }
+                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -335,4 +351,7 @@ function loadUserChat(user) {
 
     });
 }
+
+
+
 
