@@ -352,7 +352,6 @@ function listenToUser(user) {
         }
 
         chatArr[user].messages.push(message);
-        console.log(chatArr[user]);
 
         //if a message from the user currently open on screen has arrived update the chat
         //view to to display the message- purpose is to show real time change in open chat 
