@@ -45,9 +45,15 @@ function submitSignUpForm() {
 //check confim password is not empty and is match  to the password
 function check() {
 
+	let email = $("#email").val();
 	let password = $("#password").val();
 	let cnfmPassword = $("#confirmPassword").val();
 	let birthDate = $("#birthDate").val();
+
+	if (email == "admin@gmail.com") {
+		document.getElementById("email").setCustomValidity("cannot sign up with admin email");
+		return false;
+	}
 
 	if (cnfmPassword == "") {
 		document.getElementById("confirmPassword").setCustomValidity("Confirm your password");
