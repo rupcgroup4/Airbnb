@@ -186,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="CSS\admin.css" />
     <Content Include="CSS\apartments.css" />
     <Content Include="CSS\chat.css" />
     <Content Include="CSS\header.css" />

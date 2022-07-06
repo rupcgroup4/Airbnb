@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="../CSS/header.css">
     <link rel="stylesheet" href="../CSS/spinner.css">
     <link rel="stylesheet" href="../CSS/chat.css">
+    <link rel="stylesheet" href="../CSS/admin.css">
 
 
     <script src="../Scripts/header.js"></script>
@@ -112,9 +113,10 @@
                                         </div>
                                         <input type="text" id="searchText" onkeyup="searchUser()" class="form-control" placeholder="Search...">
                                     </div>
-                                    <ul id="usersContainer" class="list-unstyled chat-list mt-2 mb-0">
-                                    </ul>
-
+                                    <div id="userContainerWraper" class="overflow-auto">
+                                        <ul id="usersContainer" class="list-unstyled chat-list mt-2 mb-0">
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div class="chat display-flex flex-column">
                                     <div class="chat-header clearfix">
