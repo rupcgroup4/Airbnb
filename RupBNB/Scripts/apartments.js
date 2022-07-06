@@ -153,7 +153,6 @@ function renderApartments(apartments) {
 
     //no apartments matching the search filters found and it is not because of scroll
     if (!apartments && firstLoadApartments) {
-        console.log("no apartments");
         $("#cardContainer")
             .append(
                 `
@@ -166,10 +165,12 @@ function renderApartments(apartments) {
     }
     //no more apartments found after scroll
     else if (!apartments) { //for scroll
-        console.log("no more..");
         $("#cards").off('scroll', divScroll);
         $(window).off('scroll', windowScroll);
         return;
+    } else if (apartments.length < 8) {
+        $("#cards").off('scroll', divScroll);
+        $(window).off('scroll', windowScroll);
     }
     //found apartments
     firstLoadApartments = false;
