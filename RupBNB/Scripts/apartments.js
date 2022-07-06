@@ -32,6 +32,9 @@ const windowScroll = () => {
     }
 }
 
+const items = ["price_D", "rating_D", "distanceToCenterKM_D"];
+var randomOrderBy = items[Math.floor(Math.random() * items.length)];
+
 //default query to show apartments on load
 let serachQuery = {
     MaxPrice: 32676,
@@ -40,7 +43,7 @@ let serachQuery = {
     MaxDistanceToCenter: 50,
     StartDate: "9999-1-1",
     EndDate: "9999-1-2", //default
-    OrderByColumn: "price_D",
+    OrderByColumn: randomOrderBy,
     FromRow: 1,
     ToRow: 12,
 }
